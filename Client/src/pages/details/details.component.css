@@ -1,0 +1,59 @@
+.details-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.file-header {
+  background: white;
+  padding: 15px;
+  border-bottom: 3px solid #0122dc; /* Linia albastră de sus */
+  margin-bottom: 20px;
+}
+
+.file-header h2 {
+  margin: 0 0 10px 0;
+  font-size: 18px;
+  color: #333;
+}
+
+.badge {
+  background: #eee;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  margin-right: 10px;
+  font-weight: bold;
+}
+
+.status-open {
+  background: #e3f2fd;
+  color: #0122dc;
+}
+
+.tab-content {
+  padding: 20px 0;
+}
+
+.action-card {
+  margin-bottom: 20px;
+  background-color: #f9f9f9;
+}
+
+.grid-row {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+.col-4 { width: 33%; }
+
+.full-width-table {
+  width: 100%;
+}
+
+.table-title {
+  margin-top: 0;
+  font-size: 14px;
+  color: #666;
+  text-transform: uppercase;
+}

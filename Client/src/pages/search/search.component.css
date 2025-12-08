@@ -1,0 +1,47 @@
+.search-container {
+  padding: 20px;
+  background-color: #eee;
+  min-height: 100vh;
+}
+
+.section-title {
+  font-weight: bold;
+  color: #555;
+  margin-bottom: 10px;
+  font-size: 14px;
+  text-transform: uppercase;
+}
+
+.mt-3 { margin-top: 15px; }
+
+/* Grid System simplu */
+.grid-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  align-items: center; /* Aliniază checkbox-urile cu input-urile */
+  margin-bottom: 10px;
+}
+
+/* Helper classes pentru lățime */
+.col-1 { width: 10%; }
+.col-2 { width: 20%; }
+.col-3 { width: 30%; flex-grow: 1; }
+
+mat-form-field {
+  width: 100%;
+  font-size: 13px; /* Să arate mai compact, ca în poza ta */
+}
+
+mat-divider {
+  margin: 15px 0 !important;
+}
+
+/* Scoped style for the search button to match #0122dc */
+.search-btn.mat-raised-button {
+  background-color: #0122dc !important;
+  color: #ffffff !important;
+}
+.search-btn.mat-raised-button:hover {
+  background-color: #0017b8 !important;
+}

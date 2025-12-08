@@ -1,0 +1,91 @@
+<div class="search-container">
+  <h2>Somo</h2>
+
+  <mat-card>
+    <mat-card-content>
+      <div class="section-title">Search Parameters</div>
+      <div class="grid-row">
+        <mat-form-field appearance="outline" class="col-3">
+          <mat-label>Client</mat-label>
+          <input matInput>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="col-3">
+          <mat-label>Task Type</mat-label>
+          <mat-select>
+            <mat-option value="type1">Tip 1</mat-option>
+            <mat-option value="type2">Tip 2</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="col-3">
+          <mat-label>Task ID</mat-label>
+          <input matInput>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="col-3">
+          <mat-label>Client ID</mat-label>
+          <input matInput>
+        </mat-form-field>
+      </div>
+
+       <div class="grid-row">
+         <mat-checkbox class="col-1">Include Archived</mat-checkbox>
+
+         <mat-form-field appearance="outline" class="col-3">
+          <mat-label>Area</mat-label>
+          <mat-select>
+             <mat-option value="area1">Area 1</mat-option>
+          </mat-select>
+        </mat-form-field>
+       </div>
+
+      <mat-divider></mat-divider>
+
+      <div class="section-title mt-3">Operator</div>
+      <div class="grid-row">
+        <mat-form-field appearance="outline" class="col-3">
+          <mat-label>Operator Role</mat-label>
+           <mat-select><mat-option value="admin">Admin</mat-option></mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="col-3">
+          <mat-label>Operator</mat-label>
+          <input matInput>
+        </mat-form-field>
+
+         <mat-checkbox class="col-2">Unassigned</mat-checkbox>
+      </div>
+
+      <mat-divider></mat-divider>
+
+      <div class="section-title mt-3">Date</div>
+      <div class="grid-row">
+        <mat-form-field appearance="outline" class="col-3">
+          <mat-label>Date Type</mat-label>
+           <mat-select><mat-option value="creation">Creation Date</mat-option></mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="col-3">
+          <mat-label>From</mat-label>
+          <input matInput [matDatepicker]="picker1">
+          <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+          <mat-datepicker #picker1></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="col-3">
+          <mat-label>To</mat-label>
+          <input matInput [matDatepicker]="picker2">
+          <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+          <mat-datepicker #picker2></mat-datepicker>
+        </mat-form-field>
+      </div>
+
+    </mat-card-content>
+
+    <mat-card-actions align="end">
+      <button mat-button color="warn" (click)="query = ''; results = []; searchPerformed = false">Clear</button>
+      <button mat-raised-button color="primary" class="search-btn" (click)="onSearch()">Search</button>
+    </mat-card-actions>
+  </mat-card>
+</div>

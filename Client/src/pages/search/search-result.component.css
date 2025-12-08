@@ -1,0 +1,14 @@
+.results-page {
+  padding: 16px;
+}
+.results-list {
+  display: flex;
+  flex-direction: column;
+  max-width: 800px;
+}
+.result-item {
+  transition: box-shadow 0.12s ease-in-out;
+}
+.result-item:hover {
+  box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+}

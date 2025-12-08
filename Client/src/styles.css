@@ -1,1 +1,32 @@
 /* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+/* Custom app color overrides: set Material primary elements to #0122dc */
+/* Applies to the top navbar (mat-toolbar with color="primary") and buttons with color="primary" */
+.mat-toolbar.mat-primary {
+	background-color: #0122dc !important;
+	color: #ffffff !important;
+}
+
+.mat-toolbar.mat-primary .mat-icon {
+	color: #ffffff !important;
+}
+
+/* Raised primary buttons (e.g. the Search button) */
+.mat-raised-button.mat-primary {
+	background-color: #0122dc !important;
+	color: #ffffff !important;
+	box-shadow: none !important;
+}
+
+.mat-raised-button.mat-primary:hover {
+	/* Slightly darker on hover */
+	background-color: #0017b8 !important;
+}
+
+/* If you prefer to scope styles only to the search button, add a class (e.g. .search-btn) and style that instead:
+	 <button mat-raised-button class="search-btn">Search</button>
+	 .search-btn { background-color: #0122dc; color: white; }
+*/
