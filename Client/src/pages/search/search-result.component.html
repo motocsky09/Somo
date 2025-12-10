@@ -1,16 +1,20 @@
 <div class="results-page">
-  <h2>Rezultate căutare</h2>
+  <h2 class="page-title">Rezultate căutare</h2>
 
-  <div *ngIf="!searchPerformed">Se încarcă...</div>
+  <div *ngIf="!searchPerformed" class="status-message">Se încarcă...</div>
 
-  <div *ngIf="searchPerformed && results.length === 0">Nu s-au găsit rezultate pentru "{{query}}"</div>
+  <div *ngIf="searchPerformed && results.length === 0" class="status-message">
+    Nu s-au găsit rezultate pentru "{{query}}"
+  </div>
 
   <div *ngIf="results.length > 0" class="results-list">
-    <mat-card *ngFor="let r of results" class="result-item" (click)="openDetails(r)" style="cursor:pointer; margin-bottom:8px">
-      <mat-card-content>
-        <div style="font-weight:700">{{ r.name }}</div>
-        <div style="color:gray; font-size:13px">ID: {{ r.id }}</div>
-      </mat-card-content>
-    </mat-card>
+    
+    <div *ngFor="let r of results" class="panel result-item" (click)="openDetails(r)">
+      <div class="panel-body">
+        <div class="result-name">{{ r.name }}</div>
+        <div class="result-id">ID: {{ r.id }}</div>
+      </div>
+    </div>
+
   </div>
 </div>

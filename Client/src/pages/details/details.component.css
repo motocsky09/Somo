@@ -1,59 +1,169 @@
+/* Container general */
 .details-container {
-  max-width: 1200px;
-  margin: 0 auto;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 11px;
+  background-color: #f0f0f0;
+  min-height: 100vh;
+  padding: 10px;
 }
 
-.file-header {
-  background: white;
-  padding: 15px;
-  border-bottom: 3px solid #0122dc; /* Linia albastră de sus */
-  margin-bottom: 20px;
+/* Stiluri Panel Header (Copiate de la Search) */
+.panel {
+  border: 1px solid #99bbe8;
+  background-color: white;
+  margin-bottom: 10px;
 }
 
-.file-header h2 {
-  margin: 0 0 10px 0;
-  font-size: 18px;
-  color: #333;
-}
-
-.badge {
-  background: #eee;
+.panel-header {
+  background: linear-gradient(to bottom, #dbe8f9 0%, #c5d8ef 100%);
+  border-bottom: 1px solid #99bbe8;
   padding: 5px 10px;
-  border-radius: 4px;
-  font-size: 12px;
-  margin-right: 10px;
+  color: #15428b;
   font-weight: bold;
 }
 
-.status-open {
-  background: #e3f2fd;
-  color: #0122dc;
+.info-grid {
+  display: flex;
+  gap: 20px;
+  padding: 10px;
+  background-color: #f5f8fd;
 }
 
-.tab-content {
-  padding: 20px 0;
+.status-text {
+  color: #008000;
+  font-weight: bold;
 }
 
-.action-card {
-  margin-bottom: 20px;
+/* === TABURILE === */
+.tabs-container {
+  margin-top: 15px;
+}
+
+.tabs-strip {
+  display: flex;
+  border-bottom: 1px solid #99bbe8;
+  padding-left: 5px;
+  background: #eef3fb; /* Fundal sub tab-uri */
+}
+
+.tab-btn {
+  border: 1px solid #99bbe8;
+  border-bottom: none;
+  background: #dae6f5; /* Tab inactiv - gri-albastru */
+  padding: 5px 15px;
+  margin-right: 3px;
+  border-radius: 3px 3px 0 0;
+  cursor: pointer;
+  font-size: 11px;
+  color: #15428b;
+  position: relative;
+  top: 1px; /* Să acopere linia de jos */
+}
+
+.tab-btn:hover {
+  background-color: #ebf3fd;
+}
+
+.tab-btn.active {
+  background-color: white; /* Tab activ - alb */
+  font-weight: bold;
+  border-bottom: 1px solid white; /* Șterge linia de jos ca să pară unit */
+  z-index: 2;
+}
+
+.tab-content-area {
+  border: 1px solid #99bbe8;
+  border-top: none; /* Se unește cu tab-ul */
+  background: white;
+  padding: 15px;
+  min-height: 300px;
+}
+
+/* Zona de acțiuni (Dropdowns) */
+.action-bar {
   background-color: #f9f9f9;
+  border: 1px solid #e0e0e0;
+  padding: 10px;
+  margin-bottom: 20px;
 }
 
-.grid-row {
+.form-row {
   display: flex;
   gap: 15px;
   align-items: center;
 }
 
-.col-4 { width: 33%; }
-
-.full-width-table {
-  width: 100%;
+.form-group {
+  display: flex;
+  align-items: center;
 }
 
-.table-title {
-  margin-top: 0;
-  font-size: 14px;
-  color: #666;
+label {
+  margin-right: 5px;
+  font-weight: bold;
+  color: #333;
+}
+
+select {
+  border: 1px solid #aebfd6;
+  padding: 2px;
+  font-size: 11px;
+  min-width: 150px;
+}
+
+.action-btn {
+  background: linear-gradient(to bottom, #f9f9f9 0%, #e3e3e3 100%);
+  border: 1px solid #a0a0a0;
+  padding: 3px 10px;
+  cursor: pointer;
+  font-weight: bold;
+  color: #333;
+}
+
+.action-btn:hover {
+  border-color: #666;
+}
+
+/* === TABEL CUSTOM (Fără mat-table) === */
+.table-wrapper {
+  margin-top: 10px;
+}
+
+.section-title {
+  font-size: 12px;
+  font-weight: bold;
+  color: #15428b;
+  margin-bottom: 5px;
   text-transform: uppercase;
+  border-bottom: 2px solid #e0e0e0;
+}
+
+.custom-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 11px;
+  border: 1px solid #ccc;
+}
+
+.custom-table th {
+  background: linear-gradient(to bottom, #f0f0f0 0%, #d0d0d0 100%); /* Header gri clasic */
+  border: 1px solid #ccc;
+  padding: 5px;
+  text-align: left;
+  color: #333;
+}
+
+.custom-table td {
+  border: 1px solid #e0e0e0;
+  padding: 4px;
+  color: #333;
+}
+
+/* Zebra striping (rânduri alternative) */
+.custom-table tr:nth-child(even) {
+  background-color: #f7faff;
+}
+
+.custom-table tr:hover {
+  background-color: #fffdd8; /* Highlight galben la hover */
 }

@@ -1,91 +1,82 @@
-<div class="search-container">
-  <h2>Somo</h2>
-
-  <mat-card>
-    <mat-card-content>
-      <div class="section-title">Search Parameters</div>
-      <div class="grid-row">
-        <mat-form-field appearance="outline" class="col-3">
-          <mat-label>Client</mat-label>
-          <input matInput>
-        </mat-form-field>
-
-        <mat-form-field appearance="outline" class="col-3">
-          <mat-label>Task Type</mat-label>
-          <mat-select>
-            <mat-option value="type1">Tip 1</mat-option>
-            <mat-option value="type2">Tip 2</mat-option>
-          </mat-select>
-        </mat-form-field>
-
-        <mat-form-field appearance="outline" class="col-3">
-          <mat-label>Task ID</mat-label>
-          <input matInput>
-        </mat-form-field>
-
-        <mat-form-field appearance="outline" class="col-3">
-          <mat-label>Client ID</mat-label>
-          <input matInput>
-        </mat-form-field>
+<div class="main-container">
+  
+  <div class="panel">
+    <div class="panel-header">
+      <span class="arrow">▼</span> Search parameters
+      <div class="user-corner">Medici A. ▼</div>
+    </div>
+    
+    <div class="panel-body">
+      <div class="form-row">
+        <div class="form-group" style="flex: 2;">
+          <label>Client:</label>
+          <select><option></option></select>
+        </div>
+        <div class="form-group" style="flex: 2;">
+          <label>Task type:</label>
+          <select><option></option></select>
+        </div>
       </div>
 
-       <div class="grid-row">
-         <mat-checkbox class="col-1">Include Archived</mat-checkbox>
-
-         <mat-form-field appearance="outline" class="col-3">
-          <mat-label>Area</mat-label>
-          <mat-select>
-             <mat-option value="area1">Area 1</mat-option>
-          </mat-select>
-        </mat-form-field>
-       </div>
-
-      <mat-divider></mat-divider>
-
-      <div class="section-title mt-3">Operator</div>
-      <div class="grid-row">
-        <mat-form-field appearance="outline" class="col-3">
-          <mat-label>Operator Role</mat-label>
-           <mat-select><mat-option value="admin">Admin</mat-option></mat-select>
-        </mat-form-field>
-
-        <mat-form-field appearance="outline" class="col-3">
-          <mat-label>Operator</mat-label>
-          <input matInput>
-        </mat-form-field>
-
-         <mat-checkbox class="col-2">Unassigned</mat-checkbox>
+      <div class="form-row">
+        <div class="form-group" style="flex: 1;">
+          <label>Task ID:</label>
+          <input type="text" [(ngModel)]="query" (keyup.enter)="onSearch()" name="query">
+        </div>
+        <div class="form-group" style="flex: 1;">
+          <label>Client ID:</label>
+          <input type="text">
+        </div>
+        <div class="form-group checkbox-group" style="flex: 0.5;">
+          <label>Include archived:</label>
+          <input type="checkbox">
+        </div>
+        <div class="form-group" style="flex: 2;">
+          <label>Area:</label>
+          <select><option></option></select>
+        </div>
       </div>
 
-      <mat-divider></mat-divider>
-
-      <div class="section-title mt-3">Date</div>
-      <div class="grid-row">
-        <mat-form-field appearance="outline" class="col-3">
-          <mat-label>Date Type</mat-label>
-           <mat-select><mat-option value="creation">Creation Date</mat-option></mat-select>
-        </mat-form-field>
-
-        <mat-form-field appearance="outline" class="col-3">
-          <mat-label>From</mat-label>
-          <input matInput [matDatepicker]="picker1">
-          <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-          <mat-datepicker #picker1></mat-datepicker>
-        </mat-form-field>
-
-        <mat-form-field appearance="outline" class="col-3">
-          <mat-label>To</mat-label>
-          <input matInput [matDatepicker]="picker2">
-          <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
-          <mat-datepicker #picker2></mat-datepicker>
-        </mat-form-field>
+      <div class="form-row">
+        <div class="form-group" style="flex: 2;">
+          <label>Macrostate:</label>
+          <select><option>!</option></select>
+        </div>
+        <div class="form-group" style="flex: 2;">
+          <label>State:</label>
+          <select><option>!</option></select>
+        </div>
       </div>
+    </div>
+  </div>
 
-    </mat-card-content>
+  <div class="panel">
+    <div class="panel-header">
+      Operator
+    </div>
+    <div class="panel-body">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Operator role:</label>
+          <select><option></option></select>
+        </div>
+        <div class="form-group">
+          <label>Operator:</label>
+          <select><option></option></select>
+        </div>
+        <div class="form-group">
+          <label>Assign date from:</label>
+          <input type="date">
+        </div>
+      </div>
+    </div>
+  </div>
 
-    <mat-card-actions align="end">
-      <button mat-button color="warn" (click)="query = ''; results = []; searchPerformed = false">Clear</button>
-      <button mat-raised-button color="primary" class="search-btn" (click)="onSearch()">Search</button>
-    </mat-card-actions>
-  </mat-card>
+  <div class="toolbar">
+    <button (click)="onSearch()">🔍 Search</button>
+    <button>Count</button>
+    <button>📄 Search documents</button>
+    <button>❌ Clear</button>
+  </div>
+
 </div>

@@ -1,28 +1,44 @@
-<div class="login-container">
-  <mat-card class="login-card">
-    <mat-card-header>
-      <mat-card-title>Somo</mat-card-title>
-      <mat-card-subtitle>Login</mat-card-subtitle>
-    </mat-card-header>
+<div class="login-wrapper">
+  
+  <div class="panel login-panel">
+    <div class="panel-header">
+      <span>🔐 Autentificare - Somo</span>
+    </div>
 
-    <mat-card-content>
-      <form class="login-form">
-        <mat-form-field appearance="outline">
-          <mat-label>Username</mat-label>
-          <input matInput placeholder="Ex: andrei.motoc">
-          <mat-icon matSuffix>person</mat-icon>
-        </mat-form-field>
+    <div class="panel-body">
+      
+      <div class="info-box">
+        Introduceți credențialele pentru a accesa sistemul.
+      </div>
 
-        <mat-form-field appearance="outline">
-          <mat-label>Password</mat-label>
-          <input matInput type="password">
-          <mat-icon matSuffix>lock</mat-icon>
-        </mat-form-field>
-      </form>
-    </mat-card-content>
+      <div class="form-container">
+        
+        <div class="form-row">
+          <label>Utilizator:</label>
+          <div class="input-wrapper">
+            <input type="text" placeholder="ex: andrei.motoc">
+          </div>
+        </div>
 
-    <mat-card-actions>
-      <button mat-raised-button color="primary" routerLink="/search">Login</button>
-    </mat-card-actions>
-  </mat-card>
+        <div class="form-row">
+          <label>Parolă:</label>
+          <div class="input-wrapper">
+            <input type="password">
+          </div>
+        </div>
+
+      </div>
+
+      <div class="legal-text">
+        Accesul neautorizat este interzis și se pedepsește conform legii. 
+        Sistem monitorizat.
+      </div>
+
+    </div>
+
+    <div class="panel-footer">
+      <button routerLink="/search">✔ Conectare</button>
+    </div>
+  </div>
+
 </div>

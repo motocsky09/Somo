@@ -1,14 +1,49 @@
 .results-page {
-  padding: 16px;
+  padding: 10px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 11px;
 }
-.results-list {
-  display: flex;
-  flex-direction: column;
-  max-width: 800px;
+
+.page-title {
+  font-size: 14px;
+  color: #15428b;
+  border-bottom: 1px solid #99bbe8;
+  padding-bottom: 5px;
+  margin-bottom: 10px;
 }
-.result-item {
-  transition: box-shadow 0.12s ease-in-out;
+
+.status-message {
+  font-style: italic;
+  color: #666;
 }
-.result-item:hover {
-  box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+
+/* Stilul pentru fiecare rezultat - Identic cu restul aplicatiei */
+.panel {
+  border: 1px solid #99bbe8;
+  background-color: white;
+  margin-bottom: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+/* Efect cand pui mouse-ul pe un rezultat */
+.panel:hover {
+  background-color: #fffdd8; /* Galben pal specific Windows */
+  border-color: #fca103;
+}
+
+.panel-body {
+  padding: 8px;
+}
+
+.result-name {
+  font-weight: bold;
+  color: #333;
+  font-size: 12px;
+}
+
+.result-id {
+  color: #666;
+  font-size: 11px;
+  margin-top: 2px;
 }

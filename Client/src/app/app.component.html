@@ -1,11 +1,12 @@
-<mat-toolbar color="primary" *ngIf="showNavbar">
-  <span>Somo</span>
+<div class="navbar" *ngIf="showNavbar">
+  <span class="brand">Somo</span>
   
-  <span class="spacer"></span> <div class="user-info">
-    <mat-icon>account_circle</mat-icon>
-    <span>andrei.motoc</span>
+  <span class="spacer"></span>
+  
+  <div class="user-info">
+    <span class="icon">👤</span> <span>andrei.motoc</span>
   </div>
-</mat-toolbar>
+</div>
 
 <div [class.app-container]="showNavbar">
   <router-outlet></router-outlet>

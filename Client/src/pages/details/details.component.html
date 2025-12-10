@@ -1,96 +1,73 @@
 <div class="details-container">
-  
-  <div class="file-header" style="display:flex; gap:16px; align-items:flex-start;">
-    <!-- Left-top card with dosar name (example dosar box) -->
-    <mat-card style="min-width:320px; max-width:420px;">
-      <mat-card-content>
-        <div style="font-weight:700; font-size:16px">{{ folderName }}</div>
-        <div style="margin-top:8px">Client: <strong>{{ details.clientName }}</strong></div>
-        <div style="margin-top:4px">Area: {{ details.area }}</div>
-        <div style="margin-top:4px">Status: {{ details.status }}</div>
-        <div style="margin-top:8px; font-size:13px; color:gray">Click to open full dosar details</div>
-      </mat-card-content>
-    </mat-card>
 
-    <div style="flex:1">
-      <div style="display:flex; gap:8px; align-items:center">
-        <div class="status-chips">
-          <span class="badge">ID: {{ folderId }}</span>
-          <span class="badge status-open">Stato: {{ details.status || 'N/A' }}</span>
-        </div>
-      </div>
+  <div class="panel header-panel">
+    <div class="panel-header">
+      <span>📁 Dosar: {{ folderName }} - {{ details.clientName }}</span>
+    </div>
+    <div class="panel-body info-grid">
+      <div class="info-item"><strong>ID:</strong> {{ folderId }}</div>
+      <div class="info-item"><strong>Area:</strong> {{ details.area }}</div>
+      <div class="info-item"><strong>Status:</strong> <span class="status-text">{{ details.status }}</span></div>
     </div>
   </div>
 
-  <mat-tab-group animationDuration="0ms" class="custom-tabs">
-    
-    <mat-tab label="Workflow">
-      <div class="tab-content">
+  <div class="tabs-container">
+    <div class="tabs-strip">
+      <button class="tab-btn" [class.active]="activeTab === 'workflow'" (click)="activeTab = 'workflow'">Workflow</button>
+      <button class="tab-btn" [class.active]="activeTab === 'note'" (click)="activeTab = 'note'">Note</button>
+      <button class="tab-btn" [class.active]="activeTab === 'documenti'" (click)="activeTab = 'documenti'">Documenti</button>
+      <button class="tab-btn" [class.active]="activeTab === 'comunicazioni'" (click)="activeTab = 'comunicazioni'">Comunicazioni</button>
+    </div>
+
+    <div class="tab-content-area">
+      
+      <div *ngIf="activeTab === 'workflow'">
         
-        <mat-card class="action-card">
-          <mat-card-content>
-            <div class="grid-row">
-              <mat-form-field appearance="outline" class="col-4">
-                <mat-label>Macrostato</mat-label>
-                <mat-select value="aperta">
-                  <mat-option value="aperta">Aperta</mat-option>
-                  <mat-option value="chiusa">Chiusa</mat-option>
-                </mat-select>
-              </mat-form-field>
-
-              <mat-form-field appearance="outline" class="col-4">
-                <mat-label>Stato</mat-label>
-                <mat-select>
-                   <mat-option value="lav">Lavorazione conclusa</mat-option>
-                </mat-select>
-              </mat-form-field>
-
-               <div class="actions col-4">
-                 <button mat-raised-button color="accent">
-                   <mat-icon>check_circle</mat-icon> Esegui Transizione
-                 </button>
-               </div>
+        <div class="action-bar">
+          <div class="form-row">
+            <div class="form-group">
+              <label>Macrostato:</label>
+              <select><option>Aperta</option><option>Chiusa</option></select>
             </div>
-          </mat-card-content>
-        </mat-card>
+            <div class="form-group">
+              <label>Stato:</label>
+              <select><option>Lavorazione conclusa</option></select>
+            </div>
+            <button class="action-btn">✔ Esegui Transizione</button>
+          </div>
+        </div>
 
-        <h3 class="table-title">Istoric Activități</h3>
-        
-        <table mat-table [dataSource]="historyData" class="mat-elevation-z2 full-width-table">
-          
-          <ng-container matColumnDef="date">
-            <th mat-header-cell *matHeaderCellDef> Data </th>
-            <td mat-cell *matCellDef="let element"> {{element.date}} </td>
-          </ng-container>
-        
-          <ng-container matColumnDef="status">
-            <th mat-header-cell *matHeaderCellDef> Stato </th>
-            <td mat-cell *matCellDef="let element"> {{element.status}} </td>
-          </ng-container>
-        
-          <ng-container matColumnDef="user">
-            <th mat-header-cell *matHeaderCellDef> Operator </th>
-            <td mat-cell *matCellDef="let element"> {{element.user}} </td>
-          </ng-container>
-        
-          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-        </table>
+        <div class="table-wrapper">
+          <div class="section-title">Istoric Activități</div>
+          <table class="custom-table">
+            <thead>
+              <tr>
+                <th>Data</th>
+                <th>Stato</th>
+                <th>Operator</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let row of historyData">
+                <td>{{ row.date }}</td>
+                <td>{{ row.status }}</td>
+                <td>{{ row.user }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
 
       </div>
-    </mat-tab>
 
-    <mat-tab label="Note">
-      <div class="tab-content"><p>Aici vor fi notele...</p></div>
-    </mat-tab>
+      <div *ngIf="activeTab === 'note'">
+        <p>Conținut pentru Note...</p>
+      </div>
 
-    <mat-tab label="Documenti">
-       <div class="tab-content"><p>Lista de documente...</p></div>
-    </mat-tab>
+      <div *ngIf="activeTab === 'documenti'">
+        <p>Lista documente...</p>
+      </div>
 
-    <mat-tab label="Comunicazioni">
-       <div class="tab-content"><p>Email-uri și mesaje...</p></div>
-    </mat-tab>
+    </div>
+  </div>
 
-  </mat-tab-group>
 </div>
