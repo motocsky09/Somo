@@ -1,0 +1,81 @@
+/* Fonts: Goga (local files expected in /assets/fonts) */
+/* Register available Goga weights (using local OTFs). */
+@font-face {
+	font-family: 'Goga';
+	src: url('/assets/fonts/goga/GogaTest-Thin-BF6646d5d8040a9.otf') format('opentype');
+	font-weight: 100;
+	font-style: normal;
+	font-display: swap;
+}
+@font-face {
+	font-family: 'Goga';
+	src: url('/assets/fonts/goga/GogaTest-Extralight-BF6646d5d82fb83.otf') format('opentype');
+	font-weight: 200;
+	font-style: normal;
+	font-display: swap;
+}
+@font-face {
+	font-family: 'Goga';
+	src: url('/assets/fonts/goga/GogaTest-Light-BF6646d5d84c8a2.otf') format('opentype');
+	font-weight: 300;
+	font-style: normal;
+	font-display: swap;
+}
+@font-face {
+	font-family: 'Goga';
+	src: url('/assets/fonts/goga/GogaTest-Regular-BF6646d5d84f69b.otf') format('opentype');
+	font-weight: 400;
+	font-style: normal;
+	font-display: swap;
+}
+@font-face {
+	font-family: 'Goga';
+	src: url('/assets/fonts/goga/GogaTest-Medium-BF6646d5d84754e.otf') format('opentype');
+	font-weight: 500;
+	font-style: normal;
+	font-display: swap;
+}
+@font-face {
+	font-family: 'Goga';
+	src: url('/assets/fonts/goga/GogaTest-Semibold-BF6646d5d8544cf.otf') format('opentype');
+	font-weight: 600;
+	font-style: normal;
+	font-display: swap;
+}
+@font-face {
+	font-family: 'Goga';
+	src: url('/assets/fonts/goga/GogaTest-Bold-BF6646d5d83c978.otf') format('opentype');
+	font-weight: 700;
+	font-style: normal;
+	font-display: swap;
+}
+@font-face {
+	font-family: 'Goga';
+	src: url('/assets/fonts/goga/GogaTest-Extrabold-BF6646d5d7d0a2b.otf') format('opentype');
+	font-weight: 800;
+	font-style: normal;
+	font-display: swap;
+}
+@font-face {
+	font-family: 'Goga';
+	src: url('/assets/fonts/goga/GogaTest-Black-BF6646d5d78e551.otf') format('opentype');
+	font-weight: 900;
+	font-style: normal;
+	font-display: swap;
+}
+
+:root {
+	--app-font-sans: 'Goga', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+/* Apply Goga globally */
+html, body {
+	height: 100%;
+	margin: 0;
+	font-family: var(--app-font-sans);
+	/* Use Medium weight by default for a balanced UI appearance */
+	font-weight: 500;
+}
+
+/* You can add additional global rules here */
+

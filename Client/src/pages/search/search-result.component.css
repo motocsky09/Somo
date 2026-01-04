@@ -1,26 +1,25 @@
 .results-page {
   padding: 10px;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  font-size: 11px;
+  font-size: 16px;
 }
 
 .page-title {
-  font-size: 14px;
-  color: #15428b;
-  border-bottom: 1px solid #99bbe8;
+  font-size: 16px;
+  color: #F8C61E;
+  border-bottom: 1px solid #F8C61E;
   padding-bottom: 5px;
   margin-bottom: 10px;
 }
 
 .status-message {
   font-style: italic;
-  color: #666;
+  color: #F8C61E;
 }
 
 /* Stilul pentru fiecare rezultat - Identic cu restul aplicatiei */
 .panel {
-  border: 1px solid #99bbe8;
-  background-color: white;
+  border: 1px solid #F8C61E;
+  background-color: #252C37;
   margin-bottom: 5px;
   cursor: pointer;
   transition: background-color 0.2s;
@@ -28,8 +27,20 @@
 
 /* Efect cand pui mouse-ul pe un rezultat */
 .panel:hover {
-  background-color: #fffdd8; /* Galben pal specific Windows */
-  border-color: #fca103;
+  background-color: #F8C61E; /* Galben pal */
+  color: #252C37;
+}
+
+/* Ensure child elements switch color on hover (override explicit child colors) */
+.panel:hover .result-name,
+.panel:hover .result-id,
+.panel:hover .panel-body,
+.panel:hover p,
+.panel:hover a,
+.panel:hover span,
+.panel:hover label {
+  color: #252C37;
+  transition: color 0.15s;
 }
 
 .panel-body {
@@ -38,12 +49,12 @@
 
 .result-name {
   font-weight: bold;
-  color: #333;
+  color: #F8C61E;
   font-size: 12px;
 }
 
 .result-id {
-  color: #666;
+  color: #F8C61E;
   font-size: 11px;
   margin-top: 2px;
 }

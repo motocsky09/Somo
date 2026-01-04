@@ -66,3 +66,10 @@
 /Users/andreimotoc/Documents/Somo/Server/obj/Debug/net8.0/Server.pdb
 /Users/andreimotoc/Documents/Somo/Server/obj/Debug/net8.0/Server.genruntimeconfig.cache
 /Users/andreimotoc/Documents/Somo/Server/obj/Debug/net8.0/ref/Server.dll
+/Users/andreimotoc/Documents/Somo/Server/bin/Debug/net8.0/BCrypt.Net-Next.dll
+/Users/andreimotoc/Documents/Somo/Server/bin/Debug/net8.0/DnsClient.dll
+/Users/andreimotoc/Documents/Somo/Server/bin/Debug/net8.0/MongoDB.Bson.dll
+/Users/andreimotoc/Documents/Somo/Server/bin/Debug/net8.0/MongoDB.Driver.dll
+/Users/andreimotoc/Documents/Somo/Server/bin/Debug/net8.0/SharpCompress.dll
+/Users/andreimotoc/Documents/Somo/Server/bin/Debug/net8.0/Snappier.dll
+/Users/andreimotoc/Documents/Somo/Server/bin/Debug/net8.0/ZstdSharp.dll

@@ -1,31 +1,32 @@
 /* Containerul principal care ține tot ecranul */
 .login-wrapper {
-  background-color: #c5d8ef; /* Un fundal albastru închis pentru desktop, ca în Windows */
+  background-color: #252C37; /* Un fundal albastru închis pentru desktop, ca în Windows */
   height: 100vh;
   width: 100vw;
   display: flex;
   justify-content: center; /* Centrează orizontal */
   align-items: center;     /* Centrează vertical */
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  font-size: 11px;
+  font-family: 'Goga', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 14px;
 }
 
 /* Fereastra de login propriu-zisă */
 .login-panel {
   width: 350px;
-  background-color: #dfe8f6; /* Albastru pal clasic */
-  border: 1px solid #99bbe8;
+  background-color: #252C37; /* Albastru pal clasic */
+  border: 1px solid #F8C61E;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); /* Umbră să pară fereastră plutitoare */
 }
 
 /* Bara de titlu (Gradient) */
 .panel-header {
-  background: linear-gradient(to bottom, #dbe8f9 0%, #c5d8ef 100%);
-  border-bottom: 1px solid #99bbe8;
+  background: #F8C61E;
+  border-bottom: 1px solid #F8C61E;
   padding: 6px 10px;
-  color: #15428b;
-  font-weight: bold;
-  font-size: 12px;
+  text-align: center;
+  color: #252C37;
+  
+  font-size: 16px;
 }
 
 .panel-body {
@@ -34,12 +35,12 @@
 
 /* Cutia galbenă de informare (opțional, arată pro) */
 .info-box {
-  background-color: #fffbc9;
-  border: 1px solid #f9d06b;
+  background-color: #252C37;
+  border: 1px solid #F8C61E;
   padding: 5px;
   margin-bottom: 15px;
   text-align: center;
-  color: #555;
+  color: #F8C61E;
 }
 
 /* Alinierea inputurilor */
@@ -53,7 +54,7 @@ label {
   width: 80px;
   text-align: right;
   padding-right: 10px;
-  color: #333;
+  color: #F8C61E;
   font-weight: bold;
 }
 
@@ -63,50 +64,51 @@ label {
 
 input {
   width: 100%;
-  border: 1px solid #b5b8c8;
+  border: 1px solid #F8C61E;
   padding: 3px;
-  font-size: 12px;
-  background: white;
+  font-size: 14px;
+  background: #252C37;
   /* Box-sizing e important ca padding-ul să nu strice lățimea */
   box-sizing: border-box; 
 }
 
-input:focus {
-  background-color: #fffdd8; /* Galben la focus */
-  border-color: #fca103;
+/*input:focus {
+  background-color: #DEFCFF; /* Galben la focus */
+  /*border-color: #fca103;
   outline: none;
-}
+/*
+
 
 /* Textul mic de jos */
 .legal-text {
   margin-top: 15px;
-  font-size: 10px;
-  color: #666;
+  font-size: 13px;
+  color: #F8C61E;
   text-align: center;
-  border-top: 1px dotted #ccc;
+  border-top: 1px solid #F8C61E;
   padding-top: 5px;
 }
 
 /* Bara de butoane */
 .panel-footer {
-  background-color: #dfe8f6;
+  background-color: #252C37;
   padding: 8px;
-  border-top: 1px solid #99bbe8;
+  border-top: 1px solid #F8C61E;
   text-align: right; /* Butonul în dreapta */
 }
 
 button {
   cursor: pointer;
-  background: #f0f0f0;
-  border: 1px solid #888;
+  background: #252C37;
+  border: 1px solid #F8C61E;
   padding: 4px 15px;
-  font-size: 11px;
+  font-size: 16px;
   font-weight: bold;
   border-radius: 2px;
-  color: #333;
+  color: #F8C61E;
 }
 
 button:hover {
-  background-color: #e0e0e0;
-  border-color: #666;
+  background-color: #F8C61E;
+  color: #252C37;
 }

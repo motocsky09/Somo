@@ -1,33 +1,31 @@
 /* Container general */
 .main-container {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  font-size: 11px; /* Font mic ca în aplicațiile vechi */
-  background-color: #f0f0f0;
+  font-size: 16px; /* Font mic ca în aplicațiile vechi */
+  background-color: #252C37;
   padding: 5px;
   min-height: 100vh;
 }
 
 /* Stilul Panel-ului (Chenarul) */
 .panel {
-  border: 1px solid #a0a0a0;
-  background-color: #e3e3e3;
+  border: 1px solid #F8C61E;
+  background-color: #252C37;
   margin-bottom: 5px;
 }
 
 /* Bara albastră de sus (Header) */
 .panel-header {
-  background: linear-gradient(to bottom, #dbe8f9 0%, #c5d8ef 100%); /* Efect lucios */
-  border-bottom: 1px solid #a0a0a0;
+  background-color: #252C37;
+  border-bottom: 1px solid #F8C61E;
   padding: 4px 8px;
-  color: #15428b; /* Albastru închis */
-  font-weight: bold;
+  color: #F8C61E;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
 }
 
 .panel-body {
   padding: 8px;
-  background-color: #dfe8f6; /* Fundalul albăstrui pal */
+  background-color: #252C37; /* Background per project */
 }
 
 /* Grid-ul pentru input-uri */
@@ -42,12 +40,13 @@
   display: flex;
   align-items: center; /* Aliniază eticheta cu inputul */
   width: 100%;
+
 }
 
 label {
   white-space: nowrap;
   margin-right: 5px;
-  color: #333;
+  color: #F8C61E;
   min-width: 60px; /* Aliniere etichete */
   text-align: right;
 }
@@ -57,16 +56,17 @@ input[type="text"],
 input[type="date"],
 select {
   width: 100%;
-  border: 1px solid #aebfd6;
+  border: 2px solid #F8C61E;
   padding: 1px 2px;
-  font-size: 11px;
+  font-size: 16px;
   height: 20px;
-  background-color: white;
+  background-color: #252C37;
 }
 
 input:focus, select:focus {
-  background-color: #fffdd8; /* Se face galben când scrii, stil clasic */
-  border-color: #fca103;
+  background-color: #252C37; /* Se face galben când scrii */
+  border: 2px solid #F8C61E;
+  color: #F8C61E;
   outline: none;
 }
 
@@ -80,20 +80,29 @@ input:focus, select:focus {
 .toolbar {
   margin-top: 10px;
   text-align: center;
-  border-top: 1px solid #ccc;
+  border-top: 1px solid #F8C61E;
+  padding-top: 10px;
+}
+
+.toolbar {
+  margin-top: 10px;
+  text-align: center;
+  border-top: 1px solid #F8C61E;
   padding-top: 10px;
 }
 
 button {
   cursor: pointer;
-  background: #f0f0f0;
-  border: 1px solid #999;
+  background: #F8C61E;
+  border: 1px solid #F8C61E;
+  color: #252C37;
   padding: 2px 10px;
   margin: 0 2px;
-  font-size: 11px;
+  font-size: 16px;
   border-radius: 2px;
 }
 
 button:hover {
-  background-color: #e0e0e0;
+  background-color: #252C37;
+  color: #F8C61E;
 }
