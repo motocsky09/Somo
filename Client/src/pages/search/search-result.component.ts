@@ -17,9 +17,11 @@ export class SearchResultComponent implements OnInit {
   searchPerformed: boolean = false;
 
   private DATA: SearchResult[] = [
-    { id: '28178854', name: 'INCARICO 28178854 - SMISTAMENTO' },
-    { id: '1942761', name: 'INCARICO 1942761 - RECUPERO' },
-    { id: '1234567', name: 'DOSAR EXEMPLU 1234567' }
+    { id: 'P-001', name: 'Programare Pisica Mei' },
+    { id: 'P-002', name: 'Programare Motan Mango' },
+    { id: 'P-003', name: 'Programare Câine Rex' },
+    { id: 'P-004', name: 'Programare Papagal Kiki' },
+    { id: 'P-005', name: 'Programare Iepure Lulu' }
   ];
 
   constructor(private route: ActivatedRoute, private router: Router) {}

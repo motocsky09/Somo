@@ -2,11 +2,14 @@
 
   <div class="panel header-panel">
     <div class="panel-header">
-      <span>📁 Dosar: {{ folderName }} - {{ details.clientName }}</span>
+      <span>📋 Programare: {{ folderName }} — {{ details.species }}</span>
     </div>
     <div class="panel-body info-grid">
       <div class="info-item"><strong>ID:</strong> {{ folderId }}</div>
-      <div class="info-item"><strong>Area:</strong> {{ details.area }}</div>
+      <div class="info-item"><strong>Proprietar:</strong> {{ details.ownerName }}</div>
+      <div class="info-item"><strong>Telefon:</strong> {{ details.contact }}</div>
+      <div class="info-item"><strong>Medic:</strong> {{ details.veterinarian }}</div>
+      <div class="info-item"><strong>Programare:</strong> {{ details.scheduledAt }}</div>
       <div class="info-item"><strong>Status:</strong> <span class="status-text">{{ details.status }}</span></div>
     </div>
   </div>

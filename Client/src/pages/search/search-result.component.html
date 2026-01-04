@@ -1,20 +1,24 @@
-<div class="results-page">
-  <h2 class="page-title">Rezultate căutare</h2>
+<div class="vet-hero">
+  <div class="vet-hero-inner">
+    <h2 class="vet-title">Rezultate căutare</h2>
 
-  <div *ngIf="!searchPerformed" class="status-message">Se încarcă...</div>
+    <div *ngIf="!searchPerformed" class="status-message">Se încarcă...</div>
 
-  <div *ngIf="searchPerformed && results.length === 0" class="status-message">
-    Nu s-au găsit rezultate pentru "{{query}}"
-  </div>
-
-  <div *ngIf="results.length > 0" class="results-list">
-    
-    <div *ngFor="let r of results" class="panel result-item" (click)="openDetails(r)">
-      <div class="panel-body">
-        <div class="result-name">{{ r.name }}</div>
-        <div class="result-id">ID: {{ r.id }}</div>
-      </div>
+    <div *ngIf="searchPerformed && results.length === 0" class="status-message">
+      Nu s-au găsit rezultate pentru "{{query}}"
     </div>
 
+    <div *ngIf="results.length > 0" class="results-list">
+
+      <div class="results-grid">
+        <div *ngFor="let r of results | slice:0:4" class="result-tile" (click)="openDetails(r)">
+          <div class="tile-content">
+            <div class="tile-title">{{ r.name }}</div>
+            <div class="tile-sub">Programare • {{ r.id }}</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
   </div>
 </div>

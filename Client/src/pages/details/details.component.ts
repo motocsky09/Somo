@@ -10,17 +10,21 @@ export class DetailsComponent {
   activeTab: string = 'workflow'; 
 
   // Datele simulate (le păstrăm pe cele vechi)
-  folderName = 'INCARICO 28178854';
+  // Appointment / patient details (veterinary-themed)
+  folderName = 'Programare Pisica Mei';
   details = {
-    clientName: 'AXA FRANCE IARD',
-    area: 'Recupero Assicurativo',
-    status: 'Ricezione Esito Rintraccio'
+    ownerName: 'Mei Popescu',
+    species: 'Pisică — Persan',
+    veterinarian: 'Dr. Ana Ionescu',
+    contact: '+40 712 345 678',
+    scheduledAt: '12/01/2026 10:30',
+    status: 'Programată'
   };
-  folderId = '28178854';
+  folderId = 'P-001';
 
   historyData = [
-    {date: '04/12/2025 16:15', status: 'Aperta - Da lavorare', user: 'Illari M.'},
-    {date: '04/12/2025 16:15', status: 'Aperta - Ricezione Esito', user: 'Illari M.'},
-    {date: '03/12/2025 09:30', status: 'Creazione Incarico', user: 'System'},
+    {date: '05/01/2026 09:12', status: 'Programare creată', user: 'Mei Popescu'},
+    {date: '06/01/2026 08:45', status: 'Confirmare telefonică', user: 'Dr. Ana Ionescu'},
+    {date: '10/01/2026 11:00', status: 'Notă: vaccin efectuat', user: 'Dr. Ana Ionescu'},
   ];
 }

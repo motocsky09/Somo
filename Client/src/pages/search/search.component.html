@@ -1,81 +1,35 @@
-<div class="main-container">
-  
-  <div class="panel">
-    <div class="panel-header">
-      Search parameters
-    </div>
-    
-    <div class="panel-body">
-      <div class="form-row">
-        <div class="form-group" style="flex: 2;">
-          <label>Client:</label>
-          <select><option></option></select>
-        </div>
-        <div class="form-group" style="flex: 2;">
-          <label>Task type:</label>
-          <select><option></option></select>
-        </div>
-      </div>
+<div class="vet-root">
+  <div class="vet-hero">
+    <div class="vet-hero-inner">
+      <h2 class="vet-title">Cabinet Veterinar</h2>
+      <p class="vet-subtitle">Platformă de gestionare — programări, pacienți, servicii, medici</p>
 
-      <div class="form-row">
-        <div class="form-group" style="flex: 1;">
-          <label>Task ID:</label>
-          <input type="text" [(ngModel)]="query" (keyup.enter)="onSearch()" name="query">
-        </div>
-        <div class="form-group" style="flex: 1;">
-          <label>Client ID:</label>
-          <input type="text">
-        </div>
-        <div class="form-group checkbox-group" style="flex: 0.5;">
-          <label>Include archived:</label>
-          <input type="checkbox">
-        </div>
-        <div class="form-group" style="flex: 2;">
-          <label>Area:</label>
-          <select><option></option></select>
-        </div>
-      </div>
+      <div class="vet-grid">
+        <button class="vet-tile" aria-label="Programari">
+          <div class="tile-main">PROGRAMĂRI</div>
+          <div class="tile-sub">Vezi și gestionează programările</div>
+        </button>
 
-      <div class="form-row">
-        <div class="form-group" style="flex: 2;">
-          <label>Macrostate:</label>
-          <select><option>!</option></select>
-        </div>
-        <div class="form-group" style="flex: 2;">
-          <label>State:</label>
-          <select><option>!</option></select>
-        </div>
+        <button class="vet-tile" aria-label="Pacienti">
+          <div class="tile-main">PACIENȚI</div>
+          <div class="tile-sub">Fișe pacienți și istoricul medical</div>
+        </button>
+
+        <button class="vet-tile" aria-label="Servicii">
+          <div class="tile-main">SERVICII</div>
+          <div class="tile-sub">Listă servicii, prețuri și durate</div>
+        </button>
+
+        <button class="vet-tile" aria-label="Medici">
+          <div class="tile-main">MEDICI</div>
+          <div class="tile-sub">Echipa și programul medicilor</div>
+        </button>
       </div>
     </div>
   </div>
 
-  <div class="panel">
-    <div class="panel-header">
-      Operator
-    </div>
-    <div class="panel-body">
-      <div class="form-row">
-        <div class="form-group">
-          <label>Operator role:</label>
-          <select><option></option></select>
-        </div>
-        <div class="form-group">
-          <label>Operator:</label>
-          <select><option></option></select>
-        </div>
-        <div class="form-group">
-          <label>Assign date from:</label>
-          <input type="date">
-        </div>
-      </div>
-    </div>
+  <div class="vet-toolbar">
+    <button class="vet-action" (click)="onSearch()">🔍 Caută</button>
+    <button class="vet-action">❌ Curăță</button>
   </div>
-
-  <div class="toolbar">
-    <button (click)="onSearch()"><b>🔍 Search</b></button>
-    <button><b>Count</b></button>
-    <button><b>📄 Search documents</b></button>
-    <button><b>❌ Clear</b></button>
-  </div>
-
 </div>

@@ -93,9 +93,9 @@ input:focus, select:focus {
 
 button {
   cursor: pointer;
-  background: #F8C61E;
+  background: #252C37;
   border: 1px solid #F8C61E;
-  color: #252C37;
+  color: #F8C61E;
   padding: 2px 10px;
   margin: 0 2px;
   font-size: 16px;
@@ -103,6 +103,105 @@ button {
 }
 
 button:hover {
-  background-color: #252C37;
-  color: #F8C61E;
+  background-color: #F8C61E;
+  color: #252C37;
+}
+
+.vet-root{
+  padding:24px;
+  font-family: Arial, Helvetica, sans-serif;
+  background: var(--dark-bg);
+  min-height: calc(100vh - 20px);
+}
+
+.vet-hero{
+  background: var(--vet-grey);
+  padding:20px;
+  border-radius:6px;
+  box-shadow: 0 4px 18px rgba(0,0,0,0.25);
+}
+
+.vet-hero-inner{
+  max-width:1100px;
+  margin:0 auto
+}
+
+.vet-title{
+  color:#F8C61E;margin:0 0 6px;
+  font-size:28px;
+  letter-spacing:0.6px
+}
+.vet-subtitle{
+  color:#F8C61E;
+  margin:0 0 18px;
+  font-size:14px
+}
+
+.vet-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:20px
+}
+.vet-tile{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  justify-content:center;
+  height:140px;
+  padding:18px 22px;
+  border:none;
+  background:linear-gradient(180deg,var(--vet-orange),#F8C61E);
+  color:#F8C61E;
+  font-size:20px;
+  font-weight:700;
+  border-radius:6px;
+  box-shadow:0 6px 12px rgba(0,0,0,0.16);
+  transition:transform .12s ease, box-shadow .12s ease, filter .12s ease;
+  text-align:left;
+  cursor:pointer;
+  border:1px solid #F8C61E;
+}
+.vet-tile:focus{
+  outline:3px solid rgba(0,0,0,0.08)
+}
+.vet-tile:hover{
+  transform:translateY(-4px);
+  box-shadow:0 10px 20px rgba(0,0,0,0.22)
+}
+.tile-main{
+  font-size:24px;
+  letter-spacing:0.8px
+}
+.tile-sub{
+  font-size:13px;
+  margin-top:6px;
+  color:#F8C61E;
+  font-weight:600
+}
+.vet-toolbar{
+  margin-top:18px;
+  display:flex;
+  gap:12px;
+  align-items:center;
+  justify-content:center
+}
+.vet-action{
+  padding:10px 16px;
+  background:#252C37;
+  border:1px solid #F8C61E;
+  border-radius:6px;
+  cursor:pointer
+}
+.vet-action:hover{
+  filter:brightness(.98)
+}
+
+@media (max-width:720px){
+  .vet-grid{grid-template-columns:1fr}
+  .vet-hero-inner{padding:0 8px}
+}
+
+.vet-tile:hover .tile-main,
+.vet-tile:hover .tile-sub {
+  color: #252c37;
 }
