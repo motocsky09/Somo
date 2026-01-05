@@ -1,170 +1,255 @@
-/* Container general */
-.details-container {
-  font-size: 16px;
-  background-color: #252C37;
+/* --- GLOBAL RESET & UTILS --- */
+/* Adaugăm box-sizing pentru ca padding-ul să nu strice lățimea totală */
+* {
+  box-sizing: border-box; 
+}
+
+.details-modern-container {
+  font-family: 'Segoe UI', 'Roboto', Arial, sans-serif;
+  background: linear-gradient(135deg, #252C37 80%, #2e3642 100%);
   min-height: 100vh;
-  padding: 10px;
-}
-
-/* Stiluri Panel Header (Copiate de la Search) */
-.panel {
-  border: 1px solid #F8C61E;
-  background-color: #252C37;
-  margin-bottom: 10px;
-}
-
-.panel-header {
-  background-color: #252C37;
-  border-bottom: 1px solid #F8C61E;
-  padding: 5px 10px;
+  padding: 40px 20px; /* Putin padding lateral pentru ecrane mici */
   color: #F8C61E;
-  font-weight: bold;
 }
 
-.info-grid {
+/* --- LAYOUT CONSISTENCY --- */
+/* Definim o clasă comună pentru lățime ca să fie totul perfect aliniat vertical */
+.container-limit {
+  max-width: 900px; /* Am mărit puțin la 900px pentru a lăsa tabelul să respire */
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* --- HEADER --- */
+.modern-header {
+  background: #232834;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+  padding: 32px;
+  margin-bottom: 32px;
+  /* Eliminăm max-width de aici și îl folosim pe cel comun */
+}
+
+.modern-title {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 24px;
+  color: #F8C61E;
+  display: flex; /* Aliniere mai bună cu iconița dacă există */
+  align-items: center;
+  gap: 12px;
+  line-height: 1.2;
+}
+
+.modern-info {
+  display: grid;
+  /* Grid mai inteligent care se adaptează */
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 24px;
+  font-size: 1.05rem;
+}
+
+.label {
+  display: block; /* Forțează label-ul pe rând nou */
+  color: #F8C61E;
+  font-weight: 600;
+  margin-bottom: 4px;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  opacity: 0.9;
+}
+
+.value {
+  color: #fff;
+  font-weight: 500;
+  font-size: 1.1rem;
+}
+
+.status-pill {
+  background: #F8C61E;
+  color: #252C37;
+  font-weight: 800;
+  border-radius: 6px; /* Mai puțin rotund, arată mai tehnic */
+  padding: 4px 12px;
+  font-size: 0.9rem;
+  display: inline-block;
+}
+
+/* --- TABS --- */
+.modern-tabs {
+  /* Folosim clasa container-limit în HTML, nu aici */
+}
+
+.modern-tabs-strip {
   display: flex;
-  gap: 20px;
-  padding: 10px;
-  background-color: #252C37;
+  gap: 4px;
+  /* Mutăm linia să fie mai subtilă sau o lăsăm doar sub tab-urile inactive */
+  border-bottom: 2px solid #232834; 
+  padding: 0 16px; /* Să nu înceapă fix din margine */
 }
 
-.status-text {
-  color: #008000;
-  font-weight: bold;
-}
-
-/* === TABURILE === */
-.tabs-container {
-  margin-top: 15px;
-}
-
-.tabs-strip {
-  display: flex;
-  border-bottom: 1px solid #F8C61E;
-  padding-left: 5px;
-  background: #252C37; /* Fundal sub tab-uri */
-}
-
-.tab-btn {
-  border: 1px solid #F8C61E;
-  border-bottom: none;
-  background: #252C37; /* Tab inactiv */
-  padding: 5px 15px;
-  margin-right: 3px;
-  border-radius: 3px 3px 0 0;
+.modern-tab-btn {
+  background: #1b1f29; /* Un pic mai închis decât headerul pentru contrast */
+  color: #F8C61E;
+  border: none;
+  border-radius: 8px 8px 0 0;
+  padding: 12px 32px;
+  font-size: 1rem;
+  font-weight: 600;
   cursor: pointer;
-  font-size: 11px;
-  color: #F8C61E;
-  position: relative;
-  top: 1px; /* Să acopere linia de jos */
+  transition: all 0.2s ease;
+  opacity: 0.7;
+  margin-bottom: 0;
 }
 
-.tab-btn:hover {
-  background-color: #F8C61E;
+.modern-tab-btn:hover {
+  opacity: 1;
+  background: #2e3642;
 }
 
-.tab-btn.active {
-  background-color: #252C37; /* Tab activ - alb */
-  font-weight: bold;
-  border-bottom: 1px solid #F8C61E; /* Șterge linia de jos ca să pară unit */
-  z-index: 2;
+.modern-tab-btn.active {
+  background: #F8C61E;
+  color: #252C37;
+  opacity: 1;
+  transform: translateY(0);
+  box-shadow: 0 -2px 10px rgba(248, 198, 30, 0.1);
 }
 
-.tab-content-area {
-  border: 1px solid #F8C61E;
-  border-top: none; /* Se unește cu tab-ul */
-  background: #252C37;
-  padding: 15px;
+.modern-tab-content {
+  background: #232834;
+  border-radius: 16px; /* Rotunjim toate colțurile */
+  /* Eliminăm colțurile de sus dacă vrem să pară "lipit" de tab-uri, 
+     dar în design modern e ok să fie separat puțin sau să aibă radius mic */
+  border-top-left-radius: 0; 
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+  padding: 32px;
   min-height: 300px;
+  margin-top: -2px; /* Să se suprapună perfect peste border */
 }
 
-/* Zona de acțiuni (Dropdowns) */
-.action-bar {
-  background-color: #252C37;
-  border: 1px solid #F8C61E;
-  padding: 10px;
-  margin-bottom: 20px;
-}
-
-.form-row {
+/* --- ACTION BAR (Zona cu dropdown-uri) --- */
+.modern-action-bar {
+  background: #2b3240; /* Ușor diferit de fundal */
+  border-radius: 12px;
+  border: 1px solid rgba(248, 198, 30, 0.1);
+  padding: 24px;
+  margin-bottom: 32px;
+  
+  /* Flexbox magic pentru aliniere */
   display: flex;
-  gap: 15px;
+  justify-content: space-between; /* Împinge butonul în dreapta, dropdowns în stânga */
   align-items: center;
+  flex-wrap: wrap; /* Pe mobil le pune unul sub altul */
+  gap: 20px;
 }
 
-.form-group {
+.modern-form-row {
   display: flex;
+  gap: 24px;
   align-items: center;
+  flex-wrap: wrap;
 }
 
-label {
-  margin-right: 5px;
-  font-weight: bold;
+.modern-form-group {
+  display: flex;
+  flex-direction: column; /* Label sus, input jos e mai curat */
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.modern-form-group label {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
   color: #F8C61E;
+  opacity: 0.8;
 }
 
 select {
-  border: 1px solid #F8C61E;
-  padding: 2px;
-  font-size: 11px;
-  min-width: 150px;
-}
-
-.action-btn {
-  background: #252C37;
-  border: 1px solid #F8C61E;
-  padding: 3px 10px;
+  border: 1px solid #4a5568;
+  background: #1b1f29;
+  color: #fff;
+  padding: 10px 16px;
+  font-size: 1rem;
+  border-radius: 8px;
+  min-width: 160px;
   cursor: pointer;
-  font-weight: bold;
-  color: #F8C61E;
+  outline: none;
+  transition: border 0.2s;
 }
 
-.action-btn:hover {
-  border-color: #666;
+select:focus {
+  border-color: #F8C61E;
 }
 
-/* === TABEL CUSTOM (Fără mat-table) === */
-.table-wrapper {
-  margin-top: 10px;
-}
-
-.section-title {
-  font-size: 12px;
-  font-weight: bold;
-  color: #F8C61E;
-  margin-bottom: 5px;
-  text-transform: uppercase;
-  border-bottom: 2px solid #F8C61E;
-}
-
-.custom-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 11px;
-  border: 1px solid #F8C61E;
-}
-
-.custom-table th {
-  background: #252C37; /* Header using accent */
-  border: 1px solid #F8C61E;
-  padding: 5px;
-  text-align: left;
-  color: #F8C61E;
-}
-
-.custom-table td {
-  border: 1px solid #F8C61E;
-  padding: 4px;
-  color: #F8C61E;
-}
-
-/* Zebra striping (rânduri alternative) */
-.custom-table tr:nth-child(even) {
-  background-color: #F8C61E; /* keep subtle */
-  color:#252C37;
-}
-
-.custom-table tr:hover {
-  background-color: #F8C61E; /* Highlight using background color */
+.modern-action-btn {
+  background: linear-gradient(90deg, #F8C61E 0%, #ffcd38 100%);
   color: #252C37;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 32px; /* Buton mai mare */
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(248, 198, 30, 0.3);
+  transition: transform 0.2s, box-shadow 0.2s;
+  align-self: flex-end; /* Îl aliniază jos în caz că rândul e înalt */
+}
+
+.modern-action-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(248, 198, 30, 0.4);
+}
+
+/* --- TABLE --- */
+.modern-table-wrapper {
+  margin-top: 24px;
+  overflow-x: auto; /* Scroll orizontal pe mobil */
+}
+
+.modern-section-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 16px;
+  border-left: 4px solid #F8C61E; /* Accent lateral în loc de underline */
+  padding-left: 12px;
+  letter-spacing: 0.5px;
+}
+
+.modern-table {
+  width: 100%;
+  border-collapse: separate; /* Permite border-radius */
+  border-spacing: 0;
+  font-size: 0.95rem;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.modern-table th {
+  background: #2e3642;
+  color: #F8C61E;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  padding: 16px;
+  text-align: left; /* Aliniere stânga e mai lizibilă */
+  border-bottom: 2px solid #3f4857;
+}
+
+.modern-table td {
+  background: #232834; /* Transparent sau culoarea cardului */
+  color: #e2e8f0;
+  padding: 16px;
+  border-bottom: 1px solid #2e3642;
+  text-align: left;
+}
+
+.modern-table tr:last-child td {
+  border-bottom: none;
+}
+
+.modern-table tr:hover td {
+  background: #2a303e; /* Hover mai subtil */
+  color: #F8C61E;
 }

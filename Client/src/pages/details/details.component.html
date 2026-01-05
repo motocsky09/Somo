@@ -1,52 +1,48 @@
-<div class="details-container">
 
-  <div class="panel header-panel">
-    <div class="panel-header">
-      <span>📋 Programare: {{ folderName }} — {{ details.species }}</span>
+<div class="details-modern-container">
+  <div class="modern-header">
+    <div class="modern-title">
+      <span>Programare: <span class="accent">{{ folderName }}</span> — <span class="accent">{{ details.species }}</span></span>
     </div>
-    <div class="panel-body info-grid">
-      <div class="info-item"><strong>ID:</strong> {{ folderId }}</div>
-      <div class="info-item"><strong>Proprietar:</strong> {{ details.ownerName }}</div>
-      <div class="info-item"><strong>Telefon:</strong> {{ details.contact }}</div>
-      <div class="info-item"><strong>Medic:</strong> {{ details.veterinarian }}</div>
-      <div class="info-item"><strong>Programare:</strong> {{ details.scheduledAt }}</div>
-      <div class="info-item"><strong>Status:</strong> <span class="status-text">{{ details.status }}</span></div>
+    <div class="modern-info">
+      <div><span class="label">ID:</span> <span class="value">{{ folderId }}</span></div>
+      <div><span class="label">Proprietar:</span> <span class="value">{{ details.ownerName }}</span></div>
+      <div><span class="label">Telefon:</span> <span class="value">{{ details.contact }}</span></div>
+      <div><span class="label">Medic:</span> <span class="value">{{ details.veterinarian }}</span></div>
+      <div><span class="label">Programare:</span> <span class="value">{{ details.scheduledAt }}</span></div>
+      <div><span class="label">Status:</span> <span class="status-pill">{{ details.status }}</span></div>
     </div>
   </div>
 
-  <div class="tabs-container">
-    <div class="tabs-strip">
-      <button class="tab-btn" [class.active]="activeTab === 'workflow'" (click)="activeTab = 'workflow'">Workflow</button>
-      <button class="tab-btn" [class.active]="activeTab === 'note'" (click)="activeTab = 'note'">Note</button>
-      <button class="tab-btn" [class.active]="activeTab === 'documenti'" (click)="activeTab = 'documenti'">Documenti</button>
-      <button class="tab-btn" [class.active]="activeTab === 'comunicazioni'" (click)="activeTab = 'comunicazioni'">Comunicazioni</button>
+  <div class="modern-tabs">
+    <div class="modern-tabs-strip">
+      <button class="modern-tab-btn" [class.active]="activeTab === 'Status'" (click)="activeTab = 'Status'">Workflow</button>
+      <button class="modern-tab-btn" [class.active]="activeTab === 'Note'" (click)="activeTab = 'note'">Note</button>
+      <button class="modern-tab-btn" [class.active]="activeTab === 'documente'" (click)="activeTab = 'documente'">Documente</button>
+      <button class="modern-tab-btn" [class.active]="activeTab === 'comunicari'" (click)="activeTab = 'comunicari'">Comunicari</button>
     </div>
-
-    <div class="tab-content-area">
-      
-      <div *ngIf="activeTab === 'workflow'">
-        
-        <div class="action-bar">
-          <div class="form-row">
-            <div class="form-group">
-              <label>Macrostato:</label>
-              <select><option>Aperta</option><option>Chiusa</option></select>
+    <div class="modern-tab-content">
+      <div *ngIf="activeTab === 'Status'">
+        <div class="modern-action-bar">
+          <div class="modern-form-row">
+            <div class="modern-form-group">
+              <label>Tip dosar:</label>
+              <select><option>Deschis</option><option>Inchis</option></select>
             </div>
-            <div class="form-group">
-              <label>Stato:</label>
-              <select><option>Lavorazione conclusa</option></select>
+            <div class="modern-form-group">
+              <label>Status:</label>
+              <select><option>Operatiune in desfasurare</option></select>
             </div>
-            <button class="action-btn">✔ Esegui Transizione</button>
+            <button class="modern-action-btn">Modifica tranzitia</button>
           </div>
         </div>
-
-        <div class="table-wrapper">
-          <div class="section-title">Istoric Activități</div>
-          <table class="custom-table">
+        <div class="modern-table-wrapper">
+          <div class="modern-section-title">Istoric Activități</div>
+          <table class="modern-table">
             <thead>
               <tr>
                 <th>Data</th>
-                <th>Stato</th>
+                <th>Status</th>
                 <th>Operator</th>
               </tr>
             </thead>
@@ -59,18 +55,19 @@
             </tbody>
           </table>
         </div>
-
       </div>
-
       <div *ngIf="activeTab === 'note'">
-        <p>Conținut pentru Note...</p>
+        <div class="modern-note">
+          <span class="note-title">Note</span>
+          <p>Conținut pentru Note...</p>
+        </div>
       </div>
-
       <div *ngIf="activeTab === 'documenti'">
-        <p>Lista documente...</p>
+        <div class="modern-documents">
+          <span class="documents-title">Documente</span>
+          <p>Lista documente...</p>
+        </div>
       </div>
-
     </div>
   </div>
-
 </div>

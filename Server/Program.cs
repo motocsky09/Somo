@@ -27,6 +27,8 @@ builder.Services.AddScoped<IUserAccountRepository, UserAccountRepository>();
 // Register MongoRepository as the implementation for IRepository
 builder.Services.AddScoped(typeof(IRepository<>), typeof(MongoRepository<>));
 
+builder.Services.AddControllers();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -37,6 +39,10 @@ if (app.Environment.IsDevelopment())
 }
 
 // app.UseHttpsRedirection();  // Disabled for development
+
+app.UseAuthorization();
+
+app.MapControllers();
 
 var summaries = new[]
 {

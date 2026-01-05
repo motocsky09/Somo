@@ -15,6 +15,7 @@ export class SearchResultComponent implements OnInit {
   query: string = '';
   results: SearchResult[] = [];
   searchPerformed: boolean = false;
+  activeIndex: number | null = null;
 
   private DATA: SearchResult[] = [
     { id: 'P-001', name: 'Programare Pisica Mei' },
@@ -37,6 +38,11 @@ export class SearchResultComponent implements OnInit {
     this.searchPerformed = true;
     const lowered = q.toLowerCase();
     this.results = this.DATA.filter(r => r.id.includes(q) || r.name.toLowerCase().includes(lowered));
+    this.activeIndex = null;
+  }
+
+  setActive(idx: number) {
+    this.activeIndex = idx;
   }
 
   openDetails(result: SearchResult) {

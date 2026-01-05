@@ -6,7 +6,7 @@ namespace Somo.Server.Repositories
 {
     public class MongoRepository<T> : IRepository<T> where T : class
     {
-        private readonly IMongoCollection<T> _collection;
+        protected readonly IMongoCollection<T> _collection;
 
         public MongoRepository(IMongoDatabase database, string collectionName)
         {

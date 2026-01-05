@@ -11,7 +11,10 @@
     <div *ngIf="results.length > 0" class="results-list">
 
       <div class="results-grid">
-        <div *ngFor="let r of results | slice:0:4" class="result-tile" (click)="openDetails(r)">
+        <div *ngFor="let r of results | slice:0:4; let i = index"
+             class="result-tile"
+             [class.active]="activeIndex === i"
+             (click)="setActive(i); openDetails(r)">
           <div class="tile-content">
             <div class="tile-title">{{ r.name }}</div>
             <div class="tile-sub">Programare • {{ r.id }}</div>

@@ -5,48 +5,48 @@ namespace Somo.Server.Entities
 {
     public class Client
     {
-        [BsonId]
+        [BsonId(IdGenerator = typeof(MongoDB.Bson.Serialization.IdGenerators.StringObjectIdGenerator))]
         [BsonRepresentation(BsonType.ObjectId)]
-        public string Id { get; set; }
+        public string? Id { get; set; }
 
         [BsonElement("firstName")]
-        public string FirstName { get; set; }
+        public string? FirstName { get; set; }
 
         [BsonElement("lastName")]
-        public string LastName { get; set; }
+        public string? LastName { get; set; }
 
         [BsonElement("cnp")]
-        public string CNP { get; set; }
+        public string? CNP { get; set; }
 
         [BsonElement("gender")]
-        public string Gender { get; set; }
+        public string? Gender { get; set; }
 
         [BsonElement("citizenship")]
-        public string Citizenship { get; set; }
+        public string? Citizenship { get; set; }
 
         [BsonElement("age")]
         public int Age { get; set; }
 
         [BsonElement("address")]
-        public string Address { get; set; }
+        public string? Address { get; set; }
 
         [BsonElement("city")]
-        public string City { get; set; }
+        public string? City { get; set; }
 
         [BsonElement("postalCode")]
-        public string PostalCode { get; set; }
+        public string? PostalCode { get; set; }
 
         [BsonElement("county")]
-        public string County { get; set; }
+        public string? County { get; set; }
 
         [BsonElement("country")]
-        public string Country { get; set; }
+        public string? Country { get; set; }
 
         [BsonElement("phoneNumber")]
-        public string PhoneNumber { get; set; }
+        public string? PhoneNumber { get; set; }
 
         [BsonElement("email")]
-        public string Email { get; set; }
+        public string? Email { get; set; }
     }
 }
 

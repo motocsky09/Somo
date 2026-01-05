@@ -1,10 +1,11 @@
 using Somo.Server.Entities;
+using System.Threading.Tasks;
 
 namespace Somo.Server.Repositories
 {
     public interface IUserAccountRepository : IRepository<UserAccount>
     {
-        // Add any additional methods specific to UserAccount if needed
+        Task<UserAccount> GetByUsernameAsync(string username);
     }
 }
 
