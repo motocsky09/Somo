@@ -8,9 +8,9 @@ namespace Somo.Server.Controllers
     [Route("api/[controller]")]
     public class ClientsController : ControllerBase
     {
-        private readonly IClientRepository _clientRepository;
+        private readonly IRepository<Client> _clientRepository;
 
-        public ClientsController(IClientRepository clientRepository)
+        public ClientsController(IRepository<Client> clientRepository)
         {
             _clientRepository = clientRepository;
         }
@@ -77,3 +77,4 @@ namespace Somo.Server.Controllers
         }
     }
 }
+

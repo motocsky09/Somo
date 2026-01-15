@@ -11,14 +11,14 @@ export class DetailsComponent {
 
   // Datele simulate (le păstrăm pe cele vechi)
   // Appointment / patient details (veterinary-themed)
-  folderName = 'Programare Pisica Mei';
+  folderName = 'Pacienta: Mei';
   details = {
     ownerName: 'Mei Popescu',
-    species: 'Pisică — Persan',
+    species: 'Pisică',
     veterinarian: 'Dr. Ana Ionescu',
     contact: '+40 712 345 678',
     scheduledAt: '12/01/2026 10:30',
-    status: 'Programată'
+    status: 'In evidenta'
   };
   folderId = 'P-001';
 

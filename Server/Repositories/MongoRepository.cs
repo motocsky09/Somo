@@ -13,6 +13,13 @@ namespace Somo.Server.Repositories
             _collection = database.GetCollection<T>(collectionName);
         }
 
+        // Convenience constructor used when resolving the generic MongoRepository<T>
+        // from DI. It uses a convention-based collection name (pluralized type name).
+        public MongoRepository(IMongoDatabase database)
+            : this(database, typeof(T).Name + "s")
+        {
+        }
+
         public async Task<IEnumerable<T>> GetAllAsync()
         {
             return await _collection.Find(new BsonDocument()).ToListAsync();
