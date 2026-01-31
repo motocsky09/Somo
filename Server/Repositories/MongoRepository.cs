@@ -13,8 +13,6 @@ namespace Somo.Server.Repositories
             _collection = database.GetCollection<T>(collectionName);
         }
 
-        // Convenience constructor used when resolving the generic MongoRepository<T>
-        // from DI. It uses a convention-based collection name (pluralized type name).
         public MongoRepository(IMongoDatabase database)
             : this(database, typeof(T).Name + "s")
         {
@@ -35,13 +33,11 @@ namespace Somo.Server.Repositories
         {
             await _collection.InsertOneAsync(entity);
         }
-
         public async Task UpdateAsync(string id, T entity)
         {
             var filter = Builders<T>.Filter.Eq("_id", ObjectId.Parse(id));
             await _collection.ReplaceOneAsync(filter, entity);
         }
-
         public async Task RemoveAsync(string id)
         {
             var filter = Builders<T>.Filter.Eq("_id", ObjectId.Parse(id));

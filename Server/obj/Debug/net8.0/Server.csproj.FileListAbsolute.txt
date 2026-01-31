@@ -73,3 +73,13 @@
 /Users/andreimotoc/Documents/Somo/Server/bin/Debug/net8.0/SharpCompress.dll
 /Users/andreimotoc/Documents/Somo/Server/bin/Debug/net8.0/Snappier.dll
 /Users/andreimotoc/Documents/Somo/Server/bin/Debug/net8.0/ZstdSharp.dll
+/Users/andreimotoc/Documents/Somo/Server/bin/Debug/net8.0/AspNetCore.Identity.MongoDbCore.dll
+/Users/andreimotoc/Documents/Somo/Server/bin/Debug/net8.0/Microsoft.AspNetCore.Authentication.JwtBearer.dll
+/Users/andreimotoc/Documents/Somo/Server/bin/Debug/net8.0/Microsoft.IdentityModel.Abstractions.dll
+/Users/andreimotoc/Documents/Somo/Server/bin/Debug/net8.0/Microsoft.IdentityModel.JsonWebTokens.dll
+/Users/andreimotoc/Documents/Somo/Server/bin/Debug/net8.0/Microsoft.IdentityModel.Logging.dll
+/Users/andreimotoc/Documents/Somo/Server/bin/Debug/net8.0/Microsoft.IdentityModel.Protocols.dll
+/Users/andreimotoc/Documents/Somo/Server/bin/Debug/net8.0/Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+/Users/andreimotoc/Documents/Somo/Server/bin/Debug/net8.0/Microsoft.IdentityModel.Tokens.dll
+/Users/andreimotoc/Documents/Somo/Server/bin/Debug/net8.0/MongoDbGenericRepository.dll
+/Users/andreimotoc/Documents/Somo/Server/bin/Debug/net8.0/System.IdentityModel.Tokens.Jwt.dll
