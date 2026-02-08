@@ -73,6 +73,7 @@ builder.Services.AddAuthentication(options =>
 
 builder.Services.AddScoped<IMedicsRepository, MedicsRepository>();
 builder.Services.AddScoped<IMedServicesRepository, MedServicesRepository>();
+builder.Services.AddScoped<ISchedulingRepository, SchedulingRepository>();
 
 
 builder.Services.AddScoped(typeof(IRepository<>), typeof(MongoRepository<>));
