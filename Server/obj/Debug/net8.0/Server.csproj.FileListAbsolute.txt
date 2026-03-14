@@ -83,3 +83,12 @@
 /Users/andreimotoc/Documents/Somo/Server/bin/Debug/net8.0/Microsoft.IdentityModel.Tokens.dll
 /Users/andreimotoc/Documents/Somo/Server/bin/Debug/net8.0/MongoDbGenericRepository.dll
 /Users/andreimotoc/Documents/Somo/Server/bin/Debug/net8.0/System.IdentityModel.Tokens.Jwt.dll
+/Users/andreimotoc/Documents/Somo/Server/bin/Debug/net8.0/Somo.Application.dll
+/Users/andreimotoc/Documents/Somo/Server/bin/Debug/net8.0/Somo.Domain.dll
+/Users/andreimotoc/Documents/Somo/Server/bin/Debug/net8.0/Somo.Infrastructure.dll
+/Users/andreimotoc/Documents/Somo/Server/bin/Debug/net8.0/Somo.Application.pdb
+/Users/andreimotoc/Documents/Somo/Server/bin/Debug/net8.0/Somo.Infrastructure.pdb
+/Users/andreimotoc/Documents/Somo/Server/bin/Debug/net8.0/Somo.Domain.pdb
+/Users/andreimotoc/Documents/Somo/Server/bin/Debug/net8.0/Microsoft.Extensions.Configuration.Abstractions.dll
+/Users/andreimotoc/Documents/Somo/Server/bin/Debug/net8.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll
+/Users/andreimotoc/Documents/Somo/Server/bin/Debug/net8.0/Microsoft.Extensions.Primitives.dll

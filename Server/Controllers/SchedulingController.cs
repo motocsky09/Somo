@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
-using Somo.Server.Entities;
-using Somo.Server.Repositories;
+using Somo.Domain.Entities;
+using Somo.Domain.Interfaces;
+using Somo.Domain.Entities;
+using Somo.Infrastructure.Repositories;
 
 namespace Somo.Server.Controllers
 {

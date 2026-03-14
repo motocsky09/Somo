@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using Somo.Domain.Entities;
 using Somo.Server.Entities; // Namespace-ul noilor entități
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;

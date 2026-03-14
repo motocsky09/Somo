@@ -1,3 +1,4 @@
+using Somo.Infrastructure;
 using Somo.Server.Entities;
 using AspNetCore.Identity.MongoDbCore.Extensions;
 using AspNetCore.Identity.MongoDbCore.Infrastructure;
@@ -6,7 +7,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using MongoDB.Driver;
-using Somo.Server.Repositories;
+using Somo.Domain.Interfaces;
+using Somo.Infrastructure.Repositories;
 using Somo.Server.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,12 +19,7 @@ builder.Services.AddSwaggerGen();
 
 var mongoConnectionString = builder.Configuration.GetConnectionString("MongoDb");
 var mongoDatabaseName = builder.Configuration["MongoDbSettings:DatabaseName"];
-builder.Services.AddSingleton<IMongoClient>(sp => new MongoClient(mongoConnectionString));
-builder.Services.AddScoped(sp =>
-{
-    var client = sp.GetRequiredService<IMongoClient>();
-    return client.GetDatabase(mongoDatabaseName);
-});
+
 
 var mongoDbIdentityConfig = new MongoDbIdentityConfiguration
 {
@@ -71,12 +68,7 @@ builder.Services.AddAuthentication(options =>
         };
     });
 
-builder.Services.AddScoped<IMedicsRepository, MedicsRepository>();
-builder.Services.AddScoped<IMedServicesRepository, MedServicesRepository>();
-builder.Services.AddScoped<ISchedulingRepository, SchedulingRepository>();
-
-
-builder.Services.AddScoped(typeof(IRepository<>), typeof(MongoRepository<>));
+builder.Services.AddInfrastructure(builder.Configuration);
 
 builder.Services.AddControllers();
 

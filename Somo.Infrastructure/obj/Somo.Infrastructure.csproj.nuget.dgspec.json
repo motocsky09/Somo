@@ -1,0 +1,216 @@
+{
+  "format": 1,
+  "restore": {
+    "/Users/andreimotoc/Documents/Somo/Somo.Infrastructure/Somo.Infrastructure.csproj": {}
+  },
+  "projects": {
+    "/Users/andreimotoc/Documents/Somo/Somo.Application/Somo.Application.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/andreimotoc/Documents/Somo/Somo.Application/Somo.Application.csproj",
+        "projectName": "Somo.Application",
+        "projectPath": "/Users/andreimotoc/Documents/Somo/Somo.Application/Somo.Application.csproj",
+        "packagesPath": "/Users/andreimotoc/.nuget/packages/",
+        "outputPath": "/Users/andreimotoc/Documents/Somo/Somo.Application/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/Users/andreimotoc/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "/usr/local/share/dotnet/library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {
+              "/Users/andreimotoc/Documents/Somo/Somo.Domain/Somo.Domain.csproj": {
+                "projectPath": "/Users/andreimotoc/Documents/Somo/Somo.Domain/Somo.Domain.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.303/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/Users/andreimotoc/Documents/Somo/Somo.Domain/Somo.Domain.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/andreimotoc/Documents/Somo/Somo.Domain/Somo.Domain.csproj",
+        "projectName": "Somo.Domain",
+        "projectPath": "/Users/andreimotoc/Documents/Somo/Somo.Domain/Somo.Domain.csproj",
+        "packagesPath": "/Users/andreimotoc/.nuget/packages/",
+        "outputPath": "/Users/andreimotoc/Documents/Somo/Somo.Domain/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/Users/andreimotoc/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "/usr/local/share/dotnet/library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "MongoDB.Bson": {
+              "target": "Package",
+              "version": "[3.7.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.303/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/Users/andreimotoc/Documents/Somo/Somo.Infrastructure/Somo.Infrastructure.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/andreimotoc/Documents/Somo/Somo.Infrastructure/Somo.Infrastructure.csproj",
+        "projectName": "Somo.Infrastructure",
+        "projectPath": "/Users/andreimotoc/Documents/Somo/Somo.Infrastructure/Somo.Infrastructure.csproj",
+        "packagesPath": "/Users/andreimotoc/.nuget/packages/",
+        "outputPath": "/Users/andreimotoc/Documents/Somo/Somo.Infrastructure/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/Users/andreimotoc/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "/usr/local/share/dotnet/library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {
+              "/Users/andreimotoc/Documents/Somo/Somo.Application/Somo.Application.csproj": {
+                "projectPath": "/Users/andreimotoc/Documents/Somo/Somo.Application/Somo.Application.csproj"
+              },
+              "/Users/andreimotoc/Documents/Somo/Somo.Domain/Somo.Domain.csproj": {
+                "projectPath": "/Users/andreimotoc/Documents/Somo/Somo.Domain/Somo.Domain.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "Microsoft.Extensions.Configuration.Abstractions": {
+              "target": "Package",
+              "version": "[10.0.5, )"
+            },
+            "Microsoft.Extensions.DependencyInjection.Abstractions": {
+              "target": "Package",
+              "version": "[10.0.5, )"
+            },
+            "MongoDB.Driver": {
+              "target": "Package",
+              "version": "[3.7.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.303/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}
