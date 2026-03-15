@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "KmJsr5JJJXdEmceV5i06CXSfSJraBsFReRqwVQGaXno=",
+  "Source": "Somo.API",
+  "BasePath": "_content/Somo.API",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
