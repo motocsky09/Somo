@@ -1,6 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
-using Somo.Domain.Entities;
+using Somo.Application.DTOs;
+using Somo.Application.Features.Appointments.Commands;
+using Somo.Application.Features.Appointments.Queries;
 using Somo.Domain.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Somo.API.Controllers;
 
@@ -9,8 +12,18 @@ namespace Somo.API.Controllers;
 public class AppointmentsController : ControllerBase
 {
     private readonly IAppointmentRepository _repo;
+    private readonly CreateAppointmentCommand _createCommand;
+    private readonly GetAvailableSlotsQuery _slotsQuery;
 
-    public AppointmentsController(IAppointmentRepository repo) => _repo = repo;
+    public AppointmentsController(
+        IAppointmentRepository repo,
+        CreateAppointmentCommand createCommand,
+        GetAvailableSlotsQuery slotsQuery)
+    {
+        _repo = repo;
+        _createCommand = createCommand;
+        _slotsQuery = slotsQuery;
+    }
 
     [HttpGet("owner/{ownerId}")]
     public async Task<IActionResult> GetByOwner(string ownerId)
@@ -27,20 +40,25 @@ public class AppointmentsController : ControllerBase
         return appointment is null ? NotFound() : Ok(appointment);
     }
 
-    [HttpPost]
-    public async Task<IActionResult> Create(Appointment appointment)
-    {
-        await _repo.CreateAsync(appointment);
-        return CreatedAtAction(nameof(GetById), new { id = appointment.Id }, appointment);
-    }
+    [HttpGet("available-slots")]
+    public async Task<IActionResult> GetAvailableSlots(string vetId, DateTime date)
+        => Ok(await _slotsQuery.ExecuteAsync(vetId, date));
 
-    [HttpPut("{id}")]
-    public async Task<IActionResult> Update(string id, Appointment appointment)
+    [HttpPost]
+    [Authorize] 
+    public async Task<IActionResult> Create(CreateAppointmentDto dto)
     {
-        appointment.Id = id;
-        await _repo.UpdateAsync(appointment);
-        return NoContent();
-    }
+    
+    var ownerId = User.FindFirst("id")?.Value;
+
+    if (string.IsNullOrEmpty(ownerId))
+        return Unauthorized(new { error = "Token invalid." });
+
+    var (success, error) = await _createCommand.ExecuteAsync(dto, ownerId);
+
+    if (!success) return BadRequest(new { error });
+    return Ok(new { message = "Programare creată cu succes." });
+}
 
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(string id)

@@ -362,6 +362,7 @@
       },
       "Somo.Application/1.0.0": {
         "dependencies": {
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "10.0.5",
           "Somo.Domain": "1.0.0"
         },
         "runtime": {

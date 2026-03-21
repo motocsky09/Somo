@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Somo.Domain.Entities;
 using Somo.Domain.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Somo.API.Controllers;
 
@@ -13,8 +14,15 @@ public class PetsController : ControllerBase
     public PetsController(IPetRepository repo) => _repo = repo;
 
     [HttpGet("owner/{ownerId}")]
+    [Authorize(Roles = "Owner")]
     public async Task<IActionResult> GetByOwner(string ownerId)
-        => Ok(await _repo.GetAllByOwnerIdAsync(ownerId));
+    {
+        // Verifică că userul logat cere doar animalele lui
+        var currentUserId = User.FindFirst("id")?.Value;
+        if (currentUserId != ownerId)
+            return Forbid();
+        return Ok(await _repo.GetAllByOwnerIdAsync(ownerId));
+    }
 
     [HttpGet("{id}")]
     public async Task<IActionResult> GetById(string id)
@@ -24,8 +32,11 @@ public class PetsController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize(Roles = "Owner")]
     public async Task<IActionResult> Create(Pet pet)
     {
+        // OwnerId vine din token, nu din request
+        pet.OwnerId = User.FindFirst("id")?.Value ?? string.Empty;
         await _repo.CreateAsync(pet);
         return CreatedAtAction(nameof(GetById), new { id = pet.Id }, pet);
     }

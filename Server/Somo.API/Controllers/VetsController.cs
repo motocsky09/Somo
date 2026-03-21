@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Somo.Domain.Entities;
 using Somo.Domain.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Somo.API.Controllers;
 
@@ -24,6 +25,7 @@ public class VetsController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize(Roles = "ClinicAdmin")]
     public async Task<IActionResult> Create(Vet vet)
     {
         await _repo.CreateAsync(vet);
@@ -39,6 +41,7 @@ public class VetsController : ControllerBase
     }
 
     [HttpDelete("{id}")]
+    [Authorize(Roles = "ClinicAdmin")]
     public async Task<IActionResult> Delete(string id)
     {
         await _repo.DeleteAsync(id);

@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Somo.Domain.Entities;
 using Somo.Domain.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Somo.API.Controllers;
 
@@ -24,6 +25,7 @@ public class MedicalRecordsController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize(Roles = "Vet")]
     public async Task<IActionResult> Create(MedicalRecord record)
     {
         await _repo.CreateAsync(record);

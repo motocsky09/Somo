@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Somo.Domain")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+63b221f71c217676dfcc1c6c6b6c9d4808f3965d")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6e081843eb827181a59a1cc70f70b5c948193bc7")]
 [assembly: System.Reflection.AssemblyProductAttribute("Somo.Domain")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Somo.Domain")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

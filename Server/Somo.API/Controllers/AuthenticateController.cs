@@ -2,11 +2,12 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using Somo.Domain.Entities;
-using Somo.API.Entities; // Namespace-ul noilor entități
+using Somo.API.Entities;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using Server.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Somo.API.Controllers
 {
@@ -87,20 +88,15 @@ namespace Somo.API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Error", Message = "User creation failed: " + errors });
             }
 
-            if (model.Username.EndsWith(".admin"))
-            {
-                if (!await _roleManager.RoleExistsAsync("Admin"))
-                    await _roleManager.CreateAsync(new ApplicationRole { Name = "Admin" });
+            var roleName = model.Role ?? "Owner"; 
 
-                await _userManager.AddToRoleAsync(user, "Admin");
-            }
-            else
-            {
-                if (!await _roleManager.RoleExistsAsync("User"))
-                    await _roleManager.CreateAsync(new ApplicationRole { Name = "User" });
+            if (roleName != "Owner" && roleName != "Vet" && roleName != "ClinicAdmin")
+                return BadRequest(new { Status = "Error", Message = "Rol invalid. Folosiți: Owner, Vet, ClinicAdmin" });
 
-                await _userManager.AddToRoleAsync(user, "User");
-            }
+            if (!await _roleManager.RoleExistsAsync(roleName))
+                await _roleManager.CreateAsync(new ApplicationRole { Name = roleName });
+
+            await _userManager.AddToRoleAsync(user, roleName);
 
             return Ok(new { Status = "Success", Message = "User created successfully!" });
         }
