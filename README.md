@@ -12,8 +12,6 @@ Clean Arhitecture
 ```
 REST and Dependecy injection
 ```
-```
-```
 OOP and S.O.L.I.D Principles
 ```
 ### Somo is a medical management platform developed on a modern [ASP.NET](http://asp.net/) Core architecture, designed to streamline the interaction between doctors and patients.
