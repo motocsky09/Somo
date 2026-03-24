@@ -1,0 +1,43 @@
+<div class="register-container">
+  <div class="register-card">
+    <h2>Creează cont</h2>
+    <p class="subtitle">Înregistrează-te pentru a accesa serviciile Somo</p>
+
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label>Username</label>
+        <input type="text" formControlName="username" placeholder="Alege un username" />
+      </div>
+
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" formControlName="email" placeholder="email@exemplu.com" />
+      </div>
+
+      <div class="form-group">
+        <label>Parolă</label>
+        <input type="password" formControlName="password" placeholder="Minim 6 caractere" />
+      </div>
+
+      <div class="form-group">
+        <label>Tip cont</label>
+        <select formControlName="role">
+          <option value="Owner">Proprietar animal</option>
+          <option value="Vet">Medic veterinar</option>
+          <option value="ClinicAdmin">Administrator cabinet</option>
+        </select>
+      </div>
+
+      <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
+      <p class="success" *ngIf="successMessage">{{ successMessage }}</p>
+
+      <button type="submit" [disabled]="isLoading">
+        {{ isLoading ? 'Se creează contul...' : 'Creează cont' }}
+      </button>
+    </form>
+
+    <p class="login-link">
+      Ai deja cont? <a routerLink="/login">Intră în cont</a>
+    </p>
+  </div>
+</div>

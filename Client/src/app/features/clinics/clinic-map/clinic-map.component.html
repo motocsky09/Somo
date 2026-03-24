@@ -1,0 +1,57 @@
+<div class="map-container">
+  <div class="map-header">
+    <h2>Cabinete veterinare din zona ta</h2>
+    <div class="radius-control">
+      <label>Raza: {{ radiusKm }} km</label>
+      <input
+        type="range"
+        min="1"
+        max="50"
+        [(ngModel)]="radiusKm"
+        (change)="loadNearbyClinics()"
+      />
+    </div>
+  </div>
+
+  <div class="map-content">
+    <div class="loading" *ngIf="isLoading">
+      <p>Se încarcă harta...</p>
+    </div>
+
+    <google-map
+      *ngIf="!isLoading"
+      [center]="center"
+      [zoom]="zoom"
+      [options]="mapOptions"
+      width="100%"
+      height="100%">
+
+      <map-marker
+        *ngFor="let clinic of clinics"
+        [position]="getMarkerPosition(clinic)"
+        [title]="clinic.name"
+        (mapClick)="onMarkerClick(clinic)">
+      </map-marker>
+
+    </google-map>
+
+    <!-- Panel detalii cabinet -->
+    <div class="clinic-panel" *ngIf="selectedClinic">
+      <button class="close-btn" (click)="closePanel()">✕</button>
+      <h3>{{ selectedClinic.name }}</h3>
+      <div class="clinic-info">
+        <p>📍 {{ selectedClinic.address }}, {{ selectedClinic.city }}</p>
+        <p>📞 {{ selectedClinic.phone }}</p>
+        <p>✉️ {{ selectedClinic.email }}</p>
+        <p>🕐 {{ selectedClinic.schedule }}</p>
+      </div>
+      <button class="appointment-btn" routerLink="/appointments/new">
+        Fă o programare
+      </button>
+    </div>
+  </div>
+
+  <div class="clinics-count" *ngIf="!isLoading">
+    {{ clinics.length }} cabinete găsite în raza de {{ radiusKm }} km
+  </div>
+</div>

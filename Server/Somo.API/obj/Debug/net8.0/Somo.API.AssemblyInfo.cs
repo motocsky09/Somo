@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Somo.API")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6e081843eb827181a59a1cc70f70b5c948193bc7")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+923fd162c97ec6a2b2e76b4446c92d518f41c2a5")]
 [assembly: System.Reflection.AssemblyProductAttribute("Somo.API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Somo.API")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -1,32 +1,45 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { LoginComponent } from '../pages/login/login.component';
-import { SearchComponent } from '../pages/search/search.component';
-import { SearchResultComponent } from 'src/pages/search/search-result.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { DetailsComponent } from '../pages/details/details.component';
-
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { GoogleMapsModule } from '@angular/google-maps';
+import { JwtInterceptor } from './core/interceptors/jwt.interceptor';
+import { LoginComponent } from './features/auth/login/login.component';
+import { RegisterComponent } from './features/auth/register/register.component';
+import { ClinicMapComponent } from './features/clinics/clinic-map/clinic-map.component';
+import { MyPetsComponent } from './features/pets/my-pets/my-pets.component';
+import { CreateAppointmentComponent } from './features/appointments/create-appointment/create-appointment.component';
+import { NavbarComponent } from './shared/components/navbar/navbar.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    DetailsComponent,
-    SearchResultComponent
+    RegisterComponent,
+    ClinicMapComponent,
+    MyPetsComponent,
+    CreateAppointmentComponent,
+    NavbarComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    SearchComponent,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HttpClientModule,
+    GoogleMapsModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: JwtInterceptor,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

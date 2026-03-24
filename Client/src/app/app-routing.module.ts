@@ -1,17 +1,20 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { LoginComponent } from '../pages/login/login.component';
-import { SearchComponent } from '../pages/search/search.component';
-import { SearchResultComponent } from 'src/pages/search/search-result.component';
-import { DetailsComponent } from 'src/pages/details/details.component';
+import { LoginComponent } from './features/auth/login/login.component';
+import { RegisterComponent } from './features/auth/register/register.component';
+import { ClinicMapComponent } from './features/clinics/clinic-map/clinic-map.component';
+import { MyPetsComponent } from './features/pets/my-pets/my-pets.component';
+import { CreateAppointmentComponent } from './features/appointments/create-appointment/create-appointment.component';
+import { AuthGuard } from './core/guards/auth.guard';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'login', pathMatch: 'full' },
+  { path: '', redirectTo: '/clinics', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
-  { path: 'search', component: SearchComponent },
-  { path: 'search/result', component: SearchResultComponent },
-  { path: 'details/:id', component: DetailsComponent },
-  { path: '**', redirectTo: 'login' }
+  { path: 'register', component: RegisterComponent },
+  { path: 'clinics', component: ClinicMapComponent, canActivate: [AuthGuard] },
+  { path: 'my-pets', component: MyPetsComponent, canActivate: [AuthGuard] },
+  { path: 'appointments/new', component: CreateAppointmentComponent, canActivate: [AuthGuard] },
+  { path: '**', redirectTo: '/clinics' }
 ];
 
 @NgModule({

@@ -53,14 +53,15 @@ namespace Somo.API.Controllers
 
                 var token = GetToken(authClaims);
 
-                return Ok(new
-                {
-                    token = new JwtSecurityTokenHandler().WriteToken(token),
-                    expiration = token.ValidTo,
-                    username = user.UserName,
-                    email = user.Email,
-                    roles = userRoles
-                });
+            return Ok(new
+            {
+                token = new JwtSecurityTokenHandler().WriteToken(token),
+                expiration = token.ValidTo,
+                username = user.UserName,
+                email = user.Email,
+                roles = userRoles,
+                id = user.Id.ToString()
+            });
             }
             return Unauthorized("Invalid username or password");
         }

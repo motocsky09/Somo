@@ -1,0 +1,16 @@
+<nav class="navbar" *ngIf="authService.isLoggedIn">
+  <div class="navbar-brand">
+    <span class="logo">🐾 Somo</span>
+  </div>
+
+  <div class="navbar-links">
+    <a routerLink="/clinics" routerLinkActive="active">Cabinete</a>
+    <a routerLink="/my-pets" routerLinkActive="active">Animalele mele</a>
+    <a routerLink="/appointments/new" routerLinkActive="active">Programare nouă</a>
+  </div>
+
+  <div class="navbar-user">
+    <span class="username">{{ authService.currentUser?.username }}</span>
+    <button (click)="logout()">Ieși din cont</button>
+  </div>
+</nav>

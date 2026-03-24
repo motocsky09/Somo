@@ -1,0 +1,120 @@
+<div class="appointment-container">
+  <h2>Programare nouă</h2>
+
+  <div class="success-message" *ngIf="successMessage">
+    ✅ {{ successMessage }}
+  </div>
+
+  <div class="form-card" *ngIf="!successMessage">
+
+    <!-- Pasul 1: Animal -->
+    <div class="form-section">
+      <h3>1. Alege animalul</h3>
+      <div class="pets-select">
+        <div
+          class="pet-option"
+          *ngFor="let pet of pets"
+          [class.selected]="selectedPetId === pet.id"
+          (click)="selectedPetId = pet.id">
+          <span class="pet-icon">🐾</span>
+          <span>{{ pet.name }}</span>
+          <span class="pet-species">{{ pet.species }}</span>
+        </div>
+        <p class="empty-hint" *ngIf="pets.length === 0">
+          Nu ai animale adăugate. <a routerLink="/my-pets">Adaugă un animal</a>
+        </p>
+      </div>
+    </div>
+
+    <!-- Pasul 2: Clinică -->
+    <div class="form-section" *ngIf="selectedPetId">
+      <h3>2. Alege clinica</h3>
+      <select [(ngModel)]="selectedClinicId" (ngModelChange)="onClinicSelect()">
+        <option value="">-- Selectează clinica --</option>
+        <option *ngFor="let clinic of clinics" [value]="clinic.id">
+          {{ clinic.name }} — {{ clinic.city }}
+        </option>
+      </select>
+    </div>
+
+    <!-- Pasul 3: Medic -->
+    <div class="form-section" *ngIf="selectedClinicId">
+      <h3>3. Alege medicul</h3>
+      <div class="vets-list" *ngIf="filteredVets.length > 0">
+        <div
+          class="vet-option"
+          *ngFor="let vet of filteredVets"
+          [class.selected]="selectedVetId === vet.id"
+          (click)="selectedVetId = vet.id; onVetOrDateChange()">
+          <span class="vet-icon">👨‍⚕️</span>
+          <div>
+            <strong>Dr. {{ vet.firstName }} {{ vet.lastName }}</strong>
+            <span class="specialization">{{ vet.specialization }}</span>
+          </div>
+        </div>
+      </div>
+      <p class="empty-hint" *ngIf="filteredVets.length === 0">
+        Nu există medici asociați acestei clinici.
+      </p>
+    </div>
+
+    <!-- Pasul 4: Data -->
+    <div class="form-section" *ngIf="selectedVetId">
+      <h3>4. Alege data</h3>
+      <input
+        type="date"
+        [(ngModel)]="selectedDate"
+        [min]="minDate"
+        (ngModelChange)="onVetOrDateChange()"
+      />
+    </div>
+
+    <!-- Pasul 5: Ora -->
+    <div class="form-section" *ngIf="selectedDate">
+      <h3>5. Alege ora</h3>
+      <div class="loading-slots" *ngIf="isLoading">Se încarcă orele...</div>
+      <div class="slots-grid" *ngIf="!isLoading">
+        <div
+          class="slot"
+          *ngFor="let slot of availableSlots"
+          [class.selected]="selectedSlot === slot.dateTime"
+          (click)="selectedSlot = slot.dateTime">
+          {{ formatSlotTime(slot.dateTime) }}
+        </div>
+        <p class="empty-hint" *ngIf="availableSlots.length === 0 && !isLoading">
+          Nu există ore disponibile în această zi.
+        </p>
+      </div>
+    </div>
+
+    <!-- Pasul 6: Motiv -->
+    <div class="form-section" *ngIf="selectedSlot">
+      <h3>6. Motivul vizitei</h3>
+      <textarea
+        [(ngModel)]="reason"
+        placeholder="ex: Vaccinare anuală, control general, etc."
+        rows="3">
+      </textarea>
+    </div>
+
+    <!-- Sumar și confirmare -->
+    <div class="summary" *ngIf="canSubmit()">
+      <h3>Sumar programare</h3>
+      <p>🐾 <strong>Animal:</strong> {{ getPetName(selectedPetId) }}</p>
+      <p>🏥 <strong>Clinică:</strong> {{ getClinicName(selectedClinicId) }}</p>
+      <p>👨‍⚕️ <strong>Medic:</strong> {{ getVetName(selectedVetId) }}</p>
+      <p>📅 <strong>Data și ora:</strong> {{ selectedDate }} la {{ formatSlotTime(selectedSlot) }}</p>
+      <p>📝 <strong>Motiv:</strong> {{ reason }}</p>
+    </div>
+
+    <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
+
+    <button
+      class="submit-btn"
+      [disabled]="!canSubmit() || isSubmitting"
+      (click)="onSubmit()">
+      {{ isSubmitting ? 'Se creează programarea...' : 'Confirmă programarea' }}
+    </button>
+
+  </div>
+</div>
