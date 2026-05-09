@@ -1,15 +1,13 @@
 <div class="map-container">
   <div class="map-header">
     <h2>Cabinete veterinare din zona ta</h2>
+    <div class="map-legend">
+      <span class="legend-item db">🔴 În aplicație</span>
+      <span class="legend-item google">🔵 Google Maps</span>
+    </div>
     <div class="radius-control">
       <label>Raza: {{ radiusKm }} km</label>
-      <input
-        type="range"
-        min="1"
-        max="50"
-        [(ngModel)]="radiusKm"
-        (change)="loadNearbyClinics()"
-      />
+      <input type="range" min="1" max="50" [(ngModel)]="radiusKm" (change)="loadNearbyClinics()" />
     </div>
   </div>
 
@@ -18,26 +16,14 @@
       <p>Se încarcă harta...</p>
     </div>
 
-    <google-map
-      *ngIf="!isLoading"
-      [center]="center"
-      [zoom]="zoom"
-      [options]="mapOptions"
-      width="100%"
-      height="100%">
-
-      <map-marker
-        *ngFor="let clinic of clinics"
-        [position]="getMarkerPosition(clinic)"
-        [title]="clinic.name"
-        (mapClick)="onMarkerClick(clinic)">
-      </map-marker>
-
+    <google-map *ngIf="!isLoading" [center]="center" [zoom]="zoom" [options]="mapOptions" width="100%" height="100%">
+      <map-marker *ngFor="let clinic of dbClinics" [position]="getDbMarkerPosition(clinic)" [title]="clinic.name" [options]="dbMarkerOptions" (mapClick)="onDbMarkerClick(clinic)"></map-marker>
+      <map-marker *ngFor="let clinic of googleClinics" [position]="getGoogleMarkerPosition(clinic)" [title]="clinic.name" [options]="googleMarkerOptions" (mapClick)="onGoogleMarkerClick(clinic)"></map-marker>
     </google-map>
 
-    <!-- Panel detalii cabinet -->
-    <div class="clinic-panel" *ngIf="selectedClinic">
+    <div class="clinic-panel db-panel" *ngIf="selectedClinic">
       <button class="close-btn" (click)="closePanel()">✕</button>
+      <div class="panel-badge db-badge">În aplicație</div>
       <h3>{{ selectedClinic.name }}</h3>
       <div class="clinic-info">
         <p>📍 {{ selectedClinic.address }}, {{ selectedClinic.city }}</p>
@@ -45,13 +31,22 @@
         <p>✉️ {{ selectedClinic.email }}</p>
         <p>🕐 {{ selectedClinic.schedule }}</p>
       </div>
-      <button class="appointment-btn" routerLink="/appointments/new">
-        Fă o programare
-      </button>
+      <button class="appointment-btn" routerLink="/appointments/new">Fă o programare</button>
+    </div>
+
+    <div class="clinic-panel google-panel" *ngIf="selectedGoogleClinic">
+      <button class="close-btn" (click)="closePanel()">✕</button>
+      <div class="panel-badge google-badge">Google Maps</div>
+      <h3>{{ selectedGoogleClinic.name }}</h3>
+      <div class="clinic-info">
+        <p>📍 {{ selectedGoogleClinic.address }}</p>
+        <p class="not-registered">Acest cabinet nu este înregistrat în aplicație.</p>
+      </div>
     </div>
   </div>
 
   <div class="clinics-count" *ngIf="!isLoading">
-    {{ clinics.length }} cabinete găsite în raza de {{ radiusKm }} km
+    {{ totalClinics }} cabinete găsite în raza de {{ radiusKm }} km
+    ({{ dbClinics.length }} în aplicație, {{ googleClinics.length }} din Google Maps)
   </div>
 </div>

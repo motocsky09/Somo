@@ -1,0 +1,58 @@
+<div class="register-container">
+  <div class="register-card">
+    <h2>🏥 Înregistrează cabinet veterinar</h2>
+    <p class="subtitle">Completează datele cabinetului tău pentru a apărea pe hartă</p>
+
+    <div class="success-message" *ngIf="successMessage">
+      ✅ {{ successMessage }}
+    </div>
+
+    <form [formGroup]="clinicForm" (ngSubmit)="onSubmit()" *ngIf="!successMessage">
+
+      <div class="form-group">
+        <label>Numele cabinetului *</label>
+        <input type="text" formControlName="name" placeholder="ex: Cabinet Veterinar Dr. Pop" />
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Adresa *</label>
+          <input type="text" formControlName="address" placeholder="ex: Strada Republicii 12" />
+        </div>
+        <div class="form-group">
+          <label>Orașul *</label>
+          <input type="text" formControlName="city" placeholder="ex: Oradea" />
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Telefon *</label>
+          <input type="tel" formControlName="phone" placeholder="ex: 0259123456" />
+        </div>
+        <div class="form-group">
+          <label>Email *</label>
+          <input type="email" formControlName="email" placeholder="cabinet@email.com" />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Program *</label>
+        <select formControlName="schedule">
+          <option *ngFor="let s of scheduleOptions" [value]="s">{{ s }}</option>
+        </select>
+      </div>
+
+      <div class="map-note">
+        📍 Coordonatele GPS vor fi detectate automat din adresă
+      </div>
+
+      <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
+
+      <button type="submit" [disabled]="isSubmitting || clinicForm.invalid">
+        {{ isSubmitting ? 'Se înregistrează...' : 'Înregistrează cabinet' }}
+      </button>
+
+    </form>
+  </div>
+</div>

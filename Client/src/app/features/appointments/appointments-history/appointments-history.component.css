@@ -1,0 +1,43 @@
+.map-legend {
+  display: flex;
+  gap: 1rem;
+}
+
+.legend-item {
+  font-size: 0.85rem;
+  color: #555;
+}
+
+.db-panel {
+  border-top: 4px solid #e74c3c;
+}
+
+.google-panel {
+  border-top: 4px solid #3498db;
+}
+
+.panel-badge {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  margin-bottom: 0.8rem;
+}
+
+.db-badge {
+  background: #fdecea;
+  color: #e74c3c;
+}
+
+.google-badge {
+  background: #ebf5fb;
+  color: #3498db;
+}
+
+.not-registered {
+  color: #999;
+  font-style: italic;
+  font-size: 0.85rem;
+  margin-top: 0.5rem;
+}

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ClinicService, Clinic } from '../../../core/services/clinic.service';
+import { ClinicService, Clinic, GoogleClinic } from '../../../core/services/clinic.service';
 
 @Component({
   selector: 'app-clinic-map',
@@ -9,8 +9,10 @@ import { ClinicService, Clinic } from '../../../core/services/clinic.service';
 export class ClinicMapComponent implements OnInit {
   center: google.maps.LatLngLiteral = { lat: 47.0722, lng: 21.9215 };
   zoom = 13;
-  clinics: Clinic[] = [];
+  dbClinics: Clinic[] = [];
+  googleClinics: GoogleClinic[] = [];
   selectedClinic: Clinic | null = null;
+  selectedGoogleClinic: GoogleClinic | null = null;
   isLoading = true;
   radiusKm = 10;
 
@@ -21,6 +23,18 @@ export class ClinicMapComponent implements OnInit {
     disableDoubleClickZoom: false,
     maxZoom: 20,
     minZoom: 5
+  };
+
+  dbMarkerOptions: google.maps.MarkerOptions = {
+    icon: {
+      url: 'http://maps.google.com/mapfiles/ms/icons/red-dot.png'
+    }
+  };
+
+  googleMarkerOptions: google.maps.MarkerOptions = {
+    icon: {
+      url: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'
+    }
   };
 
   constructor(private clinicService: ClinicService) {}
@@ -39,10 +53,7 @@ export class ClinicMapComponent implements OnInit {
           };
           this.loadNearbyClinics();
         },
-        () => {
-          
-          this.loadNearbyClinics();
-        }
+        () => this.loadNearbyClinics()
       );
     } else {
       this.loadNearbyClinics();
@@ -53,25 +64,39 @@ export class ClinicMapComponent implements OnInit {
     this.isLoading = true;
     this.clinicService.getNearby(this.center.lat, this.center.lng, this.radiusKm)
       .subscribe({
-        next: clinics => {
-          this.clinics = clinics;
+        next: response => {
+          this.dbClinics = response.databaseClinics;
+          this.googleClinics = response.googleClinics.filter(g => !g.isInDatabase);
           this.isLoading = false;
         },
-        error: () => {
-          this.isLoading = false;
-        }
+        error: () => this.isLoading = false
       });
   }
 
-  onMarkerClick(clinic: Clinic): void {
+  onDbMarkerClick(clinic: Clinic): void {
     this.selectedClinic = clinic;
+    this.selectedGoogleClinic = null;
+  }
+
+  onGoogleMarkerClick(clinic: GoogleClinic): void {
+    this.selectedGoogleClinic = clinic;
+    this.selectedClinic = null;
   }
 
   closePanel(): void {
     this.selectedClinic = null;
+    this.selectedGoogleClinic = null;
   }
 
-  getMarkerPosition(clinic: Clinic): google.maps.LatLngLiteral {
+  getDbMarkerPosition(clinic: Clinic): google.maps.LatLngLiteral {
     return { lat: clinic.latitude, lng: clinic.longitude };
+  }
+
+  getGoogleMarkerPosition(clinic: GoogleClinic): google.maps.LatLngLiteral {
+    return { lat: clinic.latitude, lng: clinic.longitude };
+  }
+
+  get totalClinics(): number {
+    return this.dbClinics.length + this.googleClinics.length;
   }
 }

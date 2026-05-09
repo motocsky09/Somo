@@ -13,6 +13,9 @@ import { ClinicMapComponent } from './features/clinics/clinic-map/clinic-map.com
 import { MyPetsComponent } from './features/pets/my-pets/my-pets.component';
 import { CreateAppointmentComponent } from './features/appointments/create-appointment/create-appointment.component';
 import { NavbarComponent } from './shared/components/navbar/navbar.component';
+import { AppointmentsHistoryComponent } from './features/appointments/appointments-history/appointments-history.component';
+import { RegisterClinicComponent } from './features/clinics/register-clinic/register-clinic.component';
+
 
 @NgModule({
   declarations: [
@@ -22,7 +25,9 @@ import { NavbarComponent } from './shared/components/navbar/navbar.component';
     ClinicMapComponent,
     MyPetsComponent,
     CreateAppointmentComponent,
-    NavbarComponent
+    NavbarComponent,
+    AppointmentsHistoryComponent,
+    RegisterClinicComponent
   ],
   imports: [
     BrowserModule,

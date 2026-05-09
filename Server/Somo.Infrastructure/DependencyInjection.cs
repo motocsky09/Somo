@@ -3,6 +3,8 @@ using Microsoft.Extensions.DependencyInjection;
 using MongoDB.Driver;
 using Somo.Domain.Interfaces;
 using Somo.Infrastructure.Repositories;
+using Somo.Application.Interfaces;
+using Somo.Infrastructure.Services;
 
 namespace Somo.Infrastructure;
 
@@ -27,6 +29,7 @@ public static class DependencyInjection
         services.AddScoped<IPetRepository, PetRepository>();
         services.AddScoped<IAppointmentRepository, AppointmentRepository>();
         services.AddScoped<IMedicalRecordRepository, MedicalRecordRepository>();
+        services.AddHttpClient<IGooglePlacesService, GooglePlacesService>();
 
         return services;
     }

@@ -7,6 +7,11 @@
     <a routerLink="/clinics" routerLinkActive="active">Cabinete</a>
     <a routerLink="/my-pets" routerLinkActive="active">Animalele mele</a>
     <a routerLink="/appointments/new" routerLinkActive="active">Programare nouă</a>
+    <a routerLink="/my-appointments" routerLinkActive="active">Programările mele</a>
+    <a routerLink="/register-clinic" routerLinkActive="active"
+       *ngIf="authService.hasRole('ClinicAdmin')">
+      Înregistrează cabinet
+    </a>
   </div>
 
   <div class="navbar-user">

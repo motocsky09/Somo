@@ -1,3 +1,0 @@
-﻿<Project>
-  <Import Project="../build/Somo.API.props" />
-</Project>
