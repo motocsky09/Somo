@@ -17,4 +17,7 @@ public class VeterinaryClinic
     public List<string> VetIds { get; set; } = new();
     public double Latitude { get; set; } 
     public double Longitude { get; set; }  
+
+    [BsonRepresentation(BsonType.String)]
+    public string AdminId { get; set; } = string.Empty;
 }

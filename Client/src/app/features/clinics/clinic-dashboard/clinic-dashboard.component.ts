@@ -1,0 +1,177 @@
+import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { forkJoin } from 'rxjs';
+import { AuthService } from '../../../core/services/auth.service';
+import { environment } from '../../../../environments/environment';
+
+@Component({
+  selector: 'app-clinic-dashboard',
+  templateUrl: './clinic-dashboard.component.html',
+  styleUrls: ['./clinic-dashboard.component.css']
+})
+export class ClinicDashboardComponent implements OnInit {
+  myClinics: any[] = [];
+  selectedClinic: any = null;
+  appointments: any[] = [];
+  pets: any[] = [];
+  vets: any[] = [];
+  isLoading = true;
+  isLoadingDetails = false;
+
+  // Formular de adăugare medic
+  showAddVetForm = false;
+  isSubmittingVet = false;
+  vetError = '';
+  vetSuccess = '';
+  newVet = {
+    firstName: '',
+    lastName: '',
+    email: '',
+    phone: '',
+    specialization: '',
+    clinicIds: [] as string[]
+  };
+
+  statusLabels: { [key: number]: string } = {
+    0: 'În așteptare',
+    1: 'Confirmat',
+    2: 'Anulat',
+    3: 'Finalizat'
+  };
+
+  statusColors: { [key: number]: string } = {
+    0: '#f39c12',
+    1: '#2ecc71',
+    2: '#e74c3c',
+    3: '#3498db'
+  };
+
+  constructor(
+    private http: HttpClient,
+    private authService: AuthService
+  ) {}
+
+  ngOnInit(): void {
+    this.http.get<any[]>(`${environment.apiUrl}/Clinics/my-clinics`).subscribe({
+      next: (clinics) => {
+        this.myClinics = clinics;
+        this.isLoading = false;
+        if (clinics.length >= 1) {
+          this.selectClinic(clinics[0]);
+        }
+      },
+      error: () => { this.isLoading = false; }
+    });
+  }
+
+  selectClinic(clinic: any): void {
+    this.selectedClinic = clinic;
+    this.isLoadingDetails = true;
+    this.appointments = [];
+    this.pets = [];
+    this.vets = [];
+    this.showAddVetForm = false;
+
+    // Încarcă medicii cabinetului
+    this.http.get<any[]>(`${environment.apiUrl}/Vets`).subscribe(allVets => {
+      this.vets = allVets.filter(v => v.clinicIds.includes(clinic.id));
+    });
+
+    // Încarcă programările
+    this.http.get<any[]>(`${environment.apiUrl}/Appointments/by-clinic/${clinic.id}`).subscribe({
+      next: (apps) => {
+        this.appointments = apps.sort((a, b) =>
+          new Date(b.dateTime).getTime() - new Date(a.dateTime).getTime()
+        );
+
+        const petIds = [...new Set(apps.map((a: any) => a.petId))] as string[];
+        if (petIds.length > 0) {
+          const petRequests = petIds.map(id =>
+            this.http.get<any>(`${environment.apiUrl}/Pets/${id}`)
+          );
+          forkJoin(petRequests).subscribe({
+            next: (petsData) => { this.pets = petsData; },
+            error: () => {}
+          });
+        }
+
+        this.isLoadingDetails = false;
+      },
+      error: () => { this.isLoadingDetails = false; }
+    });
+  }
+
+  toggleAddVetForm(): void {
+    this.showAddVetForm = !this.showAddVetForm;
+    this.vetError = '';
+    this.vetSuccess = '';
+    this.newVet = {
+      firstName: '',
+      lastName: '',
+      email: '',
+      phone: '',
+      specialization: '',
+      clinicIds: [this.selectedClinic.id]
+    };
+  }
+
+  submitVet(): void {
+    if (!this.newVet.firstName || !this.newVet.lastName || !this.newVet.specialization) {
+      this.vetError = 'Completează cel puțin numele și specializarea.';
+      return;
+    }
+
+    this.isSubmittingVet = true;
+    this.vetError = '';
+
+    this.http.post<any>(`${environment.apiUrl}/Vets`, this.newVet).subscribe({
+      next: (vet) => {
+        this.vets.push(vet);
+        this.vetSuccess = `Dr. ${vet.firstName} ${vet.lastName} a fost adăugat cu succes!`;
+        this.isSubmittingVet = false;
+        setTimeout(() => {
+          this.showAddVetForm = false;
+          this.vetSuccess = '';
+        }, 2000);
+      },
+      error: () => {
+        this.vetError = 'Eroare la adăugarea medicului. Încearcă din nou.';
+        this.isSubmittingVet = false;
+      }
+    });
+  }
+
+  getPetName(petId: string): string {
+    return this.pets.find(p => p.id === petId)?.name || 'Animal necunoscut';
+  }
+
+  getVetName(vetId: string): string {
+    const v = this.vets.find(v => v.id === vetId);
+    return v ? `Dr. ${v.firstName} ${v.lastName}` : 'Medic necunoscut';
+  }
+
+  formatDate(dateTime: string): string {
+    return new Date(dateTime).toLocaleDateString('ro-RO', {
+      day: '2-digit', month: 'long', year: 'numeric'
+    });
+  }
+
+  formatTime(dateTime: string): string {
+    return new Date(dateTime).toLocaleTimeString('ro-RO', {
+      hour: '2-digit', minute: '2-digit'
+    });
+  }
+
+  getAppointmentsByStatus(status: number): any[] {
+    return this.appointments.filter(a => a.status === status);
+  }
+
+  getUniquePets(): any[] {
+    const seen = new Set();
+    return this.pets.filter(p => {
+      if (seen.has(p.id)) return false;
+      seen.add(p.id);
+      return true;
+    });
+  }
+}

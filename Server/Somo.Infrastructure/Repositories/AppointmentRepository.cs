@@ -20,6 +20,9 @@ public class AppointmentRepository : IAppointmentRepository
     public async Task<Appointment?> GetByIdAsync(string id)
         => await _collection.Find(a => a.Id == id).FirstOrDefaultAsync();
 
+    public async Task<IEnumerable<Appointment>> GetByClinicIdAsync(string clinicId)
+        => await _collection.Find(a => a.ClinicId == clinicId).ToListAsync();
+
     public async Task CreateAsync(Appointment appointment)
         => await _collection.InsertOneAsync(appointment);
 

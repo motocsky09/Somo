@@ -13,15 +13,18 @@ public class AppointmentsController : ControllerBase
 {
     private readonly IAppointmentRepository _repo;
     private readonly CreateAppointmentCommand _createCommand;
+    private readonly IVeterinaryClinicRepository _clinicRepo;
     private readonly GetAvailableSlotsQuery _slotsQuery;
 
     public AppointmentsController(
         IAppointmentRepository repo,
         CreateAppointmentCommand createCommand,
+        IVeterinaryClinicRepository clinicRepo,
         GetAvailableSlotsQuery slotsQuery)
     {
         _repo = repo;
         _createCommand = createCommand;
+        _clinicRepo = clinicRepo;
         _slotsQuery = slotsQuery;
     }
 
@@ -58,12 +61,26 @@ public class AppointmentsController : ControllerBase
 
     if (!success) return BadRequest(new { error });
     return Ok(new { message = "Programare creată cu succes." });
-}
+    }
 
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(string id)
     {
         await _repo.DeleteAsync(id);
         return NoContent();
+    }
+
+    [HttpGet("by-clinic/{clinicId}")]
+    [Authorize(Roles = "ClinicAdmin")]
+    public async Task<IActionResult> GetByClinic(string clinicId)
+    {
+        var adminId = User.FindFirst("id")?.Value;
+        
+        var clinic = await _clinicRepo.GetByIdAsync(clinicId);
+        if (clinic == null || clinic.AdminId != adminId)
+            return Forbid();
+        
+        var appointments = await _repo.GetByClinicIdAsync(clinicId);
+        return Ok(appointments);
     }
 }

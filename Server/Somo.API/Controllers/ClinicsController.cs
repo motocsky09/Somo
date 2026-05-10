@@ -83,17 +83,19 @@ public class ClinicsController : ControllerBase
     }
 
     [HttpPost("register")]
-[Authorize(Roles = "ClinicAdmin")]
+    [Authorize(Roles = "ClinicAdmin")]
     public async Task<IActionResult> Register(
         RegisterClinicDto dto,
         [FromServices] IGooglePlacesService googlePlacesService)
     {
-        // Geocodează adresa automat
+        var adminId = User.FindFirst("id")?.Value ?? string.Empty;
+
         var coords = await googlePlacesService.GeocodeAddressAsync(
             $"{dto.Address}, {dto.City}, Romania");
 
         var clinic = new VeterinaryClinic
         {
+            AdminId = adminId,
             Name = dto.Name,
             Address = dto.Address,
             City = dto.City,
@@ -107,5 +109,15 @@ public class ClinicsController : ControllerBase
 
         await _repo.CreateAsync(clinic);
         return CreatedAtAction(nameof(GetById), new { id = clinic.Id }, clinic);
+    }
+
+    [HttpGet("my-clinics")]
+    [Authorize(Roles = "ClinicAdmin")]
+    public async Task<IActionResult> GetMyClinics()
+    {
+        var adminId = User.FindFirst("id")?.Value;
+        var all = await _repo.GetAllAsync();
+        var myClinics = all.Where(c => c.AdminId == adminId);
+        return Ok(myClinics);
     }
 }

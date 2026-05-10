@@ -32,7 +32,11 @@ export class LoginComponent {
 
     this.authService.login(this.loginForm.value).subscribe({
       next: () => {
-        this.router.navigate(['/clinics']);
+        if (this.authService.hasRole('ClinicAdmin')) {
+          this.router.navigate(['/clinic-dashboard']);
+        } else {
+          this.router.navigate(['/clinics']);
+        }
       },
       error: () => {
         this.errorMessage = 'Username sau parolă incorectă.';

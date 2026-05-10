@@ -47,4 +47,11 @@ public class VetsController : ControllerBase
         await _repo.DeleteAsync(id);
         return NoContent();
     }
+
+    [HttpGet("by-clinic/{clinicId}")]
+    public async Task<IActionResult> GetByClinic(string clinicId)
+    {
+        var all = await _repo.GetAllAsync();
+        return Ok(all.Where(v => v.clinicIds.Contains(clinicId)));
+    }
 }

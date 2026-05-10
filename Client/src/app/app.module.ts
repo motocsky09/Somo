@@ -15,6 +15,7 @@ import { CreateAppointmentComponent } from './features/appointments/create-appoi
 import { NavbarComponent } from './shared/components/navbar/navbar.component';
 import { AppointmentsHistoryComponent } from './features/appointments/appointments-history/appointments-history.component';
 import { RegisterClinicComponent } from './features/clinics/register-clinic/register-clinic.component';
+import { ClinicDashboardComponent } from './features/clinics/clinic-dashboard/clinic-dashboard.component';
 
 
 @NgModule({
@@ -27,7 +28,8 @@ import { RegisterClinicComponent } from './features/clinics/register-clinic/regi
     CreateAppointmentComponent,
     NavbarComponent,
     AppointmentsHistoryComponent,
-    RegisterClinicComponent
+    RegisterClinicComponent,
+    ClinicDashboardComponent
   ],
   imports: [
     BrowserModule,

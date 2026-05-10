@@ -1,0 +1,163 @@
+<div class="dashboard-container">
+
+  <div class="loading" *ngIf="isLoading">
+    <p>Se încarcă cabinetele...</p>
+  </div>
+
+  <ng-container *ngIf="!isLoading">
+
+    <div class="empty-state" *ngIf="myClinics.length === 0">
+      <h2>🏥 Nu ai niciun cabinet înregistrat</h2>
+      <p>Înregistrează primul tău cabinet pentru a începe să primești programări.</p>
+      <a routerLink="/register-clinic" class="btn-primary">Înregistrează cabinet</a>
+    </div>
+
+    <ng-container *ngIf="myClinics.length > 0">
+
+      <div class="clinic-selector" *ngIf="myClinics.length > 1">
+        <h3>Cabinetele tale</h3>
+        <div class="clinic-cards">
+          <div
+            class="clinic-card"
+            *ngFor="let clinic of myClinics"
+            [class.active]="selectedClinic?.id === clinic.id"
+            (click)="selectClinic(clinic)">
+            <span class="clinic-icon">🏥</span>
+            <div>
+              <strong>{{ clinic.name }}</strong>
+              <span>{{ clinic.city }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="dashboard-content" *ngIf="selectedClinic">
+        <div class="dashboard-header">
+          <h2>🏥 {{ selectedClinic.name }}</h2>
+          <span class="clinic-city">📍 {{ selectedClinic.address }}, {{ selectedClinic.city }}</span>
+        </div>
+
+        <div class="stats-row">
+          <div class="stat-card">
+            <span class="stat-number">{{ appointments.length }}</span>
+            <span class="stat-label">Programări totale</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-number">{{ getAppointmentsByStatus(0).length }}</span>
+            <span class="stat-label">În așteptare</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-number">{{ getAppointmentsByStatus(1).length }}</span>
+            <span class="stat-label">Confirmate</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-number">{{ getUniquePets().length }}</span>
+            <span class="stat-label">Animale unice</span>
+          </div>
+        </div>
+
+        <div class="dashboard-grid">
+
+          <div class="panel">
+            <h3>📅 Programări</h3>
+            <div class="loading-inner" *ngIf="isLoadingDetails">Se încarcă...</div>
+            <div class="empty-panel" *ngIf="!isLoadingDetails && appointments.length === 0">
+              Nu există programări la acest cabinet.
+            </div>
+            <div class="appointment-list" *ngIf="!isLoadingDetails && appointments.length > 0">
+              <div class="appointment-item" *ngFor="let app of appointments">
+                <div class="app-info">
+                  <span class="app-pet">🐾 {{ getPetName(app.petId) }}</span>
+                  <span class="app-vet">{{ getVetName(app.vetId) }}</span>
+                </div>
+                <div class="app-right">
+                  <span class="app-date">{{ formatDate(app.dateTime) }} {{ formatTime(app.dateTime) }}</span>
+                  <span class="app-status" [style.background]="statusColors[app.status]">
+                    {{ statusLabels[app.status] }}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel">
+            <h3>🐾 Animale programate</h3>
+            <div class="loading-inner" *ngIf="isLoadingDetails">Se încarcă...</div>
+            <div class="empty-panel" *ngIf="!isLoadingDetails && getUniquePets().length === 0">
+              Nu există animale programate.
+            </div>
+            <div class="pet-list" *ngIf="!isLoadingDetails && getUniquePets().length > 0">
+              <div class="pet-item" *ngFor="let pet of getUniquePets()">
+                <span class="pet-icon">🐾</span>
+                <div>
+                  <strong>{{ pet.name }}</strong>
+                  <span>{{ pet.species }} · {{ pet.breed }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+		<div class="panel vets-panel">
+		<div class="panel-header">
+			<h3>👨‍⚕️ Medicii cabinetului</h3>
+			<button class="btn-add-vet" (click)="toggleAddVetForm()">
+			{{ showAddVetForm ? '✕ Anulează' : '+ Adaugă medic' }}
+			</button>
+		</div>
+
+		<div class="add-vet-form" *ngIf="showAddVetForm">
+			<div class="form-row">
+			<div class="form-group">
+				<label>Prenume *</label>
+				<input type="text" [(ngModel)]="newVet.firstName" placeholder="ex: Ion" />
+			</div>
+			<div class="form-group">
+				<label>Nume *</label>
+				<input type="text" [(ngModel)]="newVet.lastName" placeholder="ex: Popescu" />
+			</div>
+			</div>
+			<div class="form-row">
+			<div class="form-group">
+				<label>Specializare *</label>
+				<input type="text" [(ngModel)]="newVet.specialization" placeholder="ex: Chirurgie, Dermatologie" />
+			</div>
+			<div class="form-group">
+				<label>Telefon</label>
+				<input type="text" [(ngModel)]="newVet.phone" placeholder="ex: 0721000000" />
+			</div>
+			</div>
+			<div class="form-group">
+			<label>Email</label>
+			<input type="email" [(ngModel)]="newVet.email" placeholder="doctor@cabinet.ro" />
+			</div>
+
+			<p class="vet-error" *ngIf="vetError">{{ vetError }}</p>
+			<p class="vet-success" *ngIf="vetSuccess">✅ {{ vetSuccess }}</p>
+
+			<button class="btn-submit-vet" (click)="submitVet()" [disabled]="isSubmittingVet">
+			{{ isSubmittingVet ? 'Se adaugă...' : 'Salvează medic' }}
+			</button>
+		</div>
+
+		<div class="empty-panel" *ngIf="vets.length === 0 && !showAddVetForm">
+			Nu există medici înregistrați. Adaugă primul medic pentru a primi programări.
+		</div>
+
+		<div class="vet-list" *ngIf="vets.length > 0">
+			<div class="vet-item" *ngFor="let vet of vets">
+			<span class="vet-avatar">👨‍⚕️</span>
+			<div class="vet-info">
+				<strong>Dr. {{ vet.firstName }} {{ vet.lastName }}</strong>
+				<span>{{ vet.specialization }}</span>
+				<span *ngIf="vet.phone">📞 {{ vet.phone }}</span>
+			</div>
+			</div>
+		</div>
+		</div>
+      </div>
+
+    </ng-container>
+  </ng-container>
+</div>
