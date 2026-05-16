@@ -8,7 +8,9 @@ import { CreateAppointmentComponent } from './features/appointments/create-appoi
 import { AuthGuard } from './core/guards/auth.guard';
 import { AppointmentsHistoryComponent } from './features/appointments/appointments-history/appointments-history.component';
 import { RegisterClinicComponent } from './features/clinics/register-clinic/register-clinic.component';
-import { ClinicDashboardComponent } from './features/clinics/clinic-dashboard/clinic-dashboard.component'; // ← adaugă
+import { ClinicDashboardComponent } from './features/clinics/clinic-dashboard/clinic-dashboard.component';
+import { AppointmentDetailComponent } from './features/appointments/appointment-detail/appointment-detail.component';
+
 
 const routes: Routes = [
   { path: '', redirectTo: '/clinics', pathMatch: 'full' },
@@ -19,7 +21,8 @@ const routes: Routes = [
   { path: 'appointments/new', component: CreateAppointmentComponent, canActivate: [AuthGuard] },
   { path: 'my-appointments', component: AppointmentsHistoryComponent, canActivate: [AuthGuard] },
   { path: 'register-clinic', component: RegisterClinicComponent, canActivate: [AuthGuard] },
-  { path: 'clinic-dashboard', component: ClinicDashboardComponent, canActivate: [AuthGuard] }, // ← adaugă
+  { path: 'clinic-dashboard', component: ClinicDashboardComponent, canActivate: [AuthGuard] },
+  { path: 'appointment/:id', component: AppointmentDetailComponent, canActivate: [AuthGuard] },
   { path: '**', redirectTo: '/clinics' }
 ];
 

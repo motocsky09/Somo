@@ -1,0 +1,251 @@
+.detail-container {
+  max-width: 1000px;
+  margin: 2rem auto;
+  padding: 0 1.5rem;
+}
+
+.back-btn {
+  background: none;
+  border: none;
+  color: #3498db;
+  font-size: 0.95rem;
+  cursor: pointer;
+  padding: 0;
+  margin-bottom: 1.5rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-weight: 500;
+}
+
+.back-btn:hover { text-decoration: underline; }
+
+.loading {
+  text-align: center;
+  padding: 4rem;
+  color: #888;
+}
+
+.detail-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.header-left h2 {
+  margin: 0;
+  color: #2c3e50;
+  font-size: 1.6rem;
+}
+
+.status-badge {
+  padding: 0.3rem 0.85rem;
+  border-radius: 20px;
+  color: white;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.expired-badge {
+  padding: 0.3rem 0.85rem;
+  border-radius: 20px;
+  background: #c0392b;
+  color: white;
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.header-actions {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.btn-confirm {
+  padding: 0.55rem 1.2rem;
+  background: #3498db;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: background 0.2s;
+}
+
+.btn-confirm:hover:not(:disabled) { background: #2980b9; }
+
+.btn-complete {
+  padding: 0.55rem 1.2rem;
+  background: #2ecc71;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: background 0.2s;
+}
+
+.btn-complete:hover:not(:disabled) { background: #27ae60; }
+
+.btn-cancel {
+  padding: 0.55rem 1.2rem;
+  background: transparent;
+  color: #e74c3c;
+  border: 1.5px solid #e74c3c;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: all 0.2s;
+}
+
+.btn-cancel:hover:not(:disabled) { background: #e74c3c; color: white; }
+
+button:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.success-msg { color: #27ae60; margin-bottom: 1rem; font-weight: 500; }
+.error-msg { color: #e74c3c; margin-bottom: 1rem; font-weight: 500; }
+
+.detail-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+}
+
+.detail-grid .card:first-child {
+  grid-column: 1 / -1;
+}
+
+.card {
+  background: white;
+  border-radius: 14px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+}
+
+.card h3 {
+  color: #2c3e50;
+  margin: 0 0 1.2rem;
+  font-size: 1.05rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 2px solid #f0f0f0;
+}
+
+.info-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.6rem 0;
+  border-bottom: 1px solid #f5f5f5;
+}
+
+.info-row:last-child { border-bottom: none; }
+
+.info-label {
+  font-size: 0.85rem;
+  color: #888;
+  min-width: 100px;
+  font-weight: 500;
+}
+
+.info-value {
+  color: #2c3e50;
+  font-size: 0.95rem;
+  flex: 1;
+}
+
+.btn-edit {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 0.9rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+
+.btn-edit:hover { background: #f0f0f0; }
+
+.edit-field {
+  padding: 0.75rem;
+  background: #f8fafc;
+  border-radius: 8px;
+  margin-bottom: 0.75rem;
+  border: 1px solid #e8f0fe;
+}
+
+.edit-field label {
+  display: block;
+  font-size: 0.82rem;
+  color: #666;
+  margin-bottom: 0.4rem;
+  font-weight: 500;
+}
+
+.edit-field input,
+.edit-field select {
+  width: 100%;
+  padding: 0.6rem 0.8rem;
+  border: 1.5px solid #ddd;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  box-sizing: border-box;
+}
+
+.edit-field input:focus,
+.edit-field select:focus {
+  outline: none;
+  border-color: #3498db;
+}
+
+.edit-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.6rem;
+}
+
+.btn-save {
+  padding: 0.45rem 1rem;
+  background: #2ecc71;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.btn-cancel-edit {
+  padding: 0.45rem 1rem;
+  background: #f0f0f0;
+  color: #555;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+
+.contact-link {
+  color: #3498db;
+  text-decoration: none;
+}
+
+.contact-link:hover { text-decoration: underline; }
+
+@media (max-width: 600px) {
+  .detail-grid { grid-template-columns: 1fr; }
+  .detail-grid .card:first-child { grid-column: 1; }
+  .detail-header { flex-direction: column; align-items: flex-start; }
+}

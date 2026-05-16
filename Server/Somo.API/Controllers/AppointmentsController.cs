@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Somo.Application.DTOs;
 using Somo.Application.Features.Appointments.Commands;
 using Somo.Application.Features.Appointments.Queries;
+using Somo.Domain.Entities;
 using Somo.Domain.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 
@@ -12,19 +13,19 @@ namespace Somo.API.Controllers;
 public class AppointmentsController : ControllerBase
 {
     private readonly IAppointmentRepository _repo;
-    private readonly CreateAppointmentCommand _createCommand;
     private readonly IVeterinaryClinicRepository _clinicRepo;
+    private readonly CreateAppointmentCommand _createCommand;
     private readonly GetAvailableSlotsQuery _slotsQuery;
 
     public AppointmentsController(
         IAppointmentRepository repo,
-        CreateAppointmentCommand createCommand,
         IVeterinaryClinicRepository clinicRepo,
+        CreateAppointmentCommand createCommand,
         GetAvailableSlotsQuery slotsQuery)
     {
         _repo = repo;
-        _createCommand = createCommand;
         _clinicRepo = clinicRepo;
+        _createCommand = createCommand;
         _slotsQuery = slotsQuery;
     }
 
@@ -35,6 +36,14 @@ public class AppointmentsController : ControllerBase
     [HttpGet("vet/{vetId}")]
     public async Task<IActionResult> GetByVet(string vetId)
         => Ok(await _repo.GetAllByVetIdAsync(vetId));
+
+    [HttpGet("by-clinic/{clinicId}")]
+    [Authorize(Roles = "ClinicAdmin")]
+    public async Task<IActionResult> GetByClinic(string clinicId)
+    {
+        var appointments = await _repo.GetByClinicIdAsync(clinicId);
+        return Ok(appointments);
+    }
 
     [HttpGet("{id}")]
     public async Task<IActionResult> GetById(string id)
@@ -48,19 +57,28 @@ public class AppointmentsController : ControllerBase
         => Ok(await _slotsQuery.ExecuteAsync(vetId, date));
 
     [HttpPost]
-    [Authorize] 
+    [Authorize]
     public async Task<IActionResult> Create(CreateAppointmentDto dto)
     {
-    
-    var ownerId = User.FindFirst("id")?.Value;
+        var ownerId = User.FindFirst("id")?.Value;
+        if (string.IsNullOrEmpty(ownerId))
+            return Unauthorized(new { error = "Token invalid." });
 
-    if (string.IsNullOrEmpty(ownerId))
-        return Unauthorized(new { error = "Token invalid." });
+        var (success, error) = await _createCommand.ExecuteAsync(dto, ownerId);
+        if (!success) return BadRequest(new { error });
+        return Ok(new { message = "Programare creată cu succes." });
+    }
 
-    var (success, error) = await _createCommand.ExecuteAsync(dto, ownerId);
+    [HttpPatch("{id}/status")]
+    [Authorize(Roles = "ClinicAdmin")]
+    public async Task<IActionResult> UpdateStatus(string id, [FromBody] int status)
+    {
+        var appointment = await _repo.GetByIdAsync(id);
+        if (appointment is null) return NotFound();
 
-    if (!success) return BadRequest(new { error });
-    return Ok(new { message = "Programare creată cu succes." });
+        appointment.Status = (AppointmentStatus)status;
+        await _repo.UpdateAsync(appointment);
+        return NoContent();
     }
 
     [HttpDelete("{id}")]
@@ -69,18 +87,12 @@ public class AppointmentsController : ControllerBase
         await _repo.DeleteAsync(id);
         return NoContent();
     }
-
-    [HttpGet("by-clinic/{clinicId}")]
+    [HttpPut("{id}")]
     [Authorize(Roles = "ClinicAdmin")]
-    public async Task<IActionResult> GetByClinic(string clinicId)
+    public async Task<IActionResult> Update(string id, Appointment appointment)
     {
-        var adminId = User.FindFirst("id")?.Value;
-        
-        var clinic = await _clinicRepo.GetByIdAsync(clinicId);
-        if (clinic == null || clinic.AdminId != adminId)
-            return Forbid();
-        
-        var appointments = await _repo.GetByClinicIdAsync(clinicId);
-        return Ok(appointments);
+        appointment.Id = id;
+        await _repo.UpdateAsync(appointment);
+        return NoContent();
     }
 }

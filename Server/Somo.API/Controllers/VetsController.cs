@@ -52,6 +52,6 @@ public class VetsController : ControllerBase
     public async Task<IActionResult> GetByClinic(string clinicId)
     {
         var all = await _repo.GetAllAsync();
-        return Ok(all.Where(v => v.clinicIds.Contains(clinicId)));
+        return Ok(all.Where(v => v.ClinicIds.Contains(clinicId)));
     }
 }

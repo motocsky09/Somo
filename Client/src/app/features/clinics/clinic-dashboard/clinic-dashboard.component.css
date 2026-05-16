@@ -4,7 +4,6 @@
   padding: 0 1.5rem;
 }
 
-/* Loading */
 .loading {
   text-align: center;
   padding: 4rem;
@@ -12,7 +11,6 @@
   font-size: 1.1rem;
 }
 
-/* Empty state */
 .empty-state {
   text-align: center;
   padding: 5rem 2rem;
@@ -48,7 +46,7 @@
   background: #2980b9;
 }
 
-/* Clinic selector */
+
 .clinic-selector {
   margin-bottom: 2rem;
 }
@@ -107,7 +105,7 @@
   margin-top: 0.15rem;
 }
 
-/* Dashboard header */
+
 .dashboard-header {
   margin-bottom: 1.5rem;
 }
@@ -123,7 +121,6 @@
   font-size: 0.95rem;
 }
 
-/* Stats */
 .stats-row {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -154,7 +151,6 @@
   text-align: center;
 }
 
-/* Grid panels */
 .dashboard-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -189,7 +185,6 @@
   text-align: center;
 }
 
-/* Appointments */
 .appointment-list {
   display: flex;
   flex-direction: column;
@@ -245,7 +240,6 @@
   font-weight: 600;
 }
 
-/* Pets */
 .pet-list {
   display: flex;
   flex-direction: column;
@@ -283,7 +277,6 @@
   font-size: 0.8rem;
 }
 
-/* Scrollbar styling */
 .appointment-list::-webkit-scrollbar,
 .pet-list::-webkit-scrollbar {
   width: 4px;
@@ -300,8 +293,26 @@
   background: #ccc;
   border-radius: 4px;
 }
+.appointment-item.expired {
+  border-left: 4px solid #c0392b;
+  background: #fff5f5;
+}
 
-/* Responsive */
+.btn-complete {
+  padding: 0.25rem 0.65rem;
+  background: #2ecc71;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.75rem;
+  font-weight: 600;
+  transition: background 0.2s;
+}
+
+.btn-complete:hover {
+  background: #27ae60;
+}
 @media (max-width: 768px) {
   .stats-row {
     grid-template-columns: repeat(2, 1fr);

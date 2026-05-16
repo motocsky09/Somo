@@ -65,16 +65,26 @@
               Nu există programări la acest cabinet.
             </div>
             <div class="appointment-list" *ngIf="!isLoadingDetails && appointments.length > 0">
-              <div class="appointment-item" *ngFor="let app of appointments">
+              <div class="appointment-item"
+                   *ngFor="let app of appointments"
+                   [class.expired]="isPastAndNotCompleted(app)"
+                   (click)="openAppointment(app.id)"
+                   style="cursor: pointer;">
                 <div class="app-info">
                   <span class="app-pet">🐾 {{ getPetName(app.petId) }}</span>
                   <span class="app-vet">{{ getVetName(app.vetId) }}</span>
                 </div>
                 <div class="app-right">
                   <span class="app-date">{{ formatDate(app.dateTime) }} {{ formatTime(app.dateTime) }}</span>
-                  <span class="app-status" [style.background]="statusColors[app.status]">
-                    {{ statusLabels[app.status] }}
+                  <span class="app-status" [style.background]="getDisplayStatusColor(app)">
+                    {{ getDisplayStatusLabel(app) }}
                   </span>
+                  <button
+                    class="btn-complete"
+                    *ngIf="canComplete(app)"
+                    (click)="completeAppointment(app); $event.stopPropagation()">
+                    ✓ Finalizează
+                  </button>
                 </div>
               </div>
             </div>

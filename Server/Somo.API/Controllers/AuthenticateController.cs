@@ -116,5 +116,17 @@ namespace Somo.API.Controllers
 
             return token;
         }
+        [HttpGet("user/{userId}")]
+        [Authorize(Roles = "ClinicAdmin")]
+        public async Task<IActionResult> GetUserById(string userId)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user is null) return NotFound();
+            return Ok(new {
+                id = user.Id,
+                username = user.UserName,
+                email = user.Email
+            });
+        }
     }
 }

@@ -1,0 +1,120 @@
+<div class="detail-container">
+
+  <button class="back-btn" (click)="goBack()">← Înapoi la dashboard</button>
+
+  <div class="loading" *ngIf="isLoading">Se încarcă detaliile...</div>
+
+  <ng-container *ngIf="!isLoading && appointment">
+
+    <div class="detail-header">
+      <div class="header-left">
+        <h2>📅 Detalii programare</h2>
+        <span class="status-badge" [style.background]="statusColors[appointment.status]">
+          {{ statusLabels[appointment.status] }}
+        </span>
+        <span class="expired-badge" *ngIf="isPast() && appointment.status !== 3 && appointment.status !== 2">
+          ⚠️ Nefinalizată
+        </span>
+      </div>
+      <div class="header-actions">
+        <button class="btn-confirm" *ngIf="appointment.status === 0" (click)="updateStatus(1)" [disabled]="isSaving">
+          ✓ Confirmă
+        </button>
+        <button class="btn-complete" *ngIf="appointment.status !== 3 && appointment.status !== 2" (click)="updateStatus(3)" [disabled]="isSaving">
+          ✓ Finalizează
+        </button>
+        <button class="btn-cancel" *ngIf="appointment.status !== 2 && appointment.status !== 3" (click)="updateStatus(2)" [disabled]="isSaving">
+          ✕ Anulează
+        </button>
+      </div>
+    </div>
+
+    <p class="success-msg" *ngIf="successMessage">✅ {{ successMessage }}</p>
+    <p class="error-msg" *ngIf="errorMessage">❌ {{ errorMessage }}</p>
+
+    <div class="detail-grid">
+
+      <div class="card">
+        <h3>🗓️ Programare</h3>
+
+        <div class="info-row" *ngIf="!isEditingDate">
+          <span class="info-label">Data și ora</span>
+          <span class="info-value">{{ formatDateTime(appointment.dateTime) }}</span>
+          <button class="btn-edit" *ngIf="appointment.status !== 2 && appointment.status !== 3" (click)="isEditingDate = true">✏️</button>
+        </div>
+
+        <div class="edit-field" *ngIf="isEditingDate">
+          <label>Nouă dată și oră</label>
+          <input type="datetime-local" [(ngModel)]="newDateTime" />
+          <div class="edit-actions">
+            <button class="btn-save" (click)="saveChanges()" [disabled]="isSaving">Salvează</button>
+            <button class="btn-cancel-edit" (click)="isEditingDate = false">Anulează</button>
+          </div>
+        </div>
+
+        <div class="info-row" *ngIf="!isEditingVet">
+          <span class="info-label">Medic</span>
+          <span class="info-value">Dr. {{ vet?.firstName }} {{ vet?.lastName }} — {{ vet?.specialization }}</span>
+          <button class="btn-edit" *ngIf="appointment.status !== 2 && appointment.status !== 3" (click)="isEditingVet = true">✏️</button>
+        </div>
+
+        <div class="edit-field" *ngIf="isEditingVet">
+          <label>Schimbă medicul</label>
+          <select [(ngModel)]="newVetId">
+            <option *ngFor="let v of clinicVets" [value]="v.id">
+              Dr. {{ v.firstName }} {{ v.lastName }} — {{ v.specialization }}
+            </option>
+          </select>
+          <div class="edit-actions">
+            <button class="btn-save" (click)="saveChanges()" [disabled]="isSaving">Salvează</button>
+            <button class="btn-cancel-edit" (click)="isEditingVet = false">Anulează</button>
+          </div>
+        </div>
+
+        <div class="info-row">
+          <span class="info-label">Motiv</span>
+          <span class="info-value">{{ appointment.reason }}</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>{{ getSpeciesEmoji(pet?.species) }} Animalul</h3>
+        <div class="info-row">
+          <span class="info-label">Nume</span>
+          <span class="info-value">{{ pet?.name }}</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Specie</span>
+          <span class="info-value">{{ pet?.species }}</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Rasă</span>
+          <span class="info-value">{{ pet?.breed }}</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Vârstă</span>
+          <span class="info-value">{{ pet?.age }} ani</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Greutate</span>
+          <span class="info-value">{{ pet?.weight }} kg</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>👤 Proprietar</h3>
+        <div class="info-row">
+          <span class="info-label">Utilizator</span>
+          <span class="info-value">{{ owner?.username }}</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Email</span>
+          <span class="info-value">
+            <a [href]="'mailto:' + owner?.email" class="contact-link">{{ owner?.email }}</a>
+          </span>
+        </div>
+      </div>
+
+    </div>
+  </ng-container>
+</div>

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { forkJoin } from 'rxjs';
+import { Router } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
 import { environment } from '../../../../environments/environment';
 
@@ -18,7 +19,7 @@ export class ClinicDashboardComponent implements OnInit {
   isLoading = true;
   isLoadingDetails = false;
 
-  // Formular de adăugare medic
+ 
   showAddVetForm = false;
   isSubmittingVet = false;
   vetError = '';
@@ -36,21 +37,27 @@ export class ClinicDashboardComponent implements OnInit {
     0: 'În așteptare',
     1: 'Confirmat',
     2: 'Anulat',
-    3: 'Finalizat'
+    3: 'Finalizat',
+    4: 'Nefinalizată'
   };
 
   statusColors: { [key: number]: string } = {
     0: '#f39c12',
     1: '#2ecc71',
     2: '#e74c3c',
-    3: '#3498db'
+    3: '#3498db',
+    4: '#c0392b' 
   };
 
   constructor(
     private http: HttpClient,
-    private authService: AuthService
-  ) {}
-
+    private authService: AuthService,
+    private router: Router 
+  ) { }
+  
+  openAppointment(id: string): void {
+    this.router.navigate(['/appointment', id]);
+  }
   ngOnInit(): void {
     this.http.get<any[]>(`${environment.apiUrl}/Clinics/my-clinics`).subscribe({
       next: (clinics) => {
@@ -172,6 +179,37 @@ export class ClinicDashboardComponent implements OnInit {
       if (seen.has(p.id)) return false;
       seen.add(p.id);
       return true;
+    });
+  }
+  getDisplayStatus(app: any): number {
+    if (app.status === 3 || app.status === 2) return app.status;
+    const isPast = new Date(app.dateTime) < new Date();
+    if (isPast && app.status !== 3) return 4; // nefinalizată
+    return app.status;
+  }
+  
+  getDisplayStatusLabel(app: any): string {
+    return this.statusLabels[this.getDisplayStatus(app)];
+  }
+  
+  getDisplayStatusColor(app: any): string {
+    return this.statusColors[this.getDisplayStatus(app)];
+  }
+  
+  isPastAndNotCompleted(app: any): boolean {
+    return new Date(app.dateTime) < new Date() && app.status !== 3 && app.status !== 2;
+  }
+  
+  canComplete(app: any): boolean {
+    return app.status !== 3 && app.status !== 2;
+  }
+  
+  completeAppointment(app: any): void {
+    this.http.patch(`${environment.apiUrl}/Appointments/${app.id}/status`, 3).subscribe({
+      next: () => {
+        app.status = 3;
+      },
+      error: () => alert('Eroare la actualizarea programării.')
     });
   }
 }
