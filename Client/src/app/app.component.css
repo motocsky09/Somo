@@ -31,3 +31,19 @@
   background-color: #252C37;
   overflow-y: auto;
 }
+
+@media (max-width: 768px) {
+  .brand {
+    font-size: 22px;
+  }
+}
+
+@media (max-width: 480px) {
+  .brand {
+    font-size: 18px;
+  }
+
+  .user-info {
+    font-size: 12px;
+  }
+}

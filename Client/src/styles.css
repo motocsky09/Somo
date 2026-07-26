@@ -1,5 +1,3 @@
-/* Fonts: Goga (local files expected in /assets/fonts) */
-/* Register available Goga weights (using local OTFs). */
 @font-face {
 	font-family: 'Goga';
 	src: url('/assets/fonts/goga/GogaTest-Thin-BF6646d5d8040a9.otf') format('opentype');
@@ -68,14 +66,15 @@
 	--app-font-sans: 'Goga', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
 }
 
-/* Apply Goga globally */
 html, body {
 	height: 100%;
 	margin: 0;
 	font-family: var(--app-font-sans);
-	/* Use Medium weight by default for a balanced UI appearance */
 	font-weight: 500;
 }
 
-/* You can add additional global rules here */
-
+@media (max-width: 768px) {
+  html {
+    font-size: 95%;
+  }
+}

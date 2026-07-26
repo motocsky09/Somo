@@ -244,8 +244,32 @@ button:disabled { opacity: 0.5; cursor: not-allowed; }
 
 .contact-link:hover { text-decoration: underline; }
 
-@media (max-width: 600px) {
+@media (max-width: 768px) {
+  .detail-container {
+    margin: 1rem auto;
+    padding: 0 1rem;
+  }
+  .detail-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
   .detail-grid { grid-template-columns: 1fr; }
   .detail-grid .card:first-child { grid-column: 1; }
   .detail-header { flex-direction: column; align-items: flex-start; }
+  .header-left h2 {
+    font-size: 1.4rem;
+  }
+  .header-actions {
+    width: 100%;
+    justify-content: space-between;
+  }
+  .header-actions .btn-confirm,
+  .header-actions .btn-complete,
+  .header-actions .btn-cancel {
+    width: 100%;
+    margin-bottom: 0.5rem;
+    text-align: center;
+  }
 }

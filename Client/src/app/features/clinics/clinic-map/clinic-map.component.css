@@ -122,3 +122,36 @@ google-map {
   font-size: 0.85rem;
   margin-top: 0.5rem;
 }
+
+@media (max-width: 768px) {
+  .map-container {
+    height: calc(100vh - 50px);
+  }
+  .clinic-panel {
+    width: 250px;
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .map-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.8rem;
+  }
+  .radius-control {
+    width: 100%;
+  }
+  .radius-control input {
+    flex: 1;
+  }
+  .clinic-panel {
+    bottom: 0;
+    top: auto;
+    left: 0;
+    right: 0;
+    width: 100%;
+    border-radius: 12px 12px 0 0;
+    padding: 1rem;
+  }
+}

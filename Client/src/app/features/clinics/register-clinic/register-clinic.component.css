@@ -105,3 +105,21 @@ button:disabled {
   text-align: center;
   font-size: 1.1rem;
 }
+
+@media (max-width: 768px) {
+  .register-container {
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+  .register-card {
+    padding: 1.5rem;
+  }
+  h2 {
+    font-size: 1.6rem;
+  }
+}
