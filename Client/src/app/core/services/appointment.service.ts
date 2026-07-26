@@ -16,6 +16,16 @@ export interface CreateAppointmentDto {
   reason: string;
 }
 
+export interface Appointment {
+  id: string;
+  petId: string;
+  vetId: string;
+  clinicId: string;
+  dateTime: string;
+  reason: string;
+  status: number;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -34,7 +44,7 @@ export class AppointmentService {
     return this.http.post(this.apiUrl, dto);
   }
 
-  getMyAppointments(ownerId: string): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/owner/${ownerId}`);
+  getMyAppointments(ownerId: string): Observable<Appointment[]> {
+    return this.http.get<Appointment[]>(`${this.apiUrl}/owner/${ownerId}`);
   }
 }

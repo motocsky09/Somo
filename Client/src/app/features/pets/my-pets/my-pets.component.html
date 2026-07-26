@@ -1,9 +1,13 @@
 <div class="pets-container">
   <div class="pets-header">
     <h2>Animalele mele</h2>
-    <button class="add-btn" (click)="showAddForm = !showAddForm">
-      {{ showAddForm ? '✕ Anulează' : '+ Adaugă animal' }}
-    </button>
+    <div class="header-actions">
+      <a routerLink="/my-appointments" class="secondary-btn">📋 Programările mele</a>
+      <a routerLink="/appointments/new" class="secondary-btn">📅 Programare nouă</a>
+      <button class="add-btn" (click)="showAddForm = !showAddForm">
+        {{ showAddForm ? '✕ Anulează' : '+ Adaugă animal' }}
+      </button>
+    </div>
   </div>
 
   
@@ -62,18 +66,18 @@
       <button (click)="showAddForm = true">Adaugă primul tău animal</button>
     </div>
 
-    <div class="pet-card" *ngFor="let pet of pets">
-      <div class="pet-emoji">{{ getSpeciesEmoji(pet.species) }}</div>
+    <div class="pet-card" *ngFor="let pet of pets" [routerLink]="['/pets', pet.id]">
+      <div class="pet-emoji">
+        <img *ngIf="pet.photoUrl" [src]="pet.photoUrl" [alt]="pet.name" class="pet-photo" />
+        <span *ngIf="!pet.photoUrl">{{ getSpeciesEmoji(pet.species) }}</span>
+      </div>
       <div class="pet-info">
         <h3>{{ pet.name }}</h3>
         <p>{{ pet.species }} • {{ pet.breed }}</p>
         <p>{{ pet.age }} ani • {{ pet.weight }} kg</p>
       </div>
       <div class="pet-actions">
-        <button class="appointment-btn" routerLink="/appointments/new">
-          Programare
-        </button>
-        <button class="delete-btn" (click)="onDeletePet(pet.id)">🗑️</button>
+        <button class="delete-btn" (click)="$event.stopPropagation(); onDeletePet(pet.id)">🗑️</button>
       </div>
     </div>
   </div>

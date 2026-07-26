@@ -17,6 +17,9 @@ import { AppointmentsHistoryComponent } from './features/appointments/appointmen
 import { RegisterClinicComponent } from './features/clinics/register-clinic/register-clinic.component';
 import { ClinicDashboardComponent } from './features/clinics/clinic-dashboard/clinic-dashboard.component';
 import { AppointmentDetailComponent } from './features/appointments/appointment-detail/appointment-detail.component';
+import { HomeComponent } from './features/home/home.component';
+import { FooterComponent } from './shared/components/footer/footer.component';
+import { PetDetailComponent } from './features/pets/pet-detail/pet-detail.component';
 
 
 @NgModule({
@@ -31,7 +34,10 @@ import { AppointmentDetailComponent } from './features/appointments/appointment-
     AppointmentsHistoryComponent,
     RegisterClinicComponent,
     ClinicDashboardComponent,
-    AppointmentDetailComponent
+    AppointmentDetailComponent,
+    HomeComponent,
+    FooterComponent,
+    PetDetailComponent
   ],
   imports: [
     BrowserModule,

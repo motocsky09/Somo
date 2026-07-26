@@ -10,20 +10,24 @@ import { AppointmentsHistoryComponent } from './features/appointments/appointmen
 import { RegisterClinicComponent } from './features/clinics/register-clinic/register-clinic.component';
 import { ClinicDashboardComponent } from './features/clinics/clinic-dashboard/clinic-dashboard.component';
 import { AppointmentDetailComponent } from './features/appointments/appointment-detail/appointment-detail.component';
+import { HomeComponent } from './features/home/home.component';
+import { PetDetailComponent } from './features/pets/pet-detail/pet-detail.component';
 
 
 const routes: Routes = [
-  { path: '', redirectTo: '/clinics', pathMatch: 'full' },
+  { path: '', redirectTo: '/home', pathMatch: 'full' },
+  { path: 'home', component: HomeComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'clinics', component: ClinicMapComponent, canActivate: [AuthGuard] },
   { path: 'my-pets', component: MyPetsComponent, canActivate: [AuthGuard] },
+  { path: 'pets/:id', component: PetDetailComponent, canActivate: [AuthGuard] },
   { path: 'appointments/new', component: CreateAppointmentComponent, canActivate: [AuthGuard] },
   { path: 'my-appointments', component: AppointmentsHistoryComponent, canActivate: [AuthGuard] },
   { path: 'register-clinic', component: RegisterClinicComponent, canActivate: [AuthGuard] },
   { path: 'clinic-dashboard', component: ClinicDashboardComponent, canActivate: [AuthGuard] },
   { path: 'appointment/:id', component: AppointmentDetailComponent, canActivate: [AuthGuard] },
-  { path: '**', redirectTo: '/clinics' }
+  { path: '**', redirectTo: '/home' }
 ];
 
 @NgModule({

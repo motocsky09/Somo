@@ -1,0 +1,146 @@
+<div class="detail-container">
+
+  <a routerLink="/my-pets" class="back-link">← Înapoi la animalele mele</a>
+
+  <input #photoInput type="file" accept="image/*" (change)="onPhotoSelected($event)" hidden />
+
+  <div class="loading" *ngIf="isLoading">
+    <p>Se încarcă...</p>
+  </div>
+
+  <div class="error-box" *ngIf="!isLoading && !pet">
+    <p>{{ errorMessage || 'Animalul nu a fost găsit.' }}</p>
+  </div>
+
+  <ng-container *ngIf="pet">
+    <div class="profile-card">
+      <div class="avatar-wrap">
+        <button type="button" class="avatar" (click)="onAvatarClick()"
+                [title]="pet.photoUrl ? 'Editează poza' : 'Adaugă poză'">
+          <img *ngIf="pet.photoUrl" [src]="pet.photoUrl" [alt]="pet.name" />
+          <span *ngIf="!pet.photoUrl" class="avatar-emoji">{{ getSpeciesEmoji(pet.species) }}</span>
+          <span class="avatar-overlay">📷</span>
+        </button>
+        <span class="avatar-caption">Apasă pe poză pentru a o edita</span>
+      </div>
+
+      <div class="profile-info">
+        <ng-container *ngIf="!isEditing">
+          <div class="profile-head">
+            <h2>{{ pet.name }}</h2>
+            <button class="edit-btn" (click)="startEdit()">✎ Editează</button>
+          </div>
+          <p class="species-line">{{ pet.species }} • {{ pet.breed }}</p>
+          <div class="stats">
+            <div class="stat">
+              <span class="stat-value">{{ pet.age }}</span>
+              <span class="stat-label">ani</span>
+            </div>
+            <div class="stat">
+              <span class="stat-value">{{ pet.weight }}</span>
+              <span class="stat-label">kg</span>
+            </div>
+          </div>
+        </ng-container>
+
+        <ng-container *ngIf="isEditing">
+          <div class="edit-form">
+            <div class="form-group">
+              <label>Nume</label>
+              <input type="text" [(ngModel)]="editName" placeholder="Numele animalului" />
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label>Vârstă (ani)</label>
+                <input type="number" [(ngModel)]="editAge" min="0" max="50" />
+              </div>
+              <div class="form-group">
+                <label>Greutate (kg)</label>
+                <input type="number" [(ngModel)]="editWeight" min="0" step="0.1" />
+              </div>
+            </div>
+            <div class="edit-actions">
+              <button class="save-btn" (click)="saveEdit()" [disabled]="isSaving">
+                {{ isSaving ? 'Se salvează...' : 'Salvează' }}
+              </button>
+              <button class="cancel-btn" (click)="cancelEdit()" [disabled]="isSaving">Anulează</button>
+            </div>
+          </div>
+        </ng-container>
+
+        <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
+      </div>
+    </div>
+
+    <div class="appointments-section">
+      <div class="section-head">
+        <h3>Programări</h3>
+        <button class="new-appt-btn" (click)="newAppointment()">+ Programare nouă</button>
+      </div>
+
+      <div class="empty-appts" *ngIf="appointments.length === 0">
+        <p>📅</p>
+        <p>Nu există programări pentru {{ pet.name }}.</p>
+        <button class="new-appt-btn" (click)="newAppointment()">Fă prima programare</button>
+      </div>
+
+      <div class="appt-list" *ngIf="appointments.length > 0">
+        <div class="appt-card" *ngFor="let appt of appointments">
+          <div class="appt-date">
+            <span class="appt-day">{{ formatDate(appt.dateTime) }}</span>
+            <span class="appt-time">{{ formatTime(appt.dateTime) }}</span>
+          </div>
+          <div class="appt-body">
+            <p class="appt-clinic">{{ getClinicName(appt.clinicId) }}</p>
+            <p class="appt-vet">{{ getVetName(appt.vetId) }}</p>
+            <p class="appt-reason" *ngIf="appt.reason">„{{ appt.reason }}"</p>
+          </div>
+          <span class="appt-status" [style.background]="statusColors[appt.status]">
+            {{ statusLabels[appt.status] }}
+          </span>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+  <div class="crop-overlay" *ngIf="isCropping" (click)="cancelCrop()">
+    <div class="crop-modal" (click)="$event.stopPropagation()">
+      <h3>Ajustează poza</h3>
+      <p class="crop-hint">Trage pentru a repoziționa, folosește glisorul pentru zoom.</p>
+
+      <div class="crop-viewport"
+           [style.width.px]="viewport"
+           [style.height.px]="viewport"
+           (pointerdown)="onDragStart($event)"
+           (wheel)="onWheel($event)">
+        <img [src]="cropSrc" alt="Decupare"
+             [style.width.px]="dispW"
+             [style.height.px]="dispH"
+             [style.left.px]="offsetX"
+             [style.top.px]="offsetY"
+             draggable="false" />
+        <div class="crop-frame"></div>
+      </div>
+
+      <div class="zoom-control">
+        <span>➖</span>
+        <input type="range" [min]="minZoom" [max]="maxZoom" step="0.01"
+               [value]="cropZoom" (input)="setZoom(+$any($event.target).value)" />
+        <span>➕</span>
+      </div>
+
+      <div class="crop-actions">
+        <button class="save-btn" (click)="confirmCrop()" [disabled]="isSaving">
+          {{ isSaving ? 'Se salvează...' : 'Actualizează poza' }}
+        </button>
+        <button class="change-btn" (click)="triggerChangePhoto()" [disabled]="isSaving">Schimbă poza</button>
+      </div>
+      <div class="crop-secondary">
+        <button class="link-danger" *ngIf="pet && pet.photoUrl" (click)="removePhoto()" [disabled]="isSaving">
+          Elimină poza
+        </button>
+        <button class="link-muted" (click)="cancelCrop()" [disabled]="isSaving">Anulează</button>
+      </div>
+    </div>
+  </div>
+</div>

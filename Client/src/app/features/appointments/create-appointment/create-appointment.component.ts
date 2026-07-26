@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { AppointmentService } from '../../../core/services/appointment.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AppointmentService, AvailableSlot } from '../../../core/services/appointment.service';
 import { PetService, Pet } from '../../../core/services/pet.service';
 import { ClinicService, Clinic } from '../../../core/services/clinic.service';
 import { VetService, Vet } from '../../../core/services/vet.service';
@@ -12,14 +12,12 @@ import { AuthService } from '../../../core/services/auth.service';
   styleUrls: ['./create-appointment.component.css']
 })
 export class CreateAppointmentComponent implements OnInit {
-  // Data
   pets: Pet[] = [];
   clinics: Clinic[] = [];
   vets: Vet[] = [];
   filteredVets: Vet[] = [];
-  availableSlots: any[] = [];
+  availableSlots: AvailableSlot[] = [];
 
-  // Selections
   selectedPetId = '';
   selectedClinicId = '';
   selectedVetId = '';
@@ -27,8 +25,6 @@ export class CreateAppointmentComponent implements OnInit {
   selectedSlot = '';
   reason = '';
 
-  // State
-  step = 1;
   isLoading = false;
   isSubmitting = false;
   errorMessage = '';
@@ -42,10 +38,15 @@ export class CreateAppointmentComponent implements OnInit {
     private clinicService: ClinicService,
     private vetService: VetService,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
+    const petId = this.route.snapshot.queryParams['petId'];
+    if (petId) {
+      this.selectedPetId = petId;
+    }
     this.loadInitialData();
   }
 

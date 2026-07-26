@@ -1,7 +1,8 @@
 .pets-container {
   max-width: 900px;
   margin: 2rem auto;
-  padding: 0 1rem;
+  padding: 0 1rem 4rem;
+  min-height: calc(100vh - 320px);
 }
 
 .pets-header {
@@ -15,6 +16,31 @@
   margin: 0;
   color: #2c3e50;
   font-size: 1.8rem;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  flex-wrap: wrap;
+}
+
+.secondary-btn {
+  padding: 0.6rem 1rem;
+  background: white;
+  color: #2c3e50;
+  border: 1.5px solid #dfe6ee;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  text-decoration: none;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.secondary-btn:hover {
+  border-color: #3498db;
+  color: #3498db;
 }
 
 .add-btn {
@@ -112,15 +138,30 @@
   display: flex;
   align-items: center;
   gap: 1rem;
-  transition: transform 0.2s;
+  transition: transform 0.2s, box-shadow 0.2s;
+  cursor: pointer;
 }
 
 .pet-card:hover {
   transform: translateY(-2px);
+  box-shadow: 0 8px 22px rgba(0,0,0,0.12);
 }
 
 .pet-emoji {
   font-size: 2.5rem;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.pet-photo {
+  width: 60px;
+  height: 60px;
+  border-radius: 12px;
+  object-fit: cover;
 }
 
 .pet-info {
@@ -143,22 +184,6 @@
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-}
-
-.appointment-btn {
-  padding: 0.5rem 0.8rem;
-  background: #3498db;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 0.8rem;
-  transition: background 0.2s;
-  white-space: nowrap;
-}
-
-.appointment-btn:hover {
-  background: #2980b9;
 }
 
 .delete-btn {
@@ -208,4 +233,38 @@
   color: #e74c3c;
   font-size: 0.85rem;
   margin-bottom: 0.5rem;
+}
+
+@media (max-width: 768px) {
+  .pets-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .pets-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  .add-btn {
+    width: 100%;
+  }
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 0.8rem;
+  }
+  .pet-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.8rem;
+  }
+  .pet-actions {
+    flex-direction: row;
+    width: 100%;
+  }
+  .delete-btn {
+    flex: 1;
+    text-align: center;
+  }
 }

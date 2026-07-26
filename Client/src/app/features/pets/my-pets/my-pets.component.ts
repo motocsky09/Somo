@@ -86,15 +86,6 @@ export class MyPetsComponent implements OnInit {
   }
 
   getSpeciesEmoji(species: string): string {
-    const map: { [key: string]: string } = {
-      'Câine': '🦮',
-      'Pisică': '🐈‍⬛',
-      'Iepure': '🐇',
-      'Hamster': '🐁',
-      'Papagal': '🦜',
-      'Țestoasă': '🐢',
-      'Reptilă': '🐍',
-    };
-    return map[species] || '🐾';
+    return PetService.speciesEmoji(species);
   }
 }
