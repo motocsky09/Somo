@@ -1,0 +1,217 @@
+<div class="home">
+
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="hero-text">
+        <span class="hero-badge">🐾 Grija pentru animalul tău, într-un singur loc</span>
+        <h1>Somo — hub-ul pentru sănătatea animalelor tale</h1>
+        <p>
+          Găsești rapid cabinetele veterinare din apropiere, îți înrolezi animalele de
+          companie și ții totul la zi: programări și istoric medical, direct din contul tău.
+        </p>
+        <div class="hero-actions">
+          <a routerLink="/clinics" class="btn btn-primary">Găsește un cabinet</a>
+          <a routerLink="/my-pets" class="btn btn-ghost">Înrolează un animal</a>
+        </div>
+        <div class="hero-stats">
+          <div><strong>Rapid</strong><span>cabinete pe hartă</span></div>
+          <div><strong>Simplu</strong><span>programări online</span></div>
+          <div><strong>Organizat</strong><span>istoric medical</span></div>
+        </div>
+      </div>
+
+      <div class="hero-illustration">
+        <svg viewBox="0 0 400 340" class="map-illustration" role="img"
+             aria-label="Hartă cu cabinete veterinare din apropiere">
+          <defs>
+            <linearGradient id="mapBg" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#eef4fb" />
+              <stop offset="100%" stop-color="#dce9f7" />
+            </linearGradient>
+            <filter id="pinShadow" x="-40%" y="-40%" width="180%" height="180%">
+              <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#2c3e50" flood-opacity="0.25" />
+            </filter>
+          </defs>
+
+          <rect x="0" y="0" width="400" height="340" rx="24" fill="url(#mapBg)" />
+
+          <path d="M0,250 C60,230 120,270 200,255 C280,240 340,275 400,255 L400,340 L0,340 Z"
+                fill="#cfe8d8" opacity="0.7" />
+          <circle cx="70" cy="80" r="34" fill="#cfe8d8" opacity="0.7" />
+
+          <g stroke="#ffffff" stroke-width="10" stroke-linecap="round" fill="none">
+            <path d="M-10,120 L410,150" />
+            <path d="M120,-10 L150,350" />
+            <path d="M260,-10 L300,350" />
+            <path d="M-10,230 L410,215" />
+          </g>
+          <g stroke="#f4c542" stroke-width="2.5" stroke-dasharray="8 10" stroke-linecap="round" fill="none" opacity="0.9">
+            <path d="M-10,120 L410,150" />
+            <path d="M260,-10 L300,350" />
+          </g>
+
+          <g fill="#ffffff" opacity="0.85">
+            <rect x="40" y="150" width="46" height="40" rx="6" />
+            <rect x="180" y="60" width="52" height="46" rx="6" />
+            <rect x="330" y="170" width="44" height="42" rx="6" />
+            <rect x="60" y="270" width="50" height="40" rx="6" />
+          </g>
+
+          <g filter="url(#pinShadow)">
+            <path d="M200,90 C176,90 158,108 158,132 C158,166 200,205 200,205 C200,205 242,166 242,132 C242,108 224,90 200,90 Z"
+                  fill="#e74c3c" />
+            <circle cx="200" cy="131" r="20" fill="#ffffff" />
+            <text x="200" y="139" text-anchor="middle" font-size="20">🐾</text>
+          </g>
+
+          <g filter="url(#pinShadow)">
+            <path d="M110,150 C94,150 82,162 82,178 C82,200 110,226 110,226 C110,226 138,200 138,178 C138,162 126,150 110,150 Z"
+                  fill="#3498db" />
+            <circle cx="110" cy="177" r="12" fill="#ffffff" />
+            <circle cx="110" cy="177" r="5" fill="#3498db" />
+          </g>
+
+          <g filter="url(#pinShadow)">
+            <path d="M312,120 C296,120 284,132 284,148 C284,170 312,196 312,196 C312,196 340,170 340,148 C340,132 328,120 312,120 Z"
+                  fill="#2ecc71" />
+            <circle cx="312" cy="147" r="12" fill="#ffffff" />
+            <circle cx="312" cy="147" r="5" fill="#2ecc71" />
+          </g>
+
+          <g>
+            <circle cx="150" cy="285" r="26" fill="#3498db" opacity="0.15">
+              <animate attributeName="r" values="14;28;14" dur="2.6s" repeatCount="indefinite" />
+              <animate attributeName="opacity" values="0.35;0;0.35" dur="2.6s" repeatCount="indefinite" />
+            </circle>
+            <circle cx="150" cy="285" r="9" fill="#3498db" stroke="#ffffff" stroke-width="3" />
+          </g>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <section class="section story">
+    <div class="section-inner">
+      <span class="eyebrow">Povestea noastră</span>
+      <h2>De ce am construit Somo</h2>
+      <p class="story-text">
+        Ne-am dorit ca grija față de animalele de companie să nu mai însemne apeluri nesfârșite,
+        agende pierdute și carnețele de vaccinări uitate acasă. <strong>Somo</strong> aduce
+        împreună proprietarii de animale și cabinetele veterinare într-un singur loc: găsești
+        cabinetul potrivit, faci o programare în câteva secunde și ai mereu la îndemână istoricul
+        medical al fiecărui animal. Pentru că un prieten sănătos începe cu grija potrivită, la timp.
+      </p>
+    </div>
+  </section>
+
+  <section class="section features">
+    <div class="section-inner">
+      <span class="eyebrow">Ce poți face</span>
+      <h2>Tot ce ai nevoie pentru animalul tău</h2>
+
+      <div class="feature-grid">
+        <div class="feature-card">
+          <div class="feature-icon" style="background:#eaf4fc;">📍</div>
+          <h3>Găsești cabinete aproape</h3>
+          <p>Vezi pe hartă cabinetele veterinare din raza ta și alegi rapid pe cel potrivit.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon" style="background:#eafaf1;">🐶</div>
+          <h3>Îți înrolezi animalele</h3>
+          <p>Adaugi câini, pisici și alte animale pe contul tău, cu detaliile fiecăruia.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon" style="background:#fef5e0;">📅</div>
+          <h3>Faci programări online</h3>
+          <p>Rezervi o vizită la cabinetul dorit în câțiva pași și urmărești statusul ei.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon" style="background:#fdeeee;">📋</div>
+          <h3>Ai istoricul la zi</h3>
+          <p>Toate programările și vizitele animalelor tale, într-un singur loc, mereu accesibile.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section food">
+    <div class="section-inner">
+      <span class="eyebrow">Nutriție</span>
+      <h2>Hrană recomandată pentru animalul tău</h2>
+      <p class="section-sub">
+        O alimentație potrivită înseamnă un prieten fericit și sănătos. Iată câteva repere,
+        în funcție de specie.
+      </p>
+
+      <div class="food-grid">
+        <div class="food-card">
+          <div class="food-emoji">🐕</div>
+          <h3>Pentru câini</h3>
+          <ul>
+            <li>Hrană uscată bogată în proteine animale</li>
+            <li>Porții adaptate la vârstă, rasă și nivel de activitate</li>
+            <li>Supliment cu Omega-3 pentru blană și articulații</li>
+            <li>Apă proaspătă mereu la dispoziție</li>
+          </ul>
+        </div>
+        <div class="food-card">
+          <div class="food-emoji">🐈</div>
+          <h3>Pentru pisici</h3>
+          <ul>
+            <li>Hrană umedă și uscată, bogată în taurină</li>
+            <li>Proteine de calitate, conținut redus de carbohidrați</li>
+            <li>Mese mici și frecvente pe parcursul zilei</li>
+            <li>Hidratare susținută prin hrană umedă</li>
+          </ul>
+        </div>
+      </div>
+
+      <p class="stores-intro">Comandă hrană de la magazinele partenere:</p>
+      <div class="stores">
+        <a *ngFor="let store of stores" [href]="store.url" target="_blank" rel="noopener"
+           class="store-btn" [attr.data-store]="store.name">
+          <span class="store-logo" [ngClass]="'logo-' + store.name">
+            <ng-container [ngSwitch]="store.name">
+              <ng-container *ngSwitchCase="'zooplus'">zoo<b>plus</b></ng-container>
+              <ng-container *ngSwitchCase="'maxipet'">maxi<b>pet</b></ng-container>
+              <ng-container *ngSwitchCase="'animax'">ANI<b>MAX</b></ng-container>
+            </ng-container>
+          </span>
+          <span class="store-tagline">{{ store.tagline }}</span>
+          <span class="store-cta">Vizitează magazinul →</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section faq">
+    <div class="section-inner section-inner--narrow">
+      <span class="eyebrow">Ai întrebări?</span>
+      <h2>Întrebări frecvente</h2>
+
+      <div class="faq-list">
+        <div class="faq-item" *ngFor="let item of faqs" [class.open]="item.open">
+          <button class="faq-question" (click)="toggleFaq(item)" [attr.aria-expanded]="item.open">
+            <span>{{ item.question }}</span>
+            <span class="faq-chevron">⌄</span>
+          </button>
+          <div class="faq-answer" *ngIf="item.open">
+            <p>{{ item.answer }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-final">
+    <div class="cta-inner">
+      <h2>Gata să ai grijă mai bine de animalul tău?</h2>
+      <p>Creează un cont gratuit și începe în câteva minute.</p>
+      <div class="hero-actions">
+        <a *ngIf="!authService.isLoggedIn" routerLink="/register" class="btn btn-primary">Creează cont gratuit</a>
+        <a routerLink="/clinics" class="btn btn-ghost btn-ghost--light">Găsește un cabinet</a>
+      </div>
+    </div>
+  </section>
+
+</div>

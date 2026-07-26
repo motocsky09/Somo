@@ -1,0 +1,35 @@
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <a routerLink="/home" class="footer-logo">🐾 Somo</a>
+      <p>Hub-ul care conectează proprietarii de animale cu cabinetele veterinare din apropiere.</p>
+    </div>
+
+    <div class="footer-col">
+      <h4>Navigare</h4>
+      <a routerLink="/home">Acasă</a>
+      <a routerLink="/clinics">Cabinete</a>
+      <a routerLink="/my-pets">Animalele mele</a>
+      <a routerLink="/my-appointments">Programările mele</a>
+    </div>
+
+    <div class="footer-col">
+      <h4>Cont</h4>
+      <ng-container *ngIf="!authService.isLoggedIn">
+        <a routerLink="/login">Autentificare</a>
+        <a routerLink="/register">Creează cont</a>
+      </ng-container>
+      <ng-container *ngIf="authService.isLoggedIn">
+        <a routerLink="/appointments/new">Programare nouă</a>
+      </ng-container>
+    </div>
+
+    <div class="footer-col footer-home">
+      <a routerLink="/home" class="footer-home-btn">🏠 Înapoi la pagina principală</a>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <span>© {{ currentYear }} Somo. Toate drepturile rezervate.</span>
+  </div>
+</footer>
