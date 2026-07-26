@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
@@ -8,16 +8,18 @@ import { AuthService } from '../../../core/services/auth.service';
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css']
 })
-export class RegisterComponent {
+export class RegisterComponent implements OnInit {
   registerForm: FormGroup;
   errorMessage = '';
   successMessage = '';
+  infoMessage = '';
   isLoading = false;
 
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) {
     this.registerForm = this.fb.group({
       username: ['', Validators.required],
@@ -25,6 +27,12 @@ export class RegisterComponent {
       password: ['', [Validators.required, Validators.minLength(6)]],
       role: ['Owner']
     });
+  }
+
+  ngOnInit(): void {
+    if (this.route.snapshot.queryParams['authRequired']) {
+      this.infoMessage = 'Nu sunteți conectat. Creați un cont sau conectați-vă pentru a continua.';
+    }
   }
 
   onSubmit(): void {

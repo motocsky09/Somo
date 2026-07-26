@@ -1,26 +1,70 @@
-<nav class="navbar" *ngIf="authService.isLoggedIn">
+<nav class="navbar">
   <div class="navbar-brand">
-    <span class="logo">🐾 Somo</span>
+    <a routerLink="/home" class="logo">🐾 Somo</a>
   </div>
 
   <div class="navbar-links">
-    
+    <a routerLink="/home" routerLinkActive="active">Acasă</a>
+
+    <ng-container *ngIf="!authService.isLoggedIn">
+      <a routerLink="/clinics" routerLinkActive="active">Cabinete</a>
+      <a routerLink="/my-pets" routerLinkActive="active">Animalele mele</a>
+    </ng-container>
+
     <ng-container *ngIf="authService.hasRole('Owner')">
       <a routerLink="/clinics" routerLinkActive="active">Cabinete</a>
       <a routerLink="/my-pets" routerLinkActive="active">Animalele mele</a>
-      <a routerLink="/appointments/new" routerLinkActive="active">Programare nouă</a>
-      <a routerLink="/my-appointments" routerLinkActive="active">Programările mele</a>
     </ng-container>
-
-    
     <ng-container *ngIf="authService.hasRole('ClinicAdmin')">
       <a routerLink="/clinic-dashboard" routerLinkActive="active">Dashboard cabinet</a>
       <a routerLink="/register-clinic" routerLinkActive="active">Înregistrează cabinet</a>
     </ng-container>
   </div>
 
-  <div class="navbar-user">
+  <div class="navbar-user" *ngIf="authService.isLoggedIn">
     <span class="username">{{ authService.currentUser?.username }}</span>
-    <button (click)="logout()">Ieși din cont</button>
+    <button (click)="logout()" class="logout-button">Ieși din cont</button>
+  </div>
+
+  <div class="navbar-auth" *ngIf="!authService.isLoggedIn">
+    <a routerLink="/login" class="auth-login">Autentificare</a>
+    <a routerLink="/register" class="auth-register">Creează cont</a>
+  </div>
+
+  <div class="hamburger-menu">
+    <button class="hamburger-button" (click)="toggleMenu()">
+      <span class="hamburger-icon">&#9776;</span>
+    </button>
   </div>
 </nav>
+
+<div class="mobile-menu" [class.open]="isMenuOpen">
+  <div class="mobile-menu-header">
+    <span class="logo">🐾 Somo</span>
+    <button class="close-button" (click)="toggleMenu()">&times;</button>
+  </div>
+  <div class="mobile-menu-links">
+    <a routerLink="/home" routerLinkActive="active" (click)="closeMenu()">Acasă</a>
+
+    <ng-container *ngIf="!authService.isLoggedIn">
+      <a routerLink="/clinics" routerLinkActive="active" (click)="closeMenu()">Cabinete</a>
+      <a routerLink="/my-pets" routerLinkActive="active" (click)="closeMenu()">Animalele mele</a>
+    </ng-container>
+
+    <ng-container *ngIf="authService.hasRole('Owner')">
+      <a routerLink="/clinics" routerLinkActive="active" (click)="closeMenu()">Cabinete</a>
+      <a routerLink="/my-pets" routerLinkActive="active" (click)="closeMenu()">Animalele mele</a>
+    </ng-container>
+    <ng-container *ngIf="authService.hasRole('ClinicAdmin')">
+      <a routerLink="/clinic-dashboard" routerLinkActive="active" (click)="closeMenu()">Dashboard cabinet</a>
+      <a routerLink="/register-clinic" routerLinkActive="active" (click)="closeMenu()">Înregistrează cabinet</a>
+    </ng-container>
+
+    <button *ngIf="authService.isLoggedIn" (click)="logout()" class="logout-button-mobile">Ieși din cont</button>
+
+    <ng-container *ngIf="!authService.isLoggedIn">
+      <a routerLink="/login" class="auth-login-mobile" (click)="closeMenu()">Autentificare</a>
+      <a routerLink="/register" class="auth-register-mobile" (click)="closeMenu()">Creează cont</a>
+    </ng-container>
+  </div>
+</div>

@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
@@ -8,20 +8,31 @@ import { AuthService } from '../../../core/services/auth.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   errorMessage = '';
+  infoMessage = '';
   isLoading = false;
+  private returnUrl: string | null = null;
 
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) {
     this.loginForm = this.fb.group({
       username: ['', Validators.required],
       password: ['', Validators.required]
     });
+  }
+
+  ngOnInit(): void {
+    const params = this.route.snapshot.queryParams;
+    if (params['authRequired']) {
+      this.infoMessage = 'Nu sunteți conectat. Conectați-vă sau creați un cont pentru a continua.';
+    }
+    this.returnUrl = params['returnUrl'] || null;
   }
 
   onSubmit(): void {
@@ -32,10 +43,10 @@ export class LoginComponent {
 
     this.authService.login(this.loginForm.value).subscribe({
       next: () => {
-        if (this.authService.hasRole('ClinicAdmin')) {
-          this.router.navigate(['/clinic-dashboard']);
+        if (this.returnUrl) {
+          this.router.navigateByUrl(this.returnUrl);
         } else {
-          this.router.navigate(['/clinics']);
+          this.router.navigate(['/home']);
         }
       },
       error: () => {

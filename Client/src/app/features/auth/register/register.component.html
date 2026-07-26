@@ -3,6 +3,11 @@
     <h2>Creează cont</h2>
     <p class="subtitle">Înregistrează-te pentru a accesa serviciile Somo</p>
 
+    <div class="info-banner" *ngIf="infoMessage">
+      <span class="info-icon">🔒</span>
+      <span>{{ infoMessage }}</span>
+    </div>
+
     <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
       <div class="form-group">
         <label>Username</label>
@@ -37,7 +42,7 @@
     </form>
 
     <p class="login-link">
-      Ai deja cont? <a routerLink="/login">Intră în cont</a>
+      Ai deja cont? <a routerLink="/login" [queryParams]="{ authRequired: infoMessage ? '1' : null }">Intră în cont</a>
     </p>
   </div>
 </div>

@@ -3,6 +3,11 @@
     <h2>Bine ai venit la Somo</h2>
     <p class="subtitle">Găsește cabinete veterinare și fă programări</p>
 
+    <div class="info-banner" *ngIf="infoMessage">
+      <span class="info-icon">🔒</span>
+      <span>{{ infoMessage }}</span>
+    </div>
+
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
       <div class="form-group">
         <label>Username</label>
@@ -32,7 +37,7 @@
     </form>
 
     <p class="register-link">
-      Nu ai cont? <a routerLink="/register">Înregistrează-te</a>
+      Nu ai cont? <a routerLink="/register" [queryParams]="{ authRequired: infoMessage ? '1' : null }">Înregistrează-te</a>
     </p>
   </div>
 </div>
