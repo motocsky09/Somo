@@ -7,7 +7,6 @@
 
   <div class="form-card" *ngIf="!successMessage">
 
-    <!-- Pasul 1: Animal -->
     <div class="form-section">
       <h3>1. Alege animalul</h3>
       <div class="pets-select">
@@ -26,7 +25,6 @@
       </div>
     </div>
 
-    <!-- Pasul 2: Clinică -->
     <div class="form-section" *ngIf="selectedPetId">
       <h3>2. Alege clinica</h3>
       <select [(ngModel)]="selectedClinicId" (ngModelChange)="onClinicSelect()">
@@ -37,7 +35,6 @@
       </select>
     </div>
 
-    <!-- Pasul 3: Medic -->
     <div class="form-section" *ngIf="selectedClinicId">
       <h3>3. Alege medicul</h3>
       <div class="vets-list" *ngIf="filteredVets.length > 0">
@@ -58,7 +55,6 @@
       </p>
     </div>
 
-    <!-- Pasul 4: Data -->
     <div class="form-section" *ngIf="selectedVetId">
       <h3>4. Alege data</h3>
       <input
@@ -69,7 +65,6 @@
       />
     </div>
 
-    <!-- Pasul 5: Ora -->
     <div class="form-section" *ngIf="selectedDate">
       <h3>5. Alege ora</h3>
       <div class="loading-slots" *ngIf="isLoading">Se încarcă orele...</div>
@@ -87,7 +82,6 @@
       </div>
     </div>
 
-    <!-- Pasul 6: Motiv -->
     <div class="form-section" *ngIf="selectedSlot">
       <h3>6. Motivul vizitei</h3>
       <textarea
@@ -97,7 +91,6 @@
       </textarea>
     </div>
 
-    <!-- Sumar și confirmare -->
     <div class="summary" *ngIf="canSubmit()">
       <h3>Sumar programare</h3>
       <p>🐾 <strong>Animal:</strong> {{ getPetName(selectedPetId) }}</p>

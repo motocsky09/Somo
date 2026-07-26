@@ -1,3 +1,4 @@
+using System.Globalization;
 using System.Text.Json;
 using Microsoft.Extensions.Configuration;
 using Somo.Application.Interfaces;
@@ -18,11 +19,11 @@ public class GooglePlacesService : IGooglePlacesService
     public async Task<IEnumerable<GooglePlaceResult>> SearchVeterinaryClinicsAsync(
         double lat, double lng, double radiusMeters)
     {
-var url = $"https://maps.googleapis.com/maps/api/place/nearbysearch/json" +
-          $"?location={lat.ToString(System.Globalization.CultureInfo.InvariantCulture)},{lng.ToString(System.Globalization.CultureInfo.InvariantCulture)}" +
-          $"&radius={radiusMeters.ToString(System.Globalization.CultureInfo.InvariantCulture)}" +
-          $"&type=veterinary_care" +
-          $"&key={_apiKey}";
+        var url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json" +
+                  $"?location={lat.ToString(CultureInfo.InvariantCulture)},{lng.ToString(CultureInfo.InvariantCulture)}" +
+                  $"&radius={radiusMeters.ToString(CultureInfo.InvariantCulture)}" +
+                  "&type=veterinary_care" +
+                  $"&key={_apiKey}";
 
         var response = await _httpClient.GetAsync(url);
         var content = await response.Content.ReadAsStringAsync();
@@ -51,36 +52,29 @@ var url = $"https://maps.googleapis.com/maps/api/place/nearbysearch/json" +
     }
 
     public async Task<(double Lat, double Lng)?> GeocodeAddressAsync(string address)
-{
-    var encodedAddress = Uri.EscapeDataString(address);
-    var url = $"https://maps.googleapis.com/maps/api/geocode/json?address={encodedAddress}&key={_apiKey}";
+    {
+        var encodedAddress = Uri.EscapeDataString(address);
+        var url = $"https://maps.googleapis.com/maps/api/geocode/json?address={encodedAddress}&key={_apiKey}";
 
-    var response = await _httpClient.GetAsync(url);
-    var content = await response.Content.ReadAsStringAsync();
-    
-    // TEMPORAR - pentru debug, șterge după ce merge
-    Console.WriteLine($"=== GEOCODE DEBUG ===");
-    Console.WriteLine($"Address: {address}");
-    Console.WriteLine($"API Key: {_apiKey[..10]}...");
-    Console.WriteLine($"Response: {content}");
-    Console.WriteLine($"====================");
+        var response = await _httpClient.GetAsync(url);
+        var content = await response.Content.ReadAsStringAsync();
 
-    var json = JsonDocument.Parse(content);
+        var json = JsonDocument.Parse(content);
 
-    if (!json.RootElement.TryGetProperty("results", out var results))
-        return null;
+        if (!json.RootElement.TryGetProperty("results", out var results))
+            return null;
 
-    var firstResult = results.EnumerateArray().FirstOrDefault();
-    if (firstResult.ValueKind == JsonValueKind.Undefined)
-        return null;
+        var firstResult = results.EnumerateArray().FirstOrDefault();
+        if (firstResult.ValueKind == JsonValueKind.Undefined)
+            return null;
 
-    var location = firstResult
-        .GetProperty("geometry")
-        .GetProperty("location");
+        var location = firstResult
+            .GetProperty("geometry")
+            .GetProperty("location");
 
-    return (
-        location.GetProperty("lat").GetDouble(),
-        location.GetProperty("lng").GetDouble()
-    );
-}
+        return (
+            location.GetProperty("lat").GetDouble(),
+            location.GetProperty("lng").GetDouble()
+        );
+    }
 }

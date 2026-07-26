@@ -79,12 +79,10 @@ export class ClinicDashboardComponent implements OnInit {
     this.vets = [];
     this.showAddVetForm = false;
 
-    // Încarcă medicii cabinetului
     this.http.get<any[]>(`${environment.apiUrl}/Vets`).subscribe(allVets => {
       this.vets = allVets.filter(v => v.clinicIds.includes(clinic.id));
     });
 
-    // Încarcă programările
     this.http.get<any[]>(`${environment.apiUrl}/Appointments/by-clinic/${clinic.id}`).subscribe({
       next: (apps) => {
         this.appointments = apps.sort((a, b) =>
@@ -184,7 +182,7 @@ export class ClinicDashboardComponent implements OnInit {
   getDisplayStatus(app: any): number {
     if (app.status === 3 || app.status === 2) return app.status;
     const isPast = new Date(app.dateTime) < new Date();
-    if (isPast && app.status !== 3) return 4; // nefinalizată
+    if (isPast && app.status !== 3) return 4;
     return app.status;
   }
   
