@@ -14,4 +14,5 @@ public class Pet
     public int Age { get; set; }
     public double Weight { get; set; }
     public string OwnerId { get; set; } = string.Empty;
+    public string? PhotoUrl { get; set; }
 }
