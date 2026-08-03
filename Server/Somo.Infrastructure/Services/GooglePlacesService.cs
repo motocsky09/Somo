@@ -51,6 +51,46 @@ public class GooglePlacesService : IGooglePlacesService
         return results;
     }
 
+    public async Task<(double Lat, double Lng)?> GeocodeCityAsync(string city)
+    {
+        var url = "https://maps.googleapis.com/maps/api/geocode/json" +
+                  $"?address={Uri.EscapeDataString(city)}" +
+                  "&components=country:RO" +
+                  $"&key={_apiKey}";
+
+        var response = await _httpClient.GetAsync(url);
+        var content = await response.Content.ReadAsStringAsync();
+
+        var json = JsonDocument.Parse(content);
+
+        if (!json.RootElement.TryGetProperty("results", out var results))
+            return null;
+
+        foreach (var result in results.EnumerateArray())
+        {
+            if (!IsLocality(result))
+                continue;
+
+            var location = result.GetProperty("geometry").GetProperty("location");
+            return (
+                location.GetProperty("lat").GetDouble(),
+                location.GetProperty("lng").GetDouble()
+            );
+        }
+
+        return null;
+    }
+
+    private static bool IsLocality(JsonElement result)
+    {
+        if (!result.TryGetProperty("types", out var types))
+            return false;
+
+        return types.EnumerateArray()
+            .Select(t => t.GetString())
+            .Any(t => t is "locality" or "postal_town" or "administrative_area_level_2" or "administrative_area_level_3");
+    }
+
     public async Task<(double Lat, double Lng)?> GeocodeAddressAsync(string address)
     {
         var encodedAddress = Uri.EscapeDataString(address);

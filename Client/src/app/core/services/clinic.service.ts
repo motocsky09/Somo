@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 
@@ -30,6 +30,15 @@ export interface NearbyClinicsResponse {
   googleClinics: GoogleClinic[];
 }
 
+export interface CitySearchResponse extends NearbyClinicsResponse {
+  city: string;
+  latitude: number;
+  longitude: number;
+  fromCache: boolean;
+  cachedAtUtc: string;
+  expiresAtUtc: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -46,6 +55,15 @@ export class ClinicService {
     return this.http.get<NearbyClinicsResponse>(
       `${this.apiUrl}/nearby?lat=${lat}&lng=${lng}&radiusKm=${radiusKm}`
     );
+  }
+
+  searchByCity(city: string, radiusKm: number = 10, refresh: boolean = false): Observable<CitySearchResponse> {
+    const params = new HttpParams()
+      .set('city', city)
+      .set('radiusKm', radiusKm)
+      .set('refresh', refresh);
+
+    return this.http.get<CitySearchResponse>(`${this.apiUrl}/search`, { params });
   }
 
   getById(id: string): Observable<Clinic> {

@@ -3,3 +3,4 @@ Client/src/environments/environment.prod.ts
 Server/Somo.API/appsettings.json
 Server/**/bin/
 Server/**/obj/
+Server/Somo.API/Cache/

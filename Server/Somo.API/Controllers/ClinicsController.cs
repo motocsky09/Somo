@@ -14,13 +14,16 @@ public class ClinicsController : ControllerBase
 {
     private readonly IVeterinaryClinicRepository _repo;
     private readonly IGooglePlacesService _googlePlacesService;
+    private readonly IPlacesCacheService _placesCache;
 
     public ClinicsController(
         IVeterinaryClinicRepository repo,
-        IGooglePlacesService googlePlacesService)
+        IGooglePlacesService googlePlacesService,
+        IPlacesCacheService placesCache)
     {
         _repo = repo;
         _googlePlacesService = googlePlacesService;
+        _placesCache = placesCache;
     }
 
     private string CurrentUserId => User.FindFirst("id")?.Value ?? string.Empty;
@@ -64,6 +67,63 @@ public class ClinicsController : ControllerBase
         {
             databaseClinics = dbClinics,
             googleClinics = googleClinics
+        });
+    }
+
+    [HttpGet("search")]
+    public async Task<IActionResult> SearchByCity(string city, double radiusKm = 10, bool refresh = false)
+    {
+        if (string.IsNullOrWhiteSpace(city))
+            return BadRequest(new { message = "Introdu numele orașului." });
+
+        var cached = refresh ? null : await _placesCache.GetAsync(city, radiusKm);
+        var fromCache = cached is not null;
+
+        if (cached is null)
+        {
+            var coords = await _googlePlacesService.GeocodeCityAsync(city.Trim());
+            if (coords is null)
+                return NotFound(new { message = $"Nu am găsit orașul \"{city.Trim()}\"." });
+
+            var places = await _googlePlacesService.SearchVeterinaryClinicsAsync(
+                coords.Value.Lat, coords.Value.Lng, radiusKm * 1000);
+
+            cached = new CachedCitySearch
+            {
+                City = city.Trim(),
+                RadiusKm = radiusKm,
+                Latitude = coords.Value.Lat,
+                Longitude = coords.Value.Lng,
+                CachedAtUtc = DateTime.UtcNow,
+                Places = places.ToList()
+            };
+
+            await _placesCache.SaveAsync(cached);
+        }
+
+        var dbClinics = (await _repo.GetNearbyAsync(cached.Latitude, cached.Longitude, radiusKm)).ToList();
+        var dbClinicNames = dbClinics.Select(c => c.Name.ToLower()).ToHashSet();
+
+        var googleClinics = cached.Places.Select(p => new GooglePlaceResult
+        {
+            PlaceId = p.PlaceId,
+            Name = p.Name,
+            Address = p.Address,
+            Latitude = p.Latitude,
+            Longitude = p.Longitude,
+            IsInDatabase = dbClinicNames.Contains(p.Name.ToLower())
+        });
+
+        return Ok(new
+        {
+            city = cached.City,
+            latitude = cached.Latitude,
+            longitude = cached.Longitude,
+            databaseClinics = dbClinics,
+            googleClinics,
+            fromCache,
+            cachedAtUtc = cached.CachedAtUtc,
+            expiresAtUtc = cached.CachedAtUtc + _placesCache.Lifetime
         });
     }
 

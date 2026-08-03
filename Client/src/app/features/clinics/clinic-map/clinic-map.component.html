@@ -7,42 +7,89 @@
     </div>
     <div class="radius-control">
       <label>Raza: {{ radiusKm }} km</label>
-      <input type="range" min="1" max="50" [(ngModel)]="radiusKm" (change)="loadNearbyClinics()" />
+      <input type="range" min="1" max="50" [(ngModel)]="radiusKm" (change)="onRadiusChange()" />
     </div>
   </div>
 
-  <div class="map-content">
-    <div class="loading" *ngIf="isLoading">
-      <p>Se încarcă harta...</p>
-    </div>
-
-    <google-map *ngIf="!isLoading" [center]="center" [zoom]="zoom" [options]="mapOptions" width="100%" height="100%">
-      <map-marker *ngFor="let clinic of dbClinics" [position]="getDbMarkerPosition(clinic)" [title]="clinic.name" [options]="dbMarkerOptions" (mapClick)="onDbMarkerClick(clinic)"></map-marker>
-      <map-marker *ngFor="let clinic of googleClinics" [position]="getGoogleMarkerPosition(clinic)" [title]="clinic.name" [options]="googleMarkerOptions" (mapClick)="onGoogleMarkerClick(clinic)"></map-marker>
-    </google-map>
-
-    <div class="clinic-panel db-panel" *ngIf="selectedClinic">
-      <button class="close-btn" (click)="closePanel()">✕</button>
-      <div class="panel-badge db-badge">În aplicație</div>
-      <h3>{{ selectedClinic.name }}</h3>
-      <div class="clinic-info">
-        <p>📍 {{ selectedClinic.address }}, {{ selectedClinic.city }}</p>
-        <p>📞 {{ selectedClinic.phone }}</p>
-        <p>✉️ {{ selectedClinic.email }}</p>
-        <p>🕐 {{ selectedClinic.schedule }}</p>
+  <div class="finder">
+    <div class="map-content">
+      <div class="loading" *ngIf="isLoading">
+        <p>Se încarcă harta...</p>
       </div>
-      <button class="appointment-btn" routerLink="/appointments/new">Fă o programare</button>
-    </div>
 
-    <div class="clinic-panel google-panel" *ngIf="selectedGoogleClinic">
-      <button class="close-btn" (click)="closePanel()">✕</button>
-      <div class="panel-badge google-badge">Google Maps</div>
-      <h3>{{ selectedGoogleClinic.name }}</h3>
-      <div class="clinic-info">
-        <p>📍 {{ selectedGoogleClinic.address }}</p>
-        <p class="not-registered">Acest cabinet nu este înregistrat în aplicație.</p>
+      <google-map *ngIf="!isLoading" [center]="center" [zoom]="zoom" [options]="mapOptions" width="100%" height="100%">
+        <map-marker *ngFor="let clinic of dbClinics" [position]="getDbMarkerPosition(clinic)" [title]="clinic.name" [options]="dbMarkerOptions" (mapClick)="onDbMarkerClick(clinic)"></map-marker>
+        <map-marker *ngFor="let clinic of googleClinics" [position]="getGoogleMarkerPosition(clinic)" [title]="clinic.name" [options]="googleMarkerOptions" (mapClick)="onGoogleMarkerClick(clinic)"></map-marker>
+      </google-map>
+
+      <div class="clinic-panel db-panel" *ngIf="selectedClinic">
+        <button class="close-btn" (click)="closePanel()">✕</button>
+        <div class="panel-badge db-badge">În aplicație</div>
+        <h3>{{ selectedClinic.name }}</h3>
+        <div class="clinic-info">
+          <p>📍 {{ selectedClinic.address }}, {{ selectedClinic.city }}</p>
+          <p>📞 {{ selectedClinic.phone }}</p>
+          <p>✉️ {{ selectedClinic.email }}</p>
+          <p>🕐 {{ selectedClinic.schedule }}</p>
+        </div>
+        <button class="appointment-btn" routerLink="/appointments/new">Fă o programare</button>
+      </div>
+
+      <div class="clinic-panel google-panel" *ngIf="selectedGoogleClinic">
+        <button class="close-btn" (click)="closePanel()">✕</button>
+        <div class="panel-badge google-badge">Google Maps</div>
+        <h3>{{ selectedGoogleClinic.name }}</h3>
+        <div class="clinic-info">
+          <p>📍 {{ selectedGoogleClinic.address }}</p>
+          <p class="not-registered">Acest cabinet nu este înregistrat în aplicație.</p>
+        </div>
       </div>
     </div>
+
+    <aside class="search-pane">
+      <form class="search-form" (ngSubmit)="searchCity()">
+        <label for="city">Caută după oraș</label>
+        <div class="search-row">
+          <input id="city" name="city" type="text" placeholder="Ex: Deva" autocomplete="off" [(ngModel)]="cityQuery" />
+          <button type="submit" [disabled]="isSearching">{{ isSearching ? '...' : 'Caută' }}</button>
+        </div>
+        <p class="search-error" *ngIf="searchError">{{ searchError }}</p>
+      </form>
+
+      <div class="cache-note" *ngIf="searchedCity && cachedAt">
+        <div class="cache-text">
+          <strong>{{ searchedCity }}</strong>
+          <span *ngIf="fromCache">Rezultate salvate pe {{ cachedAt | date:'dd.MM.yyyy HH:mm' }}</span>
+          <span *ngIf="!fromCache">Rezultate noi de la Google Maps</span>
+          <span class="cache-expiry">Se reîmprospătează automat pe {{ expiresAt | date:'dd.MM.yyyy' }}</span>
+        </div>
+        <div class="cache-actions">
+          <button type="button" (click)="refreshCity()" [disabled]="isSearching">Actualizează acum</button>
+          <button type="button" class="link-btn" (click)="resetSearch()">Zona mea</button>
+        </div>
+      </div>
+
+      <div class="results-header">
+        <span>{{ searchedCity ? 'Rezultate în ' + searchedCity : 'Rezultate în zona ta' }}</span>
+        <span class="results-count">{{ totalClinics }}</span>
+      </div>
+
+      <div class="results-list">
+        <p class="results-empty" *ngIf="!isSearching && !isLoading && !results.length">
+          Niciun cabinet găsit. Încearcă alt oraș sau mărește raza.
+        </p>
+
+        <button type="button" class="result-item" *ngFor="let result of results"
+                [class.active]="isSelected(result)" (click)="selectResult(result)">
+          <span class="result-dot" [class.db]="result.inApp" [class.google]="!result.inApp"></span>
+          <span class="result-text">
+            <strong>{{ result.name }}</strong>
+            <small>{{ result.address }}</small>
+          </span>
+          <span class="result-tag" *ngIf="result.inApp">În aplicație</span>
+        </button>
+      </div>
+    </aside>
   </div>
 
   <div class="clinics-count" *ngIf="!isLoading">

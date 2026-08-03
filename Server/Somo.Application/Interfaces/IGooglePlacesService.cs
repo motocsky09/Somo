@@ -4,6 +4,7 @@ public interface IGooglePlacesService
 {
     Task<IEnumerable<GooglePlaceResult>> SearchVeterinaryClinicsAsync(double lat, double lng, double radiusMeters);
     Task<(double Lat, double Lng)?> GeocodeAddressAsync(string address);
+    Task<(double Lat, double Lng)?> GeocodeCityAsync(string city);
 }
 
 public class GooglePlaceResult
