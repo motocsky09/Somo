@@ -8,6 +8,9 @@ using System.Security.Claims;
 using System.Text;
 using Server.Models;
 using Microsoft.AspNetCore.Authorization;
+using Somo.Application.Common;
+using Somo.Application.DTOs;
+using Somo.Application.Interfaces;
 
 namespace Somo.API.Controllers
 {
@@ -68,11 +71,21 @@ namespace Somo.API.Controllers
 
         [HttpPost]
         [Route("register")]
-        public async Task<IActionResult> Register([FromBody] RegisterModel model)
+        public async Task<IActionResult> Register(
+            [FromBody] RegisterModel model,
+            [FromServices] IClinicRegistrationService clinicRegistration)
         {
+            var roleName = model.Role ?? AppRoles.Owner;
+
+            if (!AppRoles.SelfService.Contains(roleName))
+                return BadRequest(new { Status = "Error", Message = "Tip de cont invalid." });
+
+            if (roleName == AppRoles.ClinicAdmin && !IsClinicPayloadValid(model.Clinic))
+                return BadRequest(new { Status = "Error", Message = "Completează datele cabinetului: nume, adresă completă, contact, orar și cel puțin un medic veterinar." });
+
             var userExists = await _userManager.FindByNameAsync(model.Username);
             if (userExists != null)
-                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Error", Message = "User already exists!" });
+                return Conflict(new { Status = "Error", Message = "Există deja un cont cu acest username." });
 
             ApplicationUser user = new()
             {
@@ -80,26 +93,58 @@ namespace Somo.API.Controllers
                 SecurityStamp = Guid.NewGuid().ToString(),
                 UserName = model.Username
             };
-            
+
             var result = await _userManager.CreateAsync(user, model.Password);
-            
+
             if (!result.Succeeded)
             {
                 var errors = string.Join(", ", result.Errors.Select(e => e.Description));
-                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Error", Message = "User creation failed: " + errors });
+                return BadRequest(new { Status = "Error", Message = "Contul nu a putut fi creat: " + errors });
             }
-
-            var roleName = model.Role ?? "Owner"; 
-
-            if (roleName != "Owner" && roleName != "Vet" && roleName != "ClinicAdmin")
-                return BadRequest(new { Status = "Error", Message = "Rol invalid. Folosiți: Owner, Vet, ClinicAdmin" });
 
             if (!await _roleManager.RoleExistsAsync(roleName))
                 await _roleManager.CreateAsync(new ApplicationRole { Name = roleName });
 
             await _userManager.AddToRoleAsync(user, roleName);
 
-            return Ok(new { Status = "Success", Message = "User created successfully!" });
+            if (roleName == AppRoles.ClinicAdmin)
+            {
+                try
+                {
+                    await clinicRegistration.SubmitAsync(model.Clinic!, user.Id.ToString());
+                }
+                catch
+                {
+                    await _userManager.DeleteAsync(user);
+                    return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Error", Message = "Cererea pentru cabinet nu a putut fi înregistrată. Încearcă din nou." });
+                }
+
+                return Ok(new
+                {
+                    Status = "PendingApproval",
+                    Message = "Cererea a fost trimisă. Un administrator Somo o va verifica în curând."
+                });
+            }
+
+            return Ok(new { Status = "Success", Message = "Cont creat cu succes." });
+        }
+
+        private static bool IsClinicPayloadValid(RegisterClinicDto? clinic)
+        {
+            if (clinic is null)
+                return false;
+
+            var required = new[]
+            {
+                clinic.Name, clinic.Street, clinic.StreetNumber,
+                clinic.City, clinic.County, clinic.Phone,
+                clinic.Email, clinic.Schedule
+            };
+
+            if (required.Any(string.IsNullOrWhiteSpace))
+                return false;
+
+            return clinic.VetNames.Any(v => !string.IsNullOrWhiteSpace(v));
         }
         
         private JwtSecurityToken GetToken(List<Claim> authClaims)
@@ -117,7 +162,7 @@ namespace Somo.API.Controllers
             return token;
         }
         [HttpGet("user/{userId}")]
-        [Authorize(Roles = "ClinicAdmin")]
+        [Authorize(Roles = AppRoles.ClinicAdmin + "," + AppRoles.SomoAdmin)]
         public async Task<IActionResult> GetUserById(string userId)
         {
             var user = await _userManager.FindByIdAsync(userId);

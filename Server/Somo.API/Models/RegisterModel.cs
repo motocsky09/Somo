@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using Somo.Application.DTOs;
 
 namespace Server.Models;
 
@@ -15,4 +16,6 @@ public class RegisterModel
     public string? Password { get; set; }
 
     public string? Role { get; set; }
+
+    public RegisterClinicDto? Clinic { get; set; }
 }

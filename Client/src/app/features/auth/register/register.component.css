@@ -93,10 +93,156 @@ button:disabled {
   cursor: not-allowed;
 }
 
+.register-card.wide {
+  max-width: 640px;
+}
+
+.role-choice {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.role-option {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.3rem;
+  width: 100%;
+  margin: 0;
+  padding: 1rem;
+  background: #f8fafc;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 10px;
+  cursor: pointer;
+  text-align: left;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.role-option:hover:not(:disabled) {
+  background: #f1f6fb;
+}
+
+.role-option.selected {
+  background: #f0f7fd;
+  border-color: #3498db;
+}
+
+.role-option img {
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
+}
+
+.role-title {
+  color: #2c3e50;
+  font-size: 0.92rem;
+  font-weight: 700;
+}
+
+.role-desc {
+  color: #7f8c8d;
+  font-size: 0.78rem;
+  line-height: 1.35;
+}
+
+.clinic-section {
+  border-top: 1px solid #eef1f4;
+  margin-top: 0.5rem;
+  padding-top: 1.5rem;
+}
+
+.clinic-section h3 {
+  margin: 0 0 0.4rem;
+  color: #2c3e50;
+  font-size: 1.1rem;
+}
+
+.clinic-hint {
+  margin: 0 0 1.5rem;
+  color: #7f8c8d;
+  font-size: 0.82rem;
+  line-height: 1.45;
+}
+
+.form-row {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.form-row .grow {
+  flex: 1;
+  min-width: 0;
+}
+
+.form-row .narrow {
+  width: 110px;
+  flex-shrink: 0;
+}
+
+.optional {
+  color: #a0aab4;
+  font-weight: 400;
+  font-size: 0.8rem;
+}
+
+.repeat-row {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.repeat-row .price-input {
+  width: 110px;
+  flex-shrink: 0;
+}
+
+.row-remove {
+  width: 40px;
+  flex-shrink: 0;
+  margin: 0;
+  padding: 0;
+  background: #fdeeee;
+  color: #c0392b;
+  font-size: 0.9rem;
+}
+
+.row-remove:hover:not(:disabled) {
+  background: #f9dcdc;
+}
+
+.row-remove:disabled {
+  background: #f5f6f7;
+  color: #c8cdd2;
+}
+
+.row-add {
+  width: auto;
+  margin: 0.2rem 0 0;
+  padding: 0.45rem 0.8rem;
+  background: #ecf5fc;
+  color: #2980b9;
+  font-size: 0.85rem;
+}
+
+.row-add:hover:not(:disabled) {
+  background: #ddedfa;
+}
+
 .error {
   color: #e74c3c;
   font-size: 0.85rem;
   margin-bottom: 0.5rem;
+}
+
+.success.pending {
+  background: #fef5e0;
+  border: 1.5px solid #f8c61e;
+  border-radius: 8px;
+  padding: 0.8rem 1rem;
+  color: #7a5c00;
+  line-height: 1.45;
 }
 
 .success {
@@ -115,6 +261,19 @@ button:disabled {
   color: #3498db;
   text-decoration: none;
   font-weight: 500;
+}
+
+@media (max-width: 600px) {
+  .role-choice {
+    grid-template-columns: 1fr;
+  }
+  .form-row {
+    flex-direction: column;
+    gap: 0;
+  }
+  .form-row .narrow {
+    width: 100%;
+  }
 }
 
 @media (max-width: 480px) {

@@ -7,11 +7,30 @@ export interface LoginModel {
   password: string;
 }
 
+export interface ClinicPrice {
+  service: string;
+  price: number;
+}
+
+export interface RegisterClinicPayload {
+  name: string;
+  street: string;
+  streetNumber: string;
+  city: string;
+  county: string;
+  phone: string;
+  email: string;
+  schedule: string;
+  vetNames: string[];
+  prices: ClinicPrice[];
+}
+
 export interface RegisterModel {
   username: string;
   email: string;
   password: string;
   role: string;
+  clinic?: RegisterClinicPayload;
 }
 
 export interface AuthResponse {

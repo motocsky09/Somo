@@ -1,5 +1,5 @@
 <div class="register-container">
-  <div class="register-card">
+  <div class="register-card" [class.wide]="isClinicAccount">
     <h2>Creează cont</h2>
     <p class="subtitle">Înregistrează-te pentru a accesa serviciile Somo</p>
 
@@ -9,6 +9,21 @@
     </div>
 
     <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+      <div class="role-choice">
+        <button type="button" class="role-option" [class.selected]="!isClinicAccount"
+                (click)="selectRole('Owner')">
+          <img src="assets/icons/dog-face.png" alt="" />
+          <span class="role-title">Proprietar de animale</span>
+          <span class="role-desc">Îți înregistrezi animalele, cauți cabinete și faci programări.</span>
+        </button>
+        <button type="button" class="role-option" [class.selected]="isClinicAccount"
+                (click)="selectRole('ClinicAdmin')">
+          <img src="assets/icons/clipboard.png" alt="" />
+          <span class="role-title">Proprietar de cabinet</span>
+          <span class="role-desc">Îți înscrii cabinetul în Somo. Contul se activează după aprobarea unui administrator.</span>
+        </button>
+      </div>
+
       <div class="form-group">
         <label>Username</label>
         <input type="text" formControlName="username" placeholder="Alege un username" />
@@ -24,20 +39,86 @@
         <input type="password" formControlName="password" placeholder="Minim 6 caractere" />
       </div>
 
-      <div class="form-group">
-        <label>Tip cont</label>
-        <select formControlName="role">
-          <option value="Owner">Proprietar animal</option>
-          <option value="Vet">Medic veterinar</option>
-          <option value="ClinicAdmin">Administrator cabinet</option>
-        </select>
+      <div class="clinic-section" formGroupName="clinic" *ngIf="isClinicAccount">
+        <h3>Datele cabinetului</h3>
+        <p class="clinic-hint">
+          Aceste date ajung la un administrator Somo pentru verificare. După aprobare, cabinetul apare pe hartă
+          și poți primi programări.
+        </p>
+
+        <div class="form-group">
+          <label>Numele cabinetului</label>
+          <input type="text" formControlName="name" placeholder="Ex: Cabinet Veterinar Andivet" />
+        </div>
+
+        <div class="form-row">
+          <div class="form-group grow">
+            <label>Stradă</label>
+            <input type="text" formControlName="street" placeholder="Ex: Str. Libertății" />
+          </div>
+          <div class="form-group narrow">
+            <label>Număr</label>
+            <input type="text" formControlName="streetNumber" placeholder="12A" />
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group grow">
+            <label>Oraș</label>
+            <input type="text" formControlName="city" placeholder="Ex: Deva" />
+          </div>
+          <div class="form-group grow">
+            <label>Județ</label>
+            <input type="text" formControlName="county" placeholder="Ex: Hunedoara" />
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group grow">
+            <label>Telefon</label>
+            <input type="text" formControlName="phone" placeholder="07xx xxx xxx" />
+          </div>
+          <div class="form-group grow">
+            <label>Email cabinet</label>
+            <input type="email" formControlName="email" placeholder="contact@cabinet.ro" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Orar</label>
+          <select formControlName="schedule">
+            <option *ngFor="let option of scheduleOptions" [value]="option">{{ option }}</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Medici veterinari</label>
+          <div class="repeat-row" *ngFor="let vet of vetNames.controls; let i = index" formArrayName="vetNames">
+            <input type="text" [formControlName]="i" placeholder="Ex: Andrei Popescu" />
+            <button type="button" class="row-remove" (click)="removeVet(i)"
+                    [disabled]="vetNames.length === 1">✕</button>
+          </div>
+          <button type="button" class="row-add" (click)="addVet()">+ Adaugă medic</button>
+        </div>
+
+        <div class="form-group">
+          <label>Listă de prețuri <span class="optional">opțional</span></label>
+          <div class="repeat-row" *ngFor="let price of prices.controls; let i = index" formArrayName="prices">
+            <ng-container [formGroupName]="i">
+              <input type="text" formControlName="service" placeholder="Ex: Consultație generală" />
+              <input type="number" formControlName="price" placeholder="Lei" class="price-input" min="0" />
+            </ng-container>
+            <button type="button" class="row-remove" (click)="removePrice(i)">✕</button>
+          </div>
+          <button type="button" class="row-add" (click)="addPrice()">+ Adaugă serviciu</button>
+        </div>
       </div>
 
       <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
-      <p class="success" *ngIf="successMessage">{{ successMessage }}</p>
+      <p class="success" [class.pending]="submittedAsClinic" *ngIf="successMessage">{{ successMessage }}</p>
 
-      <button type="submit" [disabled]="isLoading">
-        {{ isLoading ? 'Se creează contul...' : 'Creează cont' }}
+      <button type="submit" class="submit-btn" [disabled]="isLoading">
+        {{ isLoading ? 'Se creează contul...' : (isClinicAccount ? 'Trimite cererea' : 'Creează cont') }}
       </button>
     </form>
 
