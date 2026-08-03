@@ -14,12 +14,13 @@ import { HomeComponent } from './features/home/home.component';
 import { PetDetailComponent } from './features/pets/pet-detail/pet-detail.component';
 import { AdminDashboardComponent } from './features/admin/admin-dashboard/admin-dashboard.component';
 import { RoleGuard } from './core/guards/role.guard';
+import { HomeGuard } from './core/guards/home.guard';
 import { ProfileComponent } from './features/profile/profile.component';
 
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
-  { path: 'home', component: HomeComponent },
+  { path: 'home', component: HomeComponent, canActivate: [HomeGuard] },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'clinics', component: ClinicMapComponent, canActivate: [AuthGuard] },

@@ -79,6 +79,32 @@
   color: #8a96a3;
 }
 
+.footer-simple-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 1.4rem 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.footer-simple .footer-logo {
+  margin-bottom: 0;
+  font-size: 1.2rem;
+}
+
+.footer-simple-text {
+  font-size: 0.9rem;
+  color: #aab4c0;
+}
+
+.footer-simple-copy {
+  margin-left: auto;
+  font-size: 0.85rem;
+  color: #8a96a3;
+}
+
 @media (max-width: 768px) {
   .footer-inner {
     grid-template-columns: 1fr 1fr;
@@ -102,5 +128,13 @@
   }
   .footer-home {
     justify-content: center;
+  }
+  .footer-simple-inner {
+    flex-direction: column;
+    text-align: center;
+    gap: 0.5rem;
+  }
+  .footer-simple-copy {
+    margin-left: 0;
   }
 }

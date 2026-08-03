@@ -1,4 +1,4 @@
-<footer class="footer">
+<footer class="footer" *ngIf="!authService.isClinicAdmin">
   <div class="footer-inner">
     <div class="footer-brand">
       <a routerLink="/home" class="footer-logo">🐾 Somo</a>
@@ -31,5 +31,13 @@
 
   <div class="footer-bottom">
     <span>© {{ currentYear }} Somo. Toate drepturile rezervate.</span>
+  </div>
+</footer>
+
+<footer class="footer footer-simple" *ngIf="authService.isClinicAdmin">
+  <div class="footer-simple-inner">
+    <span class="footer-logo">🐾 Somo</span>
+    <span class="footer-simple-text">Platforma cabinetelor veterinare</span>
+    <span class="footer-simple-copy">© {{ currentYear }} Somo. Toate drepturile rezervate.</span>
   </div>
 </footer>

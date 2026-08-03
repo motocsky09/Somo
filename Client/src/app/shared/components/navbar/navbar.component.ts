@@ -12,6 +12,24 @@ export class NavbarComponent {
 
   constructor(public authService: AuthService, private router: Router) {}
 
+  get homeLink(): string {
+    return this.authService.homeRoute;
+  }
+
+  get canEditProfile(): boolean {
+    return this.authService.isLoggedIn && !this.authService.isClinicAdmin;
+  }
+
+  get initials(): string {
+    const name = this.authService.displayName.trim();
+    if (!name) return '?';
+    return name
+      .split(/\s+/)
+      .slice(0, 2)
+      .map(part => part.charAt(0).toUpperCase())
+      .join('');
+  }
+
   logout(): void {
     this.authService.logout();
     this.router.navigate(['/login']);
