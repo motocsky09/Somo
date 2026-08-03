@@ -91,6 +91,53 @@ button:disabled {
   cursor: not-allowed;
 }
 
+.optional {
+  color: #a0aab4;
+  font-weight: 400;
+  font-size: 0.8rem;
+}
+
+.repeat-row {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.repeat-row .price-input {
+  width: 110px;
+  flex-shrink: 0;
+}
+
+.row-remove {
+  width: 40px;
+  flex-shrink: 0;
+  padding: 0;
+  background: #fdeeee;
+  color: #c0392b;
+  font-size: 0.9rem;
+}
+
+.row-remove:hover:not(:disabled) {
+  background: #f9dcdc;
+}
+
+.row-remove:disabled {
+  background: #f5f6f7;
+  color: #c8cdd2;
+}
+
+.row-add {
+  width: auto;
+  padding: 0.45rem 0.8rem;
+  background: #ecf5fc;
+  color: #2980b9;
+  font-size: 0.85rem;
+}
+
+.row-add:hover:not(:disabled) {
+  background: #ddedfa;
+}
+
 .error {
   color: #e74c3c;
   font-size: 0.85rem;

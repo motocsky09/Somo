@@ -74,4 +74,20 @@ export class AuthService {
   hasRole(role: string): boolean {
     return this.currentUser?.roles?.includes(role) ?? false;
   }
+
+  get isOwner(): boolean {
+    return this.hasRole('Owner');
+  }
+
+  get isClinicAdmin(): boolean {
+    return this.hasRole('ClinicAdmin');
+  }
+
+  get isSomoAdmin(): boolean {
+    return this.hasRole('SomoAdmin');
+  }
+
+  get homeRoute(): string {
+    return this.isClinicAdmin ? '/clinic-dashboard' : '/home';
+  }
 }

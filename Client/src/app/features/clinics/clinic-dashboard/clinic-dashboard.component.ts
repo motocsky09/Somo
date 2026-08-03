@@ -12,6 +12,9 @@ import { environment } from '../../../../environments/environment';
 })
 export class ClinicDashboardComponent implements OnInit {
   myClinics: any[] = [];
+  approvedClinics: any[] = [];
+  pendingClinics: any[] = [];
+  rejectedClinics: any[] = [];
   selectedClinic: any = null;
   appointments: any[] = [];
   pets: any[] = [];
@@ -62,13 +65,29 @@ export class ClinicDashboardComponent implements OnInit {
     this.http.get<any[]>(`${environment.apiUrl}/Clinics/my-clinics`).subscribe({
       next: (clinics) => {
         this.myClinics = clinics;
+        this.approvedClinics = clinics.filter(c => c.status === 'Approved');
+        this.pendingClinics = clinics.filter(c => c.status === 'Pending');
+        this.rejectedClinics = clinics.filter(c => c.status === 'Rejected');
         this.isLoading = false;
-        if (clinics.length >= 1) {
-          this.selectClinic(clinics[0]);
+
+        if (this.approvedClinics.length >= 1) {
+          this.selectClinic(this.approvedClinics[0]);
         }
       },
       error: () => { this.isLoading = false; }
     });
+  }
+
+  get hasApprovedClinic(): boolean {
+    return this.approvedClinics.length > 0;
+  }
+
+  get awaitsApproval(): boolean {
+    return !this.hasApprovedClinic && this.pendingClinics.length > 0;
+  }
+
+  get wasRejected(): boolean {
+    return !this.hasApprovedClinic && this.pendingClinics.length === 0 && this.rejectedClinics.length > 0;
   }
 
   selectClinic(clinic: any): void {

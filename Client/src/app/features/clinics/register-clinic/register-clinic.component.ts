@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
@@ -33,27 +33,78 @@ export class RegisterClinicComponent {
   ) {
     this.clinicForm = this.fb.group({
       name: ['', Validators.required],
-      address: ['', Validators.required],
+      street: ['', Validators.required],
+      streetNumber: ['', Validators.required],
       city: ['', Validators.required],
+      county: ['', Validators.required],
       phone: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      schedule: ['Luni-Vineri 09:00-17:00', Validators.required]
+      schedule: ['Luni-Vineri 09:00-17:00', Validators.required],
+      vetNames: this.fb.array([this.fb.control('')]),
+      prices: this.fb.array([])
     });
   }
 
-  onSubmit(): void {
-    if (this.clinicForm.invalid) return;
+  get vetNames(): FormArray {
+    return this.clinicForm.get('vetNames') as FormArray;
+  }
 
-    this.isSubmitting = true;
+  get prices(): FormArray {
+    return this.clinicForm.get('prices') as FormArray;
+  }
+
+  addVet(): void {
+    this.vetNames.push(this.fb.control(''));
+  }
+
+  removeVet(index: number): void {
+    if (this.vetNames.length > 1) {
+      this.vetNames.removeAt(index);
+    }
+  }
+
+  addPrice(): void {
+    this.prices.push(this.fb.group({
+      service: [''],
+      price: [null]
+    }));
+  }
+
+  removePrice(index: number): void {
+    this.prices.removeAt(index);
+  }
+
+  onSubmit(): void {
     this.errorMessage = '';
 
-    this.http.post(
-      `${environment.apiUrl}/Clinics/register`,
-      this.clinicForm.value
-    ).subscribe({
+    if (this.clinicForm.invalid) {
+      this.clinicForm.markAllAsTouched();
+      return;
+    }
+
+    const vetNames = (this.vetNames.value as string[])
+      .map(v => (v ?? '').trim())
+      .filter(v => v.length > 0);
+
+    if (!vetNames.length) {
+      this.errorMessage = 'Adaugă cel puțin un medic veterinar.';
+      return;
+    }
+
+    this.isSubmitting = true;
+
+    const payload = {
+      ...this.clinicForm.value,
+      vetNames,
+      prices: (this.prices.value as { service: string; price: number }[])
+        .filter(p => (p.service ?? '').trim().length > 0 && p.price !== null)
+        .map(p => ({ service: p.service.trim(), price: Number(p.price) }))
+    };
+
+    this.http.post(`${environment.apiUrl}/Clinics/register`, payload).subscribe({
       next: () => {
-        this.successMessage = 'Cabinet înregistrat cu succes! Apare acum pe hartă.';
-        setTimeout(() => this.router.navigate(['/clinics']), 2000);
+        this.successMessage = 'Cererea a fost trimisă. Cabinetul apare pe hartă după aprobarea unui administrator Somo.';
+        setTimeout(() => this.router.navigate(['/clinic-dashboard']), 3000);
       },
       error: (err) => {
         this.errorMessage = err.error?.message || 'Eroare la înregistrare. Încearcă din nou.';

@@ -12,6 +12,7 @@ import { ClinicDashboardComponent } from './features/clinics/clinic-dashboard/cl
 import { AppointmentDetailComponent } from './features/appointments/appointment-detail/appointment-detail.component';
 import { HomeComponent } from './features/home/home.component';
 import { PetDetailComponent } from './features/pets/pet-detail/pet-detail.component';
+import { RoleGuard } from './core/guards/role.guard';
 
 
 const routes: Routes = [
@@ -24,8 +25,18 @@ const routes: Routes = [
   { path: 'pets/:id', component: PetDetailComponent, canActivate: [AuthGuard] },
   { path: 'appointments/new', component: CreateAppointmentComponent, canActivate: [AuthGuard] },
   { path: 'my-appointments', component: AppointmentsHistoryComponent, canActivate: [AuthGuard] },
-  { path: 'register-clinic', component: RegisterClinicComponent, canActivate: [AuthGuard] },
-  { path: 'clinic-dashboard', component: ClinicDashboardComponent, canActivate: [AuthGuard] },
+  {
+    path: 'register-clinic',
+    component: RegisterClinicComponent,
+    canActivate: [RoleGuard],
+    data: { roles: ['ClinicAdmin'] }
+  },
+  {
+    path: 'clinic-dashboard',
+    component: ClinicDashboardComponent,
+    canActivate: [RoleGuard],
+    data: { roles: ['ClinicAdmin'] }
+  },
   { path: 'appointment/:id', component: AppointmentDetailComponent, canActivate: [AuthGuard] },
   { path: '**', redirectTo: '/home' }
 ];

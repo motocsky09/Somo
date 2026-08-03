@@ -14,16 +14,34 @@ public class VeterinaryClinicRepository : IVeterinaryClinicRepository
     public async Task<IEnumerable<VeterinaryClinic>> GetAllAsync()
         => await _collection.Find(_ => true).ToListAsync();
 
+    public async Task<IEnumerable<VeterinaryClinic>> GetApprovedAsync()
+        => await _collection.Find(c => c.Status == ClinicStatus.Approved).ToListAsync();
+
+    public async Task<IEnumerable<VeterinaryClinic>> GetByStatusAsync(ClinicStatus status)
+        => await _collection.Find(c => c.Status == status).ToListAsync();
+
+    public async Task<IEnumerable<VeterinaryClinic>> GetByAdminIdAsync(string adminId)
+        => await _collection.Find(c => c.AdminId == adminId).ToListAsync();
+
     public async Task<VeterinaryClinic?> GetByIdAsync(string id)
         => await _collection.Find(c => c.Id == id).FirstOrDefaultAsync();
 
     public async Task<IEnumerable<VeterinaryClinic>> GetByCityAsync(string city)
-        => await _collection.Find(c => c.City == city).ToListAsync();
+        => await _collection.Find(c => c.City == city && c.Status == ClinicStatus.Approved).ToListAsync();
 
     public async Task<IEnumerable<VeterinaryClinic>> GetNearbyAsync(double lat, double lng, double radiusKm)
     {
-        var all = await _collection.Find(_ => true).ToListAsync();
-        return all.Where(c => CalculateDistance(lat, lng, c.Latitude, c.Longitude) <= radiusKm);
+        var approved = await GetApprovedAsync();
+        return approved.Where(c => CalculateDistance(lat, lng, c.Latitude, c.Longitude) <= radiusKm);
+    }
+
+    public async Task<long> ApproveLegacyClinicsAsync()
+    {
+        var missingStatus = Builders<VeterinaryClinic>.Filter.Exists(c => c.Status, false);
+        var setApproved = Builders<VeterinaryClinic>.Update.Set(c => c.Status, ClinicStatus.Approved);
+
+        var result = await _collection.UpdateManyAsync(missingStatus, setApproved);
+        return result.ModifiedCount;
     }
 
     public async Task CreateAsync(VeterinaryClinic clinic)

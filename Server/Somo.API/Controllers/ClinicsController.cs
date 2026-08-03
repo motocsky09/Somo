@@ -4,6 +4,7 @@ using Somo.Domain.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Somo.Application.Interfaces;
 using Somo.Application.DTOs;
+using Somo.Application.Common;
 
 namespace Somo.API.Controllers;
 
@@ -22,15 +23,24 @@ public class ClinicsController : ControllerBase
         _googlePlacesService = googlePlacesService;
     }
 
+    private string CurrentUserId => User.FindFirst("id")?.Value ?? string.Empty;
+
     [HttpGet]
     public async Task<IActionResult> GetAll()
-        => Ok(await _repo.GetAllAsync());
+        => Ok(await _repo.GetApprovedAsync());
 
     [HttpGet("{id}")]
     public async Task<IActionResult> GetById(string id)
     {
         var clinic = await _repo.GetByIdAsync(id);
-        return clinic is null ? NotFound() : Ok(clinic);
+        if (clinic is null)
+            return NotFound();
+
+        var canSeeUnapproved = clinic.AdminId == CurrentUserId || User.IsInRole(AppRoles.SomoAdmin);
+        if (clinic.Status != ClinicStatus.Approved && !canSeeUnapproved)
+            return NotFound();
+
+        return Ok(clinic);
     }
 
     [HttpGet("city/{city}")]
@@ -57,67 +67,80 @@ public class ClinicsController : ControllerBase
         });
     }
 
-    [HttpPost]
-    [Authorize(Roles = "ClinicAdmin")]
-    public async Task<IActionResult> Create(VeterinaryClinic clinic)
-    {
-        await _repo.CreateAsync(clinic);
-        return CreatedAtAction(nameof(GetById), new { id = clinic.Id }, clinic);
-    }
-
     [HttpPut("{id}")]
-    [Authorize(Roles = "ClinicAdmin")]
+    [Authorize(Roles = AppRoles.ClinicAdmin)]
     public async Task<IActionResult> Update(string id, VeterinaryClinic clinic)
     {
-        clinic.Id = id;
-        await _repo.UpdateAsync(clinic);
+        var stored = await _repo.GetByIdAsync(id);
+        if (stored is null)
+            return NotFound();
+
+        if (stored.AdminId != CurrentUserId)
+            return Forbid();
+
+        stored.Name = clinic.Name;
+        stored.Phone = clinic.Phone;
+        stored.Email = clinic.Email;
+        stored.Schedule = clinic.Schedule;
+        stored.VetNames = clinic.VetNames;
+        stored.Prices = clinic.Prices;
+
+        await _repo.UpdateAsync(stored);
         return NoContent();
     }
 
     [HttpDelete("{id}")]
-    [Authorize(Roles = "ClinicAdmin")]
+    [Authorize(Roles = AppRoles.ClinicAdmin)]
     public async Task<IActionResult> Delete(string id)
     {
+        var stored = await _repo.GetByIdAsync(id);
+        if (stored is null)
+            return NotFound();
+
+        if (stored.AdminId != CurrentUserId)
+            return Forbid();
+
         await _repo.DeleteAsync(id);
         return NoContent();
     }
 
     [HttpPost("register")]
-    [Authorize(Roles = "ClinicAdmin")]
+    [Authorize(Roles = AppRoles.ClinicAdmin)]
     public async Task<IActionResult> Register(
         RegisterClinicDto dto,
-        [FromServices] IGooglePlacesService googlePlacesService)
+        [FromServices] IClinicRegistrationService clinicRegistration)
     {
-        var adminId = User.FindFirst("id")?.Value ?? string.Empty;
-
-        var coords = await googlePlacesService.GeocodeAddressAsync(
-            $"{dto.Address}, {dto.City}, Romania");
-
-        var clinic = new VeterinaryClinic
-        {
-            AdminId = adminId,
-            Name = dto.Name,
-            Address = dto.Address,
-            City = dto.City,
-            Phone = dto.Phone,
-            Email = dto.Email,
-            Schedule = dto.Schedule,
-            Latitude = coords?.Lat ?? 0,
-            Longitude = coords?.Lng ?? 0,
-            VetIds = new List<string>()
-        };
-
-        await _repo.CreateAsync(clinic);
+        var clinic = await clinicRegistration.SubmitAsync(dto, CurrentUserId);
         return CreatedAtAction(nameof(GetById), new { id = clinic.Id }, clinic);
     }
 
     [HttpGet("my-clinics")]
-    [Authorize(Roles = "ClinicAdmin")]
+    [Authorize(Roles = AppRoles.ClinicAdmin)]
     public async Task<IActionResult> GetMyClinics()
     {
-        var adminId = User.FindFirst("id")?.Value;
-        var all = await _repo.GetAllAsync();
-        var myClinics = all.Where(c => c.AdminId == adminId);
-        return Ok(myClinics);
+        var clinics = await _repo.GetByAdminIdAsync(CurrentUserId);
+
+        return Ok(clinics.Select(c => new
+        {
+            c.Id,
+            c.Name,
+            c.Address,
+            c.Street,
+            c.StreetNumber,
+            c.City,
+            c.County,
+            c.Phone,
+            c.Email,
+            c.Schedule,
+            c.VetNames,
+            c.Prices,
+            c.VetIds,
+            c.Latitude,
+            c.Longitude,
+            c.RejectionReason,
+            c.RequestedAtUtc,
+            c.ReviewedAtUtc,
+            status = c.Status.ToString()
+        }));
     }
 }

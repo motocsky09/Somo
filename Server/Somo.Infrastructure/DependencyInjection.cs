@@ -29,6 +29,7 @@ public static class DependencyInjection
         services.AddScoped<IPetRepository, PetRepository>();
         services.AddScoped<IAppointmentRepository, AppointmentRepository>();
         services.AddScoped<IMedicalRecordRepository, MedicalRecordRepository>();
+        services.AddScoped<IClinicRegistrationService, ClinicRegistrationService>();
         services.AddHttpClient<IGooglePlacesService, GooglePlacesService>();
 
         return services;

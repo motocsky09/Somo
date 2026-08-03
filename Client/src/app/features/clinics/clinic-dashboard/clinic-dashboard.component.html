@@ -12,14 +12,40 @@
       <a routerLink="/register-clinic" class="btn-primary">Înregistrează cabinet</a>
     </div>
 
-    <ng-container *ngIf="myClinics.length > 0">
+    <div class="status-state pending" *ngIf="awaitsApproval">
+      <h2>Cererea ta este în curs de verificare</h2>
+      <p>
+        Un administrator Somo verifică datele cabinetului. Imediat ce cererea este aprobată,
+        cabinetul apare pe hartă și poți primi programări.
+      </p>
+      <ul class="status-list">
+        <li *ngFor="let clinic of pendingClinics">
+          <strong>{{ clinic.name }}</strong>
+          <span>{{ clinic.address }}, {{ clinic.city }}, {{ clinic.county }}</span>
+        </li>
+      </ul>
+    </div>
 
-      <div class="clinic-selector" *ngIf="myClinics.length > 1">
+    <div class="status-state rejected" *ngIf="wasRejected">
+      <h2>Cererea a fost respinsă</h2>
+      <p>Poți trimite o cerere nouă cu datele corectate.</p>
+      <ul class="status-list">
+        <li *ngFor="let clinic of rejectedClinics">
+          <strong>{{ clinic.name }}</strong>
+          <span *ngIf="clinic.rejectionReason">Motiv: {{ clinic.rejectionReason }}</span>
+        </li>
+      </ul>
+      <a routerLink="/register-clinic" class="btn-primary">Trimite o cerere nouă</a>
+    </div>
+
+    <ng-container *ngIf="hasApprovedClinic">
+
+      <div class="clinic-selector" *ngIf="approvedClinics.length > 1">
         <h3>Cabinetele tale</h3>
         <div class="clinic-cards">
           <div
             class="clinic-card"
-            *ngFor="let clinic of myClinics"
+            *ngFor="let clinic of approvedClinics"
             [class.active]="selectedClinic?.id === clinic.id"
             (click)="selectClinic(clinic)">
             <span class="clinic-icon">🏥</span>

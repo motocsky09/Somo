@@ -1,7 +1,10 @@
 <div class="register-container">
   <div class="register-card">
     <h2>🏥 Înregistrează cabinet veterinar</h2>
-    <p class="subtitle">Completează datele cabinetului tău pentru a apărea pe hartă</p>
+    <p class="subtitle">
+      Completează datele cabinetului. Cererea ajunge la un administrator Somo, iar cabinetul apare
+      pe hartă după aprobare.
+    </p>
 
     <div class="success-message" *ngIf="successMessage">
       ✅ {{ successMessage }}
@@ -16,12 +19,23 @@
 
       <div class="form-row">
         <div class="form-group">
-          <label>Adresa *</label>
-          <input type="text" formControlName="address" placeholder="ex: Strada Republicii 12" />
+          <label>Strada *</label>
+          <input type="text" formControlName="street" placeholder="ex: Strada Republicii" />
         </div>
+        <div class="form-group">
+          <label>Număr *</label>
+          <input type="text" formControlName="streetNumber" placeholder="ex: 12" />
+        </div>
+      </div>
+
+      <div class="form-row">
         <div class="form-group">
           <label>Orașul *</label>
           <input type="text" formControlName="city" placeholder="ex: Oradea" />
+        </div>
+        <div class="form-group">
+          <label>Județul *</label>
+          <input type="text" formControlName="county" placeholder="ex: Bihor" />
         </div>
       </div>
 
@@ -41,6 +55,28 @@
         <select formControlName="schedule">
           <option *ngFor="let s of scheduleOptions" [value]="s">{{ s }}</option>
         </select>
+      </div>
+
+      <div class="form-group">
+        <label>Medici veterinari *</label>
+        <div class="repeat-row" *ngFor="let vet of vetNames.controls; let i = index" formArrayName="vetNames">
+          <input type="text" [formControlName]="i" placeholder="ex: Andrei Popescu" />
+          <button type="button" class="row-remove" (click)="removeVet(i)"
+                  [disabled]="vetNames.length === 1">✕</button>
+        </div>
+        <button type="button" class="row-add" (click)="addVet()">+ Adaugă medic</button>
+      </div>
+
+      <div class="form-group">
+        <label>Listă de prețuri <span class="optional">opțional</span></label>
+        <div class="repeat-row" *ngFor="let price of prices.controls; let i = index" formArrayName="prices">
+          <ng-container [formGroupName]="i">
+            <input type="text" formControlName="service" placeholder="ex: Consultație generală" />
+            <input type="number" formControlName="price" placeholder="Lei" class="price-input" min="0" />
+          </ng-container>
+          <button type="button" class="row-remove" (click)="removePrice(i)">✕</button>
+        </div>
+        <button type="button" class="row-add" (click)="addPrice()">+ Adaugă serviciu</button>
       </div>
 
       <div class="map-note">
