@@ -25,13 +25,14 @@
 
 .btn-ghost {
   background: transparent;
-  color: #2c3e50;
+  color: #3498db;
   border: 1.5px solid #cbd5e0;
 }
 
 .btn-ghost:hover {
   border-color: #3498db;
-  color: #3498db;
+  color: #2c3e50;
+  color: #fff;
 }
 
 .btn-ghost--light {
@@ -207,8 +208,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.8rem;
   margin-bottom: 1rem;
+}
+
+.feature-icon img {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
 }
 
 .feature-card h3 {
@@ -242,9 +248,14 @@
   padding: 1.8rem;
 }
 
-.food-emoji {
-  font-size: 2.6rem;
+.food-icon {
   margin-bottom: 0.5rem;
+}
+
+.food-icon img {
+  width: 52px;
+  height: 52px;
+  object-fit: contain;
 }
 
 .food-card h3 {
