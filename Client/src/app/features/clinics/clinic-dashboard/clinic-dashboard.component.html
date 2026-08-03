@@ -97,8 +97,12 @@
                    (click)="openAppointment(app.id)"
                    style="cursor: pointer;">
                 <div class="app-info">
-                  <span class="app-pet">🐾 {{ getPetName(app.petId) }}</span>
-                  <span class="app-vet">{{ getVetName(app.vetId) }}</span>
+                  <span class="app-pet">🐾 {{ getPetName(app) }}</span>
+                  <span class="app-pet-meta" *ngIf="getPetSummary(app)">{{ getPetSummary(app) }}</span>
+                  <span class="app-vet">{{ getVetName(app) }}</span>
+                  <span class="app-owner">👤 {{ getOwnerName(app) }}</span>
+                  <span class="app-contact" *ngIf="getOwnerContact(app)">📞 {{ getOwnerContact(app) }}</span>
+                  <span class="app-reason" *ngIf="app.reason">📝 {{ app.reason }}</span>
                 </div>
                 <div class="app-right">
                   <span class="app-date">{{ formatDate(app.dateTime) }} {{ formatTime(app.dateTime) }}</span>
@@ -124,10 +128,12 @@
             </div>
             <div class="pet-list" *ngIf="!isLoadingDetails && getUniquePets().length > 0">
               <div class="pet-item" *ngFor="let pet of getUniquePets()">
-                <span class="pet-icon">🐾</span>
+                <img *ngIf="pet.photoUrl" [src]="pet.photoUrl" [alt]="pet.name" class="pet-photo" />
+                <span class="pet-icon" *ngIf="!pet.photoUrl">🐾</span>
                 <div>
                   <strong>{{ pet.name }}</strong>
                   <span>{{ pet.species }} · {{ pet.breed }}</span>
+                  <span>{{ pet.age }} ani · {{ pet.weight }} kg</span>
                 </div>
               </div>
             </div>

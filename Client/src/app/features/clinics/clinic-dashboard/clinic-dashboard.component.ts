@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { forkJoin } from 'rxjs';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
 import { environment } from '../../../../environments/environment';
@@ -108,16 +107,9 @@ export class ClinicDashboardComponent implements OnInit {
           new Date(b.dateTime).getTime() - new Date(a.dateTime).getTime()
         );
 
-        const petIds = [...new Set(apps.map((a: any) => a.petId))] as string[];
-        if (petIds.length > 0) {
-          const petRequests = petIds.map(id =>
-            this.http.get<any>(`${environment.apiUrl}/Pets/${id}`)
-          );
-          forkJoin(petRequests).subscribe({
-            next: (petsData) => { this.pets = petsData; },
-            error: () => {}
-          });
-        }
+        this.pets = this.appointments
+          .map(a => a.pet)
+          .filter(pet => !!pet);
 
         this.isLoadingDetails = false;
       },
@@ -165,13 +157,35 @@ export class ClinicDashboardComponent implements OnInit {
     });
   }
 
-  getPetName(petId: string): string {
-    return this.pets.find(p => p.id === petId)?.name || 'Animal necunoscut';
+  getPetName(app: any): string {
+    return app?.pet?.name || 'Animal necunoscut';
   }
 
-  getVetName(vetId: string): string {
-    const v = this.vets.find(v => v.id === vetId);
-    return v ? `Dr. ${v.firstName} ${v.lastName}` : 'Medic necunoscut';
+  getPetSummary(app: any): string {
+    const pet = app?.pet;
+    if (!pet) return '';
+    return [pet.species, pet.breed].filter(v => !!v).join(' · ');
+  }
+
+  getVetName(app: any): string {
+    const vet = app?.vet;
+    if (vet) return `Dr. ${vet.firstName} ${vet.lastName}`;
+
+    const fallback = this.vets.find(v => v.id === app?.vetId);
+    return fallback ? `Dr. ${fallback.firstName} ${fallback.lastName}` : 'Medic necunoscut';
+  }
+
+  getOwnerName(app: any): string {
+    const owner = app?.owner;
+    if (!owner) return 'Proprietar necunoscut';
+    const fullName = [owner.firstName, owner.lastName].filter(n => !!n).join(' ');
+    return fullName || owner.username;
+  }
+
+  getOwnerContact(app: any): string {
+    const owner = app?.owner;
+    if (!owner) return '';
+    return [owner.phone, owner.email].filter(v => !!v).join(' · ');
   }
 
   formatDate(dateTime: string): string {

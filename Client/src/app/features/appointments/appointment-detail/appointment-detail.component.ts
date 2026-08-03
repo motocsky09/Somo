@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
-import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-appointment-detail',
@@ -49,22 +48,17 @@ export class AppointmentDetailComponent implements OnInit {
     const id = this.route.snapshot.paramMap.get('id');
     if (!id) { this.router.navigate(['/clinic-dashboard']); return; }
 
-    this.http.get<any>(`${environment.apiUrl}/Appointments/${id}`).subscribe({
+    this.http.get<any>(`${environment.apiUrl}/Appointments/${id}/details`).subscribe({
       next: (app) => {
         this.appointment = app;
         this.newDateTime = new Date(app.dateTime).toISOString().slice(0, 16);
         this.newVetId = app.vetId;
+        this.pet = app.pet;
+        this.vet = app.vet;
+        this.owner = app.owner;
 
-        forkJoin({
-          pet: this.http.get<any>(`${environment.apiUrl}/Pets/${app.petId}`),
-          vet: this.http.get<any>(`${environment.apiUrl}/Vets/${app.vetId}`),
-          owner: this.http.get<any>(`${environment.apiUrl}/Authenticate/user/${app.ownerId}`),
-          allVets: this.http.get<any[]>(`${environment.apiUrl}/Vets`)
-        }).subscribe({
-          next: ({ pet, vet, owner, allVets }) => {
-            this.pet = pet;
-            this.vet = vet;
-            this.owner = owner;
+        this.http.get<any[]>(`${environment.apiUrl}/Vets`).subscribe({
+          next: (allVets) => {
             this.clinicVets = allVets.filter(v => v.clinicIds.includes(app.clinicId));
             this.isLoading = false;
           },
@@ -94,7 +88,12 @@ export class AppointmentDetailComponent implements OnInit {
     this.isSaving = true;
     this.errorMessage = '';
     const updated = {
-      ...this.appointment,
+      id: this.appointment.id,
+      petId: this.appointment.petId,
+      ownerId: this.appointment.ownerId,
+      clinicId: this.appointment.clinicId,
+      reason: this.appointment.reason,
+      status: this.appointment.status,
       dateTime: new Date(this.newDateTime).toISOString(),
       vetId: this.newVetId
     };
@@ -120,6 +119,12 @@ export class AppointmentDetailComponent implements OnInit {
 
   isPast(): boolean {
     return new Date(this.appointment?.dateTime) < new Date();
+  }
+
+  get ownerName(): string {
+    if (!this.owner) return '';
+    const fullName = [this.owner.firstName, this.owner.lastName].filter((n: string) => !!n).join(' ');
+    return fullName || this.owner.username;
   }
 
   getSpeciesEmoji(species: string): string {

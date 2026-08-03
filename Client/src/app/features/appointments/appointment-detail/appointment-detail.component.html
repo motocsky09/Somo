@@ -104,8 +104,19 @@
       <div class="card">
         <h3>👤 Proprietar</h3>
         <div class="info-row">
+          <span class="info-label">Nume</span>
+          <span class="info-value">{{ ownerName || '—' }}</span>
+        </div>
+        <div class="info-row">
           <span class="info-label">Utilizator</span>
           <span class="info-value">{{ owner?.username }}</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Telefon</span>
+          <span class="info-value">
+            <a *ngIf="owner?.phone" [href]="'tel:' + owner?.phone" class="contact-link">{{ owner?.phone }}</a>
+            <span *ngIf="!owner?.phone" class="info-missing">Nu a fost completat</span>
+          </span>
         </div>
         <div class="info-row">
           <span class="info-label">Email</span>

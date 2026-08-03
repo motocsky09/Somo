@@ -5,6 +5,11 @@
     ✅ {{ successMessage }}
   </div>
 
+  <div class="profile-hint" *ngIf="!successMessage && isProfileIncomplete">
+    ℹ️ Cabinetul primește datele tale de contact odată cu programarea.
+    <a routerLink="/profile">Completează-ți numele și telefonul</a> ca medicul să te poată contacta.
+  </div>
+
   <div class="form-card" *ngIf="!successMessage">
 
     <div class="form-section">

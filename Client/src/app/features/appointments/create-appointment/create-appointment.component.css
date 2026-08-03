@@ -17,6 +17,22 @@
   box-shadow: 0 4px 15px rgba(0,0,0,0.08);
 }
 
+.profile-hint {
+  background: #fdf6e0;
+  border: 1px solid #f4d67c;
+  border-radius: 10px;
+  padding: 0.9rem 1.1rem;
+  margin-bottom: 1.2rem;
+  color: #7a6220;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.profile-hint a {
+  color: #b8860b;
+  font-weight: 600;
+}
+
 .form-section {
   margin-bottom: 2rem;
   padding-bottom: 2rem;

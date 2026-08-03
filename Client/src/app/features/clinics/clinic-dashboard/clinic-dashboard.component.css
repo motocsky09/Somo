@@ -281,6 +281,23 @@
   font-size: 0.8rem;
 }
 
+.app-pet-meta,
+.app-owner,
+.app-contact,
+.app-reason {
+  color: #7f8c9a;
+  font-size: 0.8rem;
+}
+
+.app-owner {
+  color: #55606e;
+  font-weight: 500;
+}
+
+.app-reason {
+  font-style: italic;
+}
+
 .app-right {
   display: flex;
   flex-direction: column;
@@ -336,6 +353,14 @@
 
 .pet-icon {
   font-size: 1.5rem;
+}
+
+.pet-photo {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
 }
 
 .pet-item div {

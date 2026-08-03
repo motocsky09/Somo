@@ -50,8 +50,15 @@ export class CreateAppointmentComponent implements OnInit {
     this.loadInitialData();
   }
 
+  get isProfileIncomplete(): boolean {
+    const user = this.authService.currentUser;
+    if (!user) return false;
+    return !user.phone?.trim() || !user.firstName?.trim() || !user.lastName?.trim();
+  }
+
   loadInitialData(): void {
     const ownerId = this.authService.currentUser?.id || '';
+    this.authService.getProfile().subscribe();
     this.petService.getMyPets(ownerId).subscribe(pets => this.pets = pets);
     this.clinicService.getAll().subscribe(clinics => this.clinics = clinics);
     this.vetService.getAll().subscribe(vets => this.vets = vets);
