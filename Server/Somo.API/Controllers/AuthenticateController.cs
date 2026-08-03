@@ -63,7 +63,11 @@ namespace Somo.API.Controllers
                 username = user.UserName,
                 email = user.Email,
                 roles = userRoles,
-                id = user.Id.ToString()
+                id = user.Id.ToString(),
+                firstName = user.FirstName ?? string.Empty,
+                lastName = user.LastName ?? string.Empty,
+                phone = user.PhoneNumber ?? string.Empty,
+                profilePhotoUrl = user.ProfilePhotoUrl
             });
             }
             return Unauthorized("Invalid username or password");
@@ -167,11 +171,70 @@ namespace Somo.API.Controllers
         {
             var user = await _userManager.FindByIdAsync(userId);
             if (user is null) return NotFound();
-            return Ok(new {
-                id = user.Id,
-                username = user.UserName,
-                email = user.Email
-            });
+            return Ok(ToProfile(user));
         }
+
+        [HttpGet("profile")]
+        [Authorize]
+        public async Task<IActionResult> GetProfile()
+        {
+            var user = await GetCurrentUserAsync();
+            if (user is null) return Unauthorized(new { Status = "Error", Message = "Token invalid." });
+
+            return Ok(ToProfile(user));
+        }
+
+        [HttpPut("profile")]
+        [Authorize]
+        public async Task<IActionResult> UpdateProfile([FromBody] UpdateProfileDto dto)
+        {
+            var user = await GetCurrentUserAsync();
+            if (user is null) return Unauthorized(new { Status = "Error", Message = "Token invalid." });
+
+            var email = dto.Email?.Trim() ?? string.Empty;
+            if (string.IsNullOrWhiteSpace(email))
+                return BadRequest(new { Status = "Error", Message = "Adresa de email este obligatorie." });
+
+            if (!string.Equals(email, user.Email, StringComparison.OrdinalIgnoreCase))
+            {
+                var otherUser = await _userManager.FindByEmailAsync(email);
+                if (otherUser != null && otherUser.Id != user.Id)
+                    return Conflict(new { Status = "Error", Message = "Există deja un cont cu această adresă de email." });
+
+                user.Email = email;
+                user.NormalizedEmail = _userManager.NormalizeEmail(email);
+            }
+
+            user.FirstName = dto.FirstName?.Trim();
+            user.LastName = dto.LastName?.Trim();
+            user.PhoneNumber = string.IsNullOrWhiteSpace(dto.Phone) ? null : dto.Phone.Trim();
+            user.ProfilePhotoUrl = string.IsNullOrWhiteSpace(dto.ProfilePhotoUrl) ? null : dto.ProfilePhotoUrl;
+
+            var result = await _userManager.UpdateAsync(user);
+            if (!result.Succeeded)
+            {
+                var errors = string.Join(", ", result.Errors.Select(e => e.Description));
+                return BadRequest(new { Status = "Error", Message = "Datele nu au putut fi salvate: " + errors });
+            }
+
+            return Ok(ToProfile(user));
+        }
+
+        private async Task<ApplicationUser?> GetCurrentUserAsync()
+        {
+            var userId = User.FindFirst("id")?.Value;
+            return string.IsNullOrEmpty(userId) ? null : await _userManager.FindByIdAsync(userId);
+        }
+
+        private static UserProfileDto ToProfile(ApplicationUser user) => new()
+        {
+            Id = user.Id.ToString(),
+            Username = user.UserName ?? string.Empty,
+            Email = user.Email ?? string.Empty,
+            FirstName = user.FirstName ?? string.Empty,
+            LastName = user.LastName ?? string.Empty,
+            Phone = user.PhoneNumber ?? string.Empty,
+            ProfilePhotoUrl = user.ProfilePhotoUrl
+        };
     }
 }

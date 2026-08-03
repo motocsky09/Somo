@@ -21,6 +21,7 @@ import { HomeComponent } from './features/home/home.component';
 import { FooterComponent } from './shared/components/footer/footer.component';
 import { PetDetailComponent } from './features/pets/pet-detail/pet-detail.component';
 import { AdminDashboardComponent } from './features/admin/admin-dashboard/admin-dashboard.component';
+import { ProfileComponent } from './features/profile/profile.component';
 
 
 @NgModule({
@@ -39,7 +40,8 @@ import { AdminDashboardComponent } from './features/admin/admin-dashboard/admin-
     HomeComponent,
     FooterComponent,
     PetDetailComponent,
-    AdminDashboardComponent
+    AdminDashboardComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,

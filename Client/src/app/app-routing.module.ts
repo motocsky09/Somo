@@ -14,6 +14,7 @@ import { HomeComponent } from './features/home/home.component';
 import { PetDetailComponent } from './features/pets/pet-detail/pet-detail.component';
 import { AdminDashboardComponent } from './features/admin/admin-dashboard/admin-dashboard.component';
 import { RoleGuard } from './core/guards/role.guard';
+import { ProfileComponent } from './features/profile/profile.component';
 
 
 const routes: Routes = [
@@ -23,6 +24,7 @@ const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'clinics', component: ClinicMapComponent, canActivate: [AuthGuard] },
   { path: 'my-pets', component: MyPetsComponent, canActivate: [AuthGuard] },
+  { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
   { path: 'pets/:id', component: PetDetailComponent, canActivate: [AuthGuard] },
   { path: 'appointments/new', component: CreateAppointmentComponent, canActivate: [AuthGuard] },
   { path: 'my-appointments', component: AppointmentsHistoryComponent, canActivate: [AuthGuard] },

@@ -40,6 +40,29 @@ export interface AuthResponse {
   email: string;
   roles: string[];
   id: string;
+  firstName?: string;
+  lastName?: string;
+  phone?: string;
+  profilePhotoUrl?: string | null;
+}
+
+export interface UserProfile {
+  id: string;
+  username: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  phone: string;
+  profilePhotoUrl?: string | null;
+  fullName?: string;
+}
+
+export interface UpdateProfilePayload {
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  profilePhotoUrl?: string | null;
 }
 
 @Injectable({
@@ -70,6 +93,18 @@ export class AuthService {
 
   register(model: RegisterModel): Observable<any> {
     return this.http.post(`${this.apiUrl}/register`, model);
+  }
+
+  getProfile(): Observable<UserProfile> {
+    return this.http.get<UserProfile>(`${this.apiUrl}/profile`).pipe(
+      tap(profile => this.applyProfile(profile))
+    );
+  }
+
+  updateProfile(payload: UpdateProfilePayload): Observable<UserProfile> {
+    return this.http.put<UserProfile>(`${this.apiUrl}/profile`, payload).pipe(
+      tap(profile => this.applyProfile(profile))
+    );
   }
 
   logout(): void {
@@ -108,5 +143,28 @@ export class AuthService {
 
   get homeRoute(): string {
     return this.isClinicAdmin ? '/clinic-dashboard' : '/home';
+  }
+
+  get displayName(): string {
+    const user = this.currentUser;
+    if (!user) return '';
+    const fullName = [user.firstName, user.lastName].filter(n => !!n?.trim()).join(' ');
+    return fullName || user.username;
+  }
+
+  private applyProfile(profile: UserProfile): void {
+    const user = this.currentUser;
+    if (!user) return;
+
+    const updated: AuthResponse = {
+      ...user,
+      email: profile.email,
+      firstName: profile.firstName,
+      lastName: profile.lastName,
+      phone: profile.phone,
+      profilePhotoUrl: profile.profilePhotoUrl
+    };
+    localStorage.setItem('currentUser', JSON.stringify(updated));
+    this.currentUserSubject.next(updated);
   }
 }

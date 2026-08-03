@@ -1,0 +1,114 @@
+<div class="profile-container">
+
+  <input #photoInput type="file" accept="image/*" (change)="onPhotoSelected($event)" hidden />
+
+  <div class="loading" *ngIf="isLoading">
+    <p>Se încarcă datele contului...</p>
+  </div>
+
+  <ng-container *ngIf="!isLoading">
+    <div class="page-head">
+      <h2>👤 Contul meu</h2>
+      <p>
+        Datele de contact completate aici sunt trimise cabinetului veterinar odată cu programările,
+        ca medicul să te poată contacta.
+      </p>
+    </div>
+
+    <div class="profile-card">
+      <div class="avatar-wrap">
+        <button type="button" class="avatar" (click)="onAvatarClick()"
+                [title]="photoUrl ? 'Editează poza' : 'Adaugă poză'">
+          <img *ngIf="photoUrl" [src]="photoUrl" alt="Poza de profil" />
+          <span *ngIf="!photoUrl" class="avatar-initials">{{ initials }}</span>
+          <span class="avatar-overlay">📷</span>
+        </button>
+        <span class="avatar-caption">Apasă pe poză pentru a o edita</span>
+      </div>
+
+      <div class="profile-form">
+        <div class="identity">
+          <strong>{{ displayName }}</strong>
+          <span class="username">&#64;{{ profile?.username }}</span>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="firstName">Prenume</label>
+            <input id="firstName" type="text" [(ngModel)]="firstName" placeholder="ex: Andrei" />
+          </div>
+          <div class="form-group">
+            <label for="lastName">Nume</label>
+            <input id="lastName" type="text" [(ngModel)]="lastName" placeholder="ex: Popescu" />
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="phone">Număr de telefon</label>
+            <input id="phone" type="tel" [(ngModel)]="phone" placeholder="ex: 0721 000 000" />
+          </div>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input id="email" type="email" [(ngModel)]="email" placeholder="nume@exemplu.ro" />
+          </div>
+        </div>
+
+        <p class="error" *ngIf="errorMessage">❌ {{ errorMessage }}</p>
+        <p class="success" *ngIf="successMessage">✅ {{ successMessage }}</p>
+
+        <div class="form-actions">
+          <button class="save-btn" (click)="save()" [disabled]="isSaving">
+            {{ isSaving ? 'Se salvează...' : 'Salvează modificările' }}
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="shortcuts">
+      <a routerLink="/my-pets">🐾 Animalele mele</a>
+      <a routerLink="/my-appointments">📅 Programările mele</a>
+    </div>
+  </ng-container>
+
+  <div class="crop-overlay" *ngIf="isCropping" (click)="cancelCrop()">
+    <div class="crop-modal" (click)="$event.stopPropagation()">
+      <h3>Ajustează poza</h3>
+      <p class="crop-hint">Trage pentru a repoziționa, folosește glisorul pentru zoom.</p>
+
+      <div class="crop-viewport"
+           [style.width.px]="viewport"
+           [style.height.px]="viewport"
+           (pointerdown)="onDragStart($event)"
+           (wheel)="onWheel($event)">
+        <img [src]="cropSrc" alt="Decupare"
+             [style.width.px]="dispW"
+             [style.height.px]="dispH"
+             [style.left.px]="offsetX"
+             [style.top.px]="offsetY"
+             draggable="false" />
+        <div class="crop-frame"></div>
+      </div>
+
+      <div class="zoom-control">
+        <span>➖</span>
+        <input type="range" [min]="minZoom" [max]="maxZoom" step="0.01"
+               [value]="cropZoom" (input)="setZoom(+$any($event.target).value)" />
+        <span>➕</span>
+      </div>
+
+      <div class="crop-actions">
+        <button class="save-btn" (click)="confirmCrop()" [disabled]="isSaving">
+          {{ isSaving ? 'Se salvează...' : 'Actualizează poza' }}
+        </button>
+        <button class="change-btn" (click)="triggerChangePhoto()" [disabled]="isSaving">Schimbă poza</button>
+      </div>
+      <div class="crop-secondary">
+        <button class="link-danger" *ngIf="photoUrl" (click)="removePhoto()" [disabled]="isSaving">
+          Elimină poza
+        </button>
+        <button class="link-muted" (click)="cancelCrop()" [disabled]="isSaving">Anulează</button>
+      </div>
+    </div>
+  </div>
+</div>
