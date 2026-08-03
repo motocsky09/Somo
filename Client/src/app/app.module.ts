@@ -20,6 +20,7 @@ import { AppointmentDetailComponent } from './features/appointments/appointment-
 import { HomeComponent } from './features/home/home.component';
 import { FooterComponent } from './shared/components/footer/footer.component';
 import { PetDetailComponent } from './features/pets/pet-detail/pet-detail.component';
+import { AdminDashboardComponent } from './features/admin/admin-dashboard/admin-dashboard.component';
 
 
 @NgModule({
@@ -37,7 +38,8 @@ import { PetDetailComponent } from './features/pets/pet-detail/pet-detail.compon
     AppointmentDetailComponent,
     HomeComponent,
     FooterComponent,
-    PetDetailComponent
+    PetDetailComponent,
+    AdminDashboardComponent
   ],
   imports: [
     BrowserModule,

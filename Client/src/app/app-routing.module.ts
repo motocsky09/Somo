@@ -12,6 +12,7 @@ import { ClinicDashboardComponent } from './features/clinics/clinic-dashboard/cl
 import { AppointmentDetailComponent } from './features/appointments/appointment-detail/appointment-detail.component';
 import { HomeComponent } from './features/home/home.component';
 import { PetDetailComponent } from './features/pets/pet-detail/pet-detail.component';
+import { AdminDashboardComponent } from './features/admin/admin-dashboard/admin-dashboard.component';
 import { RoleGuard } from './core/guards/role.guard';
 
 
@@ -36,6 +37,12 @@ const routes: Routes = [
     component: ClinicDashboardComponent,
     canActivate: [RoleGuard],
     data: { roles: ['ClinicAdmin'] }
+  },
+  {
+    path: 'admin',
+    component: AdminDashboardComponent,
+    canActivate: [RoleGuard],
+    data: { roles: ['SomoAdmin'] }
   },
   { path: 'appointment/:id', component: AppointmentDetailComponent, canActivate: [AuthGuard] },
   { path: '**', redirectTo: '/home' }

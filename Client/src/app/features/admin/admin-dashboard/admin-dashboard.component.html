@@ -1,0 +1,162 @@
+<div class="admin-container">
+  <header class="admin-header">
+    <div>
+      <span class="eyebrow">Administrare Somo</span>
+      <h2>Baza de date</h2>
+    </div>
+    <button class="refresh-btn" (click)="load()" [disabled]="isLoading">Reîmprospătează</button>
+  </header>
+
+  <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
+
+  <div class="loading" *ngIf="isLoading">Se încarcă datele...</div>
+
+  <ng-container *ngIf="!isLoading">
+    <div class="stats" *ngIf="overview">
+      <div class="stat">
+        <span class="stat-value">{{ overview.owners }}</span>
+        <span class="stat-label">Proprietari</span>
+      </div>
+      <div class="stat">
+        <span class="stat-value">{{ overview.clinicAdmins }}</span>
+        <span class="stat-label">Conturi cabinet</span>
+      </div>
+      <div class="stat highlight" [class.empty]="overview.clinicsPending === 0">
+        <span class="stat-value">{{ overview.clinicsPending }}</span>
+        <span class="stat-label">Cereri în așteptare</span>
+      </div>
+      <div class="stat">
+        <span class="stat-value">{{ overview.clinicsApproved }}</span>
+        <span class="stat-label">Cabinete aprobate</span>
+      </div>
+      <div class="stat">
+        <span class="stat-value">{{ overview.clinicsRejected }}</span>
+        <span class="stat-label">Cabinete respinse</span>
+      </div>
+    </div>
+
+    <nav class="tabs">
+      <button [class.active]="activeTab === 'requests'" (click)="selectTab('requests')">
+        Cereri <span class="tab-count" *ngIf="pendingClinics.length">{{ pendingClinics.length }}</span>
+      </button>
+      <button [class.active]="activeTab === 'clinics'" (click)="selectTab('clinics')">
+        Cabinete <span class="tab-count">{{ clinics.length }}</span>
+      </button>
+      <button [class.active]="activeTab === 'owners'" (click)="selectTab('owners')">
+        Proprietari <span class="tab-count">{{ owners.length }}</span>
+      </button>
+    </nav>
+
+    <section *ngIf="activeTab === 'requests'">
+      <p class="empty" *ngIf="!pendingClinics.length">Nicio cerere în așteptare.</p>
+
+      <article class="card request" *ngFor="let clinic of pendingClinics">
+        <div class="card-head">
+          <div>
+            <h3>{{ clinic.name }}</h3>
+            <p class="muted">Cerere trimisă pe {{ formatDate(clinic.requestedAtUtc) }}</p>
+          </div>
+          <span class="badge pending">{{ statusLabels[clinic.status] }}</span>
+        </div>
+
+        <dl class="details">
+          <div><dt>Adresă</dt><dd>{{ fullAddress(clinic) }}</dd></div>
+          <div><dt>Contact</dt><dd>{{ clinic.phone }} · {{ clinic.email }}</dd></div>
+          <div><dt>Orar</dt><dd>{{ clinic.schedule }}</dd></div>
+          <div><dt>Medici</dt><dd>{{ clinic.vetNames.join(', ') }}</dd></div>
+          <div><dt>Solicitant</dt><dd>{{ clinic.adminUsername }} · {{ clinic.adminEmail }}</dd></div>
+        </dl>
+
+        <div class="prices" *ngIf="clinic.prices.length">
+          <h4>Prețuri declarate</h4>
+          <ul>
+            <li *ngFor="let price of clinic.prices">
+              <span>{{ price.service }}</span>
+              <span class="price-value">{{ price.price }} lei</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="reject-box" *ngIf="rejectingId === clinic.id">
+          <label>Motivul respingerii</label>
+          <input type="text" [(ngModel)]="rejectionReason" placeholder="Ex: Adresa nu a putut fi verificată" />
+          <div class="reject-actions">
+            <button class="danger" (click)="confirmRejection(clinic)" [disabled]="busyId === clinic.id">
+              Confirmă respingerea
+            </button>
+            <button class="ghost" (click)="cancelRejection()">Renunță</button>
+          </div>
+        </div>
+
+        <div class="card-actions" *ngIf="rejectingId !== clinic.id">
+          <button class="primary" (click)="approve(clinic)" [disabled]="busyId === clinic.id">
+            {{ busyId === clinic.id ? 'Se procesează...' : 'Aprobă cabinetul' }}
+          </button>
+          <button class="ghost" (click)="startRejection(clinic)" [disabled]="busyId === clinic.id">
+            Respinge
+          </button>
+        </div>
+      </article>
+    </section>
+
+    <section *ngIf="activeTab === 'clinics'">
+      <p class="empty" *ngIf="!clinics.length">Niciun cabinet înregistrat.</p>
+
+      <article class="card" *ngFor="let clinic of clinics">
+        <div class="card-head">
+          <div>
+            <h3>{{ clinic.name }}</h3>
+            <p class="muted">{{ fullAddress(clinic) }}</p>
+          </div>
+          <span class="badge" [ngClass]="clinic.status.toLowerCase()">{{ statusLabels[clinic.status] }}</span>
+        </div>
+
+        <dl class="details">
+          <div><dt>Contact</dt><dd>{{ clinic.phone }} · {{ clinic.email }}</dd></div>
+          <div><dt>Orar</dt><dd>{{ clinic.schedule }}</dd></div>
+          <div><dt>Medici</dt><dd>{{ clinic.vetNames.length ? clinic.vetNames.join(', ') : '—' }}</dd></div>
+          <div><dt>Cont</dt><dd>{{ clinic.adminUsername ?? '—' }}</dd></div>
+          <div *ngIf="clinic.reviewedAtUtc"><dt>Verificat</dt><dd>{{ formatDate(clinic.reviewedAtUtc) }}</dd></div>
+          <div *ngIf="clinic.rejectionReason"><dt>Motiv</dt><dd>{{ clinic.rejectionReason }}</dd></div>
+        </dl>
+
+        <div class="card-actions">
+          <button class="primary" *ngIf="clinic.status !== 'Approved'"
+                  (click)="approve(clinic)" [disabled]="busyId === clinic.id">
+            Aprobă
+          </button>
+          <button class="danger" (click)="deleteClinic(clinic)" [disabled]="busyId === clinic.id">
+            Șterge cabinetul
+          </button>
+        </div>
+      </article>
+    </section>
+
+    <section *ngIf="activeTab === 'owners'">
+      <p class="empty" *ngIf="!owners.length">Niciun proprietar înregistrat.</p>
+
+      <article class="card" *ngFor="let owner of owners">
+        <div class="card-head">
+          <div>
+            <h3>{{ owner.username }}</h3>
+            <p class="muted">{{ owner.email }}</p>
+          </div>
+          <span class="badge neutral">{{ owner.pets.length }} animale</span>
+        </div>
+
+        <ul class="pets" *ngIf="owner.pets.length">
+          <li *ngFor="let pet of owner.pets">
+            <strong>{{ pet.name }}</strong>
+            <span class="muted">{{ pet.species }}<span *ngIf="pet.breed"> · {{ pet.breed }}</span> · {{ pet.age }} ani</span>
+          </li>
+        </ul>
+
+        <div class="card-actions">
+          <button class="danger" (click)="deleteOwner(owner)" [disabled]="busyId === owner.id">
+            Șterge contul
+          </button>
+        </div>
+      </article>
+    </section>
+  </ng-container>
+</div>
