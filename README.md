@@ -30,10 +30,6 @@ The public landing page presents the platform, what it offers, a feeding guide a
 
 ![Home page](https://github.com/motocsky09/Somo/raw/main/_screens/home-2.png)
 
-![Home page](https://github.com/motocsky09/Somo/raw/main/_screens/home-3.png)
-
-![Home page](https://github.com/motocsky09/Somo/raw/main/_screens/home-4.png)
-
 ## Login page
 
 ![Login page](https://github.com/motocsky09/Somo/raw/main/_screens/login.png)
@@ -74,7 +70,9 @@ The contact details filled in here travel with every booking, so the clinic know
 
 A clinic account is created together with the practice itself: address, contact data, schedule, vets and price list are collected in the same step and sent for review.
 
-![Clinic sign up](https://github.com/motocsky09/Somo/raw/main/_screens/register-vet-clinic.png)
+![Clinic sign up](https://github.com/motocsky09/Somo/raw/main/_screens/register-vet-clinic-1.png)
+
+![Clinic sign up](https://github.com/motocsky09/Somo/raw/main/_screens/register-vet-clinic-2.png)
 
 ## Clinic dashboard
 
