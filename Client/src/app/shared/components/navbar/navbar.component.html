@@ -7,19 +7,10 @@
   </div>
 
   <div class="navbar-links">
-    <a routerLink="/home" routerLinkActive="active" *ngIf="!authService.hasRole('ClinicAdmin')">Acasă</a>
-
-    <ng-container *ngIf="!authService.isLoggedIn">
+    <ng-container *ngIf="authService.isOwner">
+      <a routerLink="/home" routerLinkActive="active">Acasă</a>
       <a routerLink="/clinics" routerLinkActive="active">Cabinete</a>
       <a routerLink="/my-pets" routerLinkActive="active">Animalele mele</a>
-    </ng-container>
-
-    <ng-container *ngIf="authService.hasRole('Owner')">
-      <a routerLink="/clinics" routerLinkActive="active">Cabinete</a>
-      <a routerLink="/my-pets" routerLinkActive="active">Animalele mele</a>
-    </ng-container>
-    <ng-container *ngIf="authService.hasRole('SomoAdmin')">
-      <a routerLink="/admin" routerLinkActive="active">Administrare</a>
     </ng-container>
   </div>
 
@@ -55,19 +46,10 @@
     <button class="close-button" (click)="toggleMenu()">&times;</button>
   </div>
   <div class="mobile-menu-links">
-    <a routerLink="/home" routerLinkActive="active" (click)="closeMenu()" *ngIf="!authService.hasRole('ClinicAdmin')">Acasă</a>
-
-    <ng-container *ngIf="!authService.isLoggedIn">
+    <ng-container *ngIf="authService.isOwner">
+      <a routerLink="/home" routerLinkActive="active" (click)="closeMenu()">Acasă</a>
       <a routerLink="/clinics" routerLinkActive="active" (click)="closeMenu()">Cabinete</a>
       <a routerLink="/my-pets" routerLinkActive="active" (click)="closeMenu()">Animalele mele</a>
-    </ng-container>
-
-    <ng-container *ngIf="authService.hasRole('Owner')">
-      <a routerLink="/clinics" routerLinkActive="active" (click)="closeMenu()">Cabinete</a>
-      <a routerLink="/my-pets" routerLinkActive="active" (click)="closeMenu()">Animalele mele</a>
-    </ng-container>
-    <ng-container *ngIf="authService.hasRole('SomoAdmin')">
-      <a routerLink="/admin" routerLinkActive="active" (click)="closeMenu()">Administrare</a>
     </ng-container>
 
     <a *ngIf="canEditProfile" routerLink="/profile" routerLinkActive="active" (click)="closeMenu()">Contul meu</a>

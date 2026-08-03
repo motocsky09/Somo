@@ -142,7 +142,13 @@ export class AuthService {
   }
 
   get homeRoute(): string {
-    return this.isClinicAdmin ? '/clinic-dashboard' : '/home';
+    if (this.isClinicAdmin) return '/clinic-dashboard';
+    if (this.isSomoAdmin) return '/admin';
+    return '/home';
+  }
+
+  get worksFromDashboard(): boolean {
+    return this.isClinicAdmin || this.isSomoAdmin;
   }
 
   get displayName(): string {

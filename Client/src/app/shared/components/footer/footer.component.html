@@ -1,4 +1,4 @@
-<footer class="footer" *ngIf="!authService.isClinicAdmin">
+<footer class="footer" *ngIf="!authService.worksFromDashboard">
   <div class="footer-inner">
     <div class="footer-brand">
       <a routerLink="/home" class="footer-logo">🐾 Somo</a>
@@ -8,9 +8,11 @@
     <div class="footer-col">
       <h4>Navigare</h4>
       <a routerLink="/home">Acasă</a>
-      <a routerLink="/clinics">Cabinete</a>
-      <a routerLink="/my-pets">Animalele mele</a>
-      <a routerLink="/my-appointments">Programările mele</a>
+      <ng-container *ngIf="authService.isOwner">
+        <a routerLink="/clinics">Cabinete</a>
+        <a routerLink="/my-pets">Animalele mele</a>
+        <a routerLink="/my-appointments">Programările mele</a>
+      </ng-container>
     </div>
 
     <div class="footer-col">
@@ -34,10 +36,10 @@
   </div>
 </footer>
 
-<footer class="footer footer-simple" *ngIf="authService.isClinicAdmin">
+<footer class="footer footer-simple" *ngIf="authService.worksFromDashboard">
   <div class="footer-simple-inner">
     <span class="footer-logo">🐾 Somo</span>
-    <span class="footer-simple-text">Platforma cabinetelor veterinare</span>
+    <span class="footer-simple-text">{{ workspaceLabel }}</span>
     <span class="footer-simple-copy">© {{ currentYear }} Somo. Toate drepturile rezervate.</span>
   </div>
 </footer>

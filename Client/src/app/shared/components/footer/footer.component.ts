@@ -10,4 +10,8 @@ export class FooterComponent {
   currentYear = new Date().getFullYear();
 
   constructor(public authService: AuthService) {}
+
+  get workspaceLabel(): string {
+    return this.authService.isSomoAdmin ? 'Administrarea platformei' : 'Platforma cabinetelor veterinare';
+  }
 }

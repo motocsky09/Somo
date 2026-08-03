@@ -17,7 +17,7 @@ export class NavbarComponent {
   }
 
   get canEditProfile(): boolean {
-    return this.authService.isLoggedIn && !this.authService.isClinicAdmin;
+    return this.authService.isOwner;
   }
 
   get initials(): string {
