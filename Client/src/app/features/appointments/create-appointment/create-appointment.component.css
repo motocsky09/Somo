@@ -81,6 +81,7 @@
 }
 
 select {
+  box-sizing: border-box;
   width: 100%;
   padding: 0.75rem;
   border: 1.5px solid #ddd;
@@ -205,6 +206,7 @@ textarea:focus {
 }
 
 .submit-btn {
+  box-sizing: border-box;
   width: 100%;
   padding: 1rem;
   background: #2ecc71;

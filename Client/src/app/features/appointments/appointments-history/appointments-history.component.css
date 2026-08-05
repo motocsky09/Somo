@@ -90,9 +90,11 @@
 
 .card-middle {
   flex: 1;
+  min-width: 0;
   display: flex;
   flex-direction: column;
   gap: 0.4rem;
+  overflow-wrap: anywhere;
 }
 
 .card-row {

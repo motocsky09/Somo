@@ -136,10 +136,12 @@
 
 .stats {
   display: flex;
+  flex-wrap: wrap;
   gap: 1rem;
 }
 
 .stat {
+  box-sizing: border-box;
   background: #f8fafc;
   border: 1.5px solid #eef2f7;
   border-radius: 12px;
@@ -501,6 +503,11 @@
   .stats {
     justify-content: center;
   }
+  .stat {
+    flex: 1 1 0;
+    min-width: 0;
+    padding: 1rem 0.75rem;
+  }
   .appt-card {
     flex-direction: column;
     align-items: flex-start;
@@ -513,5 +520,22 @@
   }
   .appt-status {
     align-self: flex-start;
+  }
+  .section-head {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.8rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .crop-overlay {
+    padding: 0.5rem;
+  }
+  .crop-modal {
+    padding: 1.4rem 1rem;
+  }
+  .crop-secondary {
+    gap: 1rem;
   }
 }

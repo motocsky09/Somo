@@ -71,6 +71,7 @@ input:focus, select:focus {
 }
 
 button {
+  box-sizing: border-box;
   width: 100%;
   padding: 0.85rem;
   background: #2ecc71;
@@ -164,9 +165,19 @@ button:disabled {
     grid-template-columns: 1fr;
   }
   .register-card {
-    padding: 1.5rem;
+    padding: 1.5rem 1.2rem;
   }
   h2 {
     font-size: 1.6rem;
+  }
+  .repeat-row-priced {
+    flex-wrap: wrap;
+  }
+  .repeat-row-priced input:not(.price-input) {
+    flex: 1 1 100%;
+  }
+  .repeat-row-priced .price-input {
+    flex: 1 1 auto;
+    width: auto;
   }
 }

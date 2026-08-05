@@ -69,7 +69,7 @@
 
       <div class="form-group">
         <label>Listă de prețuri <span class="optional">opțional</span></label>
-        <div class="repeat-row" *ngFor="let price of prices.controls; let i = index" formArrayName="prices">
+        <div class="repeat-row repeat-row-priced" *ngFor="let price of prices.controls; let i = index" formArrayName="prices">
           <ng-container [formGroupName]="i">
             <input type="text" formControlName="service" placeholder="ex: Consultație generală" />
             <input type="number" formControlName="price" placeholder="Lei" class="price-input" min="0" />

@@ -5,6 +5,7 @@
 
 .btn {
   display: inline-block;
+  box-sizing: border-box;
   padding: 0.85rem 1.6rem;
   border-radius: 8px;
   font-size: 1rem;
@@ -95,6 +96,7 @@
 
 .hero-stats {
   display: flex;
+  flex-wrap: wrap;
   gap: 2rem;
   margin-top: 2.4rem;
 }
@@ -184,7 +186,7 @@
 
 .feature-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(230px, 100%), 1fr));
   gap: 1.4rem;
   margin-top: 2.2rem;
 }
@@ -236,7 +238,7 @@
 
 .food-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
   gap: 1.5rem;
   margin-bottom: 2.8rem;
 }
@@ -280,7 +282,7 @@
 
 .stores {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));
   gap: 1.2rem;
 }
 
@@ -372,6 +374,7 @@
 
 .faq-question {
   width: 100%;
+  box-sizing: border-box;
   background: none;
   border: none;
   padding: 1.2rem 1.4rem;

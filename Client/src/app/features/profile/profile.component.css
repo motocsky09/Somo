@@ -363,4 +363,20 @@
   .identity {
     justify-content: center;
   }
+  .shortcuts a {
+    flex: 1 1 100%;
+    text-align: center;
+  }
+}
+
+@media (max-width: 400px) {
+  .crop-overlay {
+    padding: 0.5rem;
+  }
+  .crop-modal {
+    padding: 1.4rem 1rem;
+  }
+  .crop-secondary {
+    gap: 1rem;
+  }
 }
