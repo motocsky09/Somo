@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
 
@@ -7,10 +7,14 @@ import { AuthService } from '../../../core/services/auth.service';
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css']
 })
-export class NavbarComponent {
+export class NavbarComponent implements OnDestroy {
   isMenuOpen = false;
 
   constructor(public authService: AuthService, private router: Router) {}
+
+  ngOnDestroy(): void {
+    this.setMenu(false);
+  }
 
   get homeLink(): string {
     return this.authService.homeRoute;
@@ -31,15 +35,21 @@ export class NavbarComponent {
   }
 
   logout(): void {
+    this.closeMenu();
     this.authService.logout();
     this.router.navigate(['/login']);
   }
 
   toggleMenu(): void {
-    this.isMenuOpen = !this.isMenuOpen;
+    this.setMenu(!this.isMenuOpen);
   }
 
   closeMenu(): void {
-    this.isMenuOpen = false;
+    this.setMenu(false);
+  }
+
+  private setMenu(open: boolean): void {
+    this.isMenuOpen = open;
+    document.body.style.overflow = open ? 'hidden' : '';
   }
 }
