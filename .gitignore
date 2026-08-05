@@ -4,3 +4,4 @@ Server/Somo.API/appsettings.json
 Server/**/bin/
 Server/**/obj/
 Server/Somo.API/Cache/
+.DS_Store
