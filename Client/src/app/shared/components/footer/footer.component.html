@@ -1,4 +1,4 @@
-<footer class="footer" *ngIf="!authService.worksFromDashboard">
+<footer class="footer dark-surface" *ngIf="!authService.worksFromDashboard">
   <div class="footer-inner">
     <div class="footer-brand">
       <a routerLink="/home" class="footer-logo">🐾 Somo</a>
@@ -36,7 +36,7 @@
   </div>
 </footer>
 
-<footer class="footer footer-simple" *ngIf="authService.worksFromDashboard">
+<footer class="footer footer-simple dark-surface" *ngIf="authService.worksFromDashboard">
   <div class="footer-simple-inner">
     <span class="footer-logo">🐾 Somo</span>
     <span class="footer-simple-text">{{ workspaceLabel }}</span>

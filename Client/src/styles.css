@@ -1,4 +1,5 @@
-:root {
+:root,
+:root[data-theme="dark"] .dark-surface {
 	--app-font: 'Manrope', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
 	--app-font-mono: 'Roboto Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 
