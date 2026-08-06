@@ -95,6 +95,101 @@
 	--c-ffffff: #ffffff;
 }
 
+:root[data-theme="dark"] {
+	color-scheme: dark;
+	--overlay-rgb: 0, 0, 0;
+
+	--c-005f9e: #55bbff;
+	--c-1e8449: #72dfa0;
+	--c-252c37: #bcc5d2;
+	--c-27ae60: #4dd787;
+	--c-2980b9: #439bd5;
+	--c-2c3e50: #a5b9cd;
+	--c-2ecc71: #33d176;
+	--c-333333: #c3c3c3;
+	--c-3498db: #2489cd;
+	--c-384150: #a7b1c1;
+	--c-444444: #b4b4b4;
+	--c-475569: #909fb4;
+	--c-4a5560: #99a5b1;
+	--c-4a5568: #929db1;
+	--c-555555: #a5a5a5;
+	--c-55606e: #8d98a7;
+	--c-64748b: #73839a;
+	--c-666666: #969696;
+	--c-7a5c00: #ffdd75;
+	--c-7a6220: #dcc37b;
+	--c-7f8c8d: #738081;
+	--c-7f8c9a: #667482;
+	--c-888888: #787878;
+	--c-8a96a3: #5e6b78;
+	--c-8b95a1: #606b77;
+	--c-8dc63f: #87c139;
+	--c-94a3b8: #4b5a71;
+	--c-999999: #696969;
+	--c-9a7500: #ffd759;
+	--c-a0aab4: #4f5a65;
+	--c-a9c9e0: #234862;
+	--c-aaaaaa: #5a5a5a;
+	--c-aab4c0: #444f5c;
+	--c-b8860b: #f4c040;
+	--c-bdc3c7: #3f464b;
+	--c-c0392b: #d44b3d;
+	--c-c8cdd2: #353b41;
+	--c-cbd5e0: #273341;
+	--c-cccccc: #3c3c3c;
+	--c-d3dae3: #252e39;
+	--c-d5f5e3: #0f3e23;
+	--c-dddddd: #2d2d2d;
+	--c-ddedfa: #082339;
+	--c-dfe4ea: #1f262f;
+	--c-dfe6ec: #1c262f;
+	--c-dfe6ee: #1a2430;
+	--c-e0e0e0: #2b2b2b;
+	--c-e2001a: #ff1a34;
+	--c-e2e8f0: #18212e;
+	--c-e5ebf1: #17212b;
+	--c-e6ebf0: #192129;
+	--c-e74c3c: #c72918;
+	--c-e8edf2: #161f28;
+	--c-e8f0fe: #021332;
+	--c-eaf4fc: #061c2d;
+	--c-eafaf1: #0a2b19;
+	--c-ebf5fb: #091e2b;
+	--c-ecf5fc: #071b2b;
+	--c-eeeeee: #1e1e1e;
+	--c-eef1f4: #161c22;
+	--c-eef2f7: #111924;
+	--c-f0cccc: #451414;
+	--c-f0f0f0: #1d1d1d;
+	--c-f0f4f8: #101922;
+	--c-f0f7fd: #051828;
+	--c-f1f1f1: #1c1c1c;
+	--c-f1f6fb: #0a1724;
+	--c-f2f5f8: #11181f;
+	--c-f39c12: #ee960c;
+	--c-f4d67c: #906f0c;
+	--c-f5c6c6: #4c0d0d;
+	--c-f5f5f5: #181818;
+	--c-f5f6f7: #15171a;
+	--c-f5f7fa: #0f141d;
+	--c-f6f9fc: #0a151f;
+	--c-f7941d: #e48008;
+	--c-f8c61e: #e4b107;
+	--c-f8f9fa: #111518;
+	--c-f8fafc: #0c141c;
+	--c-f9dcdc: #390a0a;
+	--c-f9f9f9: #151515;
+	--c-fdecea: #2e0904;
+	--c-fdeeee: #2a0505;
+	--c-fdf6e0: #382b04;
+	--c-fdf6f6: #210707;
+	--c-fef5e0: #392802;
+	--c-fff5f5: #270000;
+	--c-fff8e6: #352600;
+	--c-ffffff: #0f0f0f;
+}
+
 html, body {
 	height: 100%;
 	margin: 0;
@@ -106,6 +201,7 @@ html, body {
 
 body {
 	overflow-x: hidden;
+	background: var(--c-ffffff);
 }
 
 img, svg, video, canvas {

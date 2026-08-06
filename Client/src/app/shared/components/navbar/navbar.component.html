@@ -14,26 +14,42 @@
     </ng-container>
   </div>
 
-  <div class="navbar-user" *ngIf="authService.isLoggedIn">
-    <a *ngIf="canEditProfile" routerLink="/profile" routerLinkActive="active" class="username username-link"
-       title="Vezi și actualizează datele contului">
-      <img *ngIf="authService.currentUser?.profilePhotoUrl as photo" [src]="photo" alt="" class="user-avatar" />
-      <span *ngIf="!authService.currentUser?.profilePhotoUrl" class="user-avatar user-avatar-initials">{{ initials }}</span>
-      <span>{{ authService.displayName }}</span>
-    </a>
-    <span class="username" *ngIf="!canEditProfile">{{ authService.displayName }}</span>
-    <button (click)="logout()" class="logout-button">Ieși din cont</button>
-  </div>
+  <div class="navbar-actions">
+    <div class="navbar-user" *ngIf="authService.isLoggedIn">
+      <a *ngIf="canEditProfile" routerLink="/profile" routerLinkActive="active" class="username username-link"
+         title="Vezi și actualizează datele contului">
+        <img *ngIf="authService.currentUser?.profilePhotoUrl as photo" [src]="photo" alt="" class="user-avatar" />
+        <span *ngIf="!authService.currentUser?.profilePhotoUrl" class="user-avatar user-avatar-initials">{{ initials }}</span>
+        <span>{{ authService.displayName }}</span>
+      </a>
+      <span class="username" *ngIf="!canEditProfile">{{ authService.displayName }}</span>
+      <button (click)="logout()" class="logout-button">Ieși din cont</button>
+    </div>
 
-  <div class="navbar-auth" *ngIf="!authService.isLoggedIn">
-    <a routerLink="/login" class="auth-login">Autentificare</a>
-    <a routerLink="/register" class="auth-register">Creează cont</a>
-  </div>
+    <div class="navbar-auth" *ngIf="!authService.isLoggedIn">
+      <a routerLink="/login" class="auth-login">Autentificare</a>
+      <a routerLink="/register" class="auth-register">Creează cont</a>
+    </div>
 
-  <div class="hamburger-menu">
-    <button class="hamburger-button" (click)="toggleMenu()">
-      <span class="hamburger-icon">&#9776;</span>
+    <button class="theme-toggle" (click)="themeService.toggle()"
+            [title]="themeService.isDark ? 'Comută pe modul luminos' : 'Comută pe modul întunecat'">
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"
+           stroke-linecap="round">
+        <ng-container *ngIf="themeService.isDark; else moonIcon">
+          <circle cx="12" cy="12" r="4" />
+          <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" />
+        </ng-container>
+        <ng-template #moonIcon>
+          <path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z" />
+        </ng-template>
+      </svg>
     </button>
+
+    <div class="hamburger-menu">
+      <button class="hamburger-button" (click)="toggleMenu()">
+        <span class="hamburger-icon">&#9776;</span>
+      </button>
+    </div>
   </div>
 </nav>
 

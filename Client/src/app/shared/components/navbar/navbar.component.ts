@@ -1,6 +1,7 @@
 import { Component, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
+import { ThemeService } from '../../../core/services/theme.service';
 
 @Component({
   selector: 'app-navbar',
@@ -10,7 +11,7 @@ import { AuthService } from '../../../core/services/auth.service';
 export class NavbarComponent implements OnDestroy {
   isMenuOpen = false;
 
-  constructor(public authService: AuthService, private router: Router) {}
+  constructor(public authService: AuthService, public themeService: ThemeService, private router: Router) {}
 
   ngOnDestroy(): void {
     this.setMenu(false);
