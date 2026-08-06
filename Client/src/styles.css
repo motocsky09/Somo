@@ -191,6 +191,11 @@
 	--c-ffffff: #0f0f0f;
 }
 
+:root[data-theme="dark"] .dark-surface {
+	--c-252c37: #10141c;
+	--c-2c3e50: #10141c;
+}
+
 html, body {
 	height: 100%;
 	margin: 0;
