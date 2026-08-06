@@ -6,7 +6,7 @@
 
 .back-link {
   display: inline-block;
-  color: #3498db;
+  color: var(--c-3498db);
   text-decoration: none;
   font-weight: 500;
   margin-bottom: 1.2rem;
@@ -21,11 +21,11 @@
 .error-box {
   text-align: center;
   padding: 3rem;
-  color: #666;
+  color: var(--c-666666);
 }
 
 .profile-card {
-  background: white;
+  background: var(--c-ffffff);
   border-radius: 12px;
   padding: 2rem;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
@@ -47,19 +47,19 @@
   width: 150px;
   height: 150px;
   border-radius: 20px;
-  background: #f0f4f8;
+  background: var(--c-f0f4f8);
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  border: 3px solid #eef2f7;
+  border: 3px solid var(--c-eef2f7);
   padding: 0;
   cursor: pointer;
   transition: border-color 0.2s;
 }
 
 .avatar:hover {
-  border-color: #3498db;
+  border-color: var(--c-3498db);
 }
 
 .avatar img {
@@ -90,7 +90,7 @@
 
 .avatar-caption {
   font-size: 0.78rem;
-  color: #94a3b8;
+  color: var(--c-94a3b8);
 }
 
 .profile-info {
@@ -107,15 +107,15 @@
 
 .profile-head h2 {
   margin: 0;
-  color: #2c3e50;
+  color: var(--c-2c3e50);
   font-size: 1.9rem;
 }
 
 .edit-btn {
   padding: 0.45rem 1rem;
   background: transparent;
-  color: #3498db;
-  border: 1.5px solid #3498db;
+  color: var(--c-3498db);
+  border: 1.5px solid var(--c-3498db);
   border-radius: 8px;
   cursor: pointer;
   font-size: 0.85rem;
@@ -124,12 +124,12 @@
 }
 
 .edit-btn:hover {
-  background: #3498db;
-  color: white;
+  background: var(--c-3498db);
+  color: var(--c-ffffff);
 }
 
 .species-line {
-  color: #666;
+  color: var(--c-666666);
   margin: 0.4rem 0 1.4rem;
   font-size: 1rem;
 }
@@ -142,8 +142,8 @@
 
 .stat {
   box-sizing: border-box;
-  background: #f8fafc;
-  border: 1.5px solid #eef2f7;
+  background: var(--c-f8fafc);
+  border: 1.5px solid var(--c-eef2f7);
   border-radius: 12px;
   padding: 1rem 1.6rem;
   text-align: center;
@@ -154,12 +154,12 @@
   display: block;
   font-size: 1.6rem;
   font-weight: 700;
-  color: #2c3e50;
+  color: var(--c-2c3e50);
 }
 
 .stat-label {
   font-size: 0.85rem;
-  color: #94a3b8;
+  color: var(--c-94a3b8);
 }
 
 .edit-form .form-group {
@@ -170,14 +170,14 @@
 
 .edit-form label {
   margin-bottom: 0.4rem;
-  color: #444;
+  color: var(--c-444444);
   font-weight: 500;
   font-size: 0.9rem;
 }
 
 .edit-form input {
   padding: 0.7rem;
-  border: 1.5px solid #ddd;
+  border: 1.5px solid var(--c-dddddd);
   border-radius: 8px;
   font-size: 0.95rem;
   font-family: inherit;
@@ -185,7 +185,7 @@
 
 .edit-form input:focus {
   outline: none;
-  border-color: #3498db;
+  border-color: var(--c-3498db);
 }
 
 .form-row {
@@ -202,8 +202,8 @@
 
 .save-btn {
   padding: 0.65rem 1.6rem;
-  background: #2ecc71;
-  color: white;
+  background: var(--c-2ecc71);
+  color: var(--c-ffffff);
   border: none;
   border-radius: 8px;
   cursor: pointer;
@@ -212,29 +212,29 @@
 }
 
 .save-btn:hover:not(:disabled) {
-  background: #27ae60;
+  background: var(--c-27ae60);
 }
 
 .save-btn:disabled {
-  background: #bdc3c7;
+  background: var(--c-bdc3c7);
 }
 
 .cancel-btn {
   padding: 0.65rem 1.4rem;
   background: transparent;
-  color: #666;
-  border: 1.5px solid #ddd;
+  color: var(--c-666666);
+  border: 1.5px solid var(--c-dddddd);
   border-radius: 8px;
   cursor: pointer;
   font-size: 0.9rem;
 }
 
 .cancel-btn:hover:not(:disabled) {
-  background: #f5f5f5;
+  background: var(--c-f5f5f5);
 }
 
 .error {
-  color: #e74c3c;
+  color: var(--c-e74c3c);
   font-size: 0.85rem;
   margin-top: 0.8rem;
 }
@@ -252,14 +252,14 @@
 
 .section-head h3 {
   margin: 0;
-  color: #2c3e50;
+  color: var(--c-2c3e50);
   font-size: 1.4rem;
 }
 
 .new-appt-btn {
   padding: 0.6rem 1.2rem;
-  background: #3498db;
-  color: white;
+  background: var(--c-3498db);
+  color: var(--c-ffffff);
   border: none;
   border-radius: 8px;
   cursor: pointer;
@@ -268,15 +268,15 @@
 }
 
 .new-appt-btn:hover {
-  background: #2980b9;
+  background: var(--c-2980b9);
 }
 
 .empty-appts {
-  background: white;
+  background: var(--c-ffffff);
   border-radius: 12px;
   padding: 2.5rem;
   text-align: center;
-  color: #999;
+  color: var(--c-999999);
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
 }
 
@@ -296,7 +296,7 @@
 }
 
 .appt-card {
-  background: white;
+  background: var(--c-ffffff);
   border-radius: 12px;
   padding: 1.2rem 1.5rem;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
@@ -313,12 +313,12 @@
 
 .appt-day {
   font-weight: 600;
-  color: #2c3e50;
+  color: var(--c-2c3e50);
   font-size: 0.95rem;
 }
 
 .appt-time {
-  color: #3498db;
+  color: var(--c-3498db);
   font-size: 0.9rem;
 }
 
@@ -330,24 +330,24 @@
 .appt-clinic {
   margin: 0;
   font-weight: 600;
-  color: #2c3e50;
+  color: var(--c-2c3e50);
 }
 
 .appt-vet {
   margin: 0.2rem 0;
-  color: #666;
+  color: var(--c-666666);
   font-size: 0.88rem;
 }
 
 .appt-reason {
   margin: 0.2rem 0 0;
-  color: #94a3b8;
+  color: var(--c-94a3b8);
   font-size: 0.85rem;
   font-style: italic;
 }
 
 .appt-status {
-  color: white;
+  color: var(--c-ffffff);
   padding: 0.35rem 0.8rem;
   border-radius: 999px;
   font-size: 0.78rem;
@@ -367,7 +367,7 @@
 }
 
 .crop-modal {
-  background: white;
+  background: var(--c-ffffff);
   border-radius: 16px;
   padding: 1.8rem;
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
@@ -378,13 +378,13 @@
 
 .crop-modal h3 {
   margin: 0 0 0.3rem;
-  color: #2c3e50;
+  color: var(--c-2c3e50);
   font-size: 1.3rem;
 }
 
 .crop-hint {
   margin: 0 0 1.2rem;
-  color: #94a3b8;
+  color: var(--c-94a3b8);
   font-size: 0.85rem;
 }
 
@@ -393,7 +393,7 @@
   margin: 0 auto;
   overflow: hidden;
   border-radius: 20px;
-  background: #f0f4f8;
+  background: var(--c-f0f4f8);
   cursor: grab;
   touch-action: none;
   user-select: none;
@@ -430,7 +430,7 @@
 
 .zoom-control input[type="range"] {
   flex: 1;
-  accent-color: #3498db;
+  accent-color: var(--c-3498db);
   cursor: pointer;
 }
 
@@ -448,8 +448,8 @@
 .change-btn {
   padding: 0.65rem 1.4rem;
   background: transparent;
-  color: #3498db;
-  border: 1.5px solid #3498db;
+  color: var(--c-3498db);
+  border: 1.5px solid var(--c-3498db);
   border-radius: 8px;
   cursor: pointer;
   font-size: 0.9rem;
@@ -457,8 +457,8 @@
 }
 
 .change-btn:hover:not(:disabled) {
-  background: #3498db;
-  color: white;
+  background: var(--c-3498db);
+  color: var(--c-ffffff);
 }
 
 .crop-secondary {
@@ -478,11 +478,11 @@
 }
 
 .link-danger {
-  color: #e74c3c;
+  color: var(--c-e74c3c);
 }
 
 .link-muted {
-  color: #94a3b8;
+  color: var(--c-94a3b8);
 }
 
 .link-danger:hover:not(:disabled),

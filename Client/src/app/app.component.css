@@ -1,11 +1,11 @@
 .navbar {
-  background: #252C37;
-  border-bottom: 3px solid #F8C61E;
+  background: var(--c-252c37);
+  border-bottom: 3px solid var(--c-f8c61e);
   height: 40px;
   display: flex;
   align-items: center;
   padding: 0 15px;
-  color: #F8C61E;
+  color: var(--c-f8c61e);
   font-weight: bold;
 }
 
@@ -28,7 +28,7 @@
 .app-container {
   padding: 10px;
   height: calc(100vh - 42px);
-  background-color: #252C37;
+  background-color: var(--c-252c37);
   overflow-y: auto;
 }
 

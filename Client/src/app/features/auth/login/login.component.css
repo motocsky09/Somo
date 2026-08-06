@@ -6,11 +6,11 @@
   min-height: calc(100dvh - 60px);
   padding: 2rem 1rem;
   box-sizing: border-box;
-  background: #f5f5f5;
+  background: var(--c-f5f5f5);
 }
 
 .login-card {
-  background: white;
+  background: var(--c-ffffff);
   padding: 2rem;
   border-radius: 12px;
   box-shadow: 0 4px 20px rgba(0,0,0,0.1);
@@ -20,12 +20,12 @@
 
 h2 {
   margin: 0 0 0.5rem;
-  color: #2c3e50;
+  color: var(--c-2c3e50);
   font-size: 1.8rem;
 }
 
 .subtitle {
-  color: #666;
+  color: var(--c-666666);
   margin-bottom: 2rem;
   font-size: 0.9rem;
 }
@@ -37,14 +37,14 @@ h2 {
 label {
   display: block;
   margin-bottom: 0.4rem;
-  color: #444;
+  color: var(--c-444444);
   font-weight: 500;
 }
 
 input {
   width: 100%;
   padding: 0.75rem;
-  border: 1.5px solid #ddd;
+  border: 1.5px solid var(--c-dddddd);
   border-radius: 8px;
   font-size: 1rem;
   box-sizing: border-box;
@@ -53,19 +53,19 @@ input {
 
 input:focus {
   outline: none;
-  border-color: #3498db;
+  border-color: var(--c-3498db);
 }
 
 input.invalid {
-  border-color: #e74c3c;
+  border-color: var(--c-e74c3c);
 }
 
 button {
   box-sizing: border-box;
   width: 100%;
   padding: 0.85rem;
-  background: #3498db;
-  color: white;
+  background: var(--c-3498db);
+  color: var(--c-ffffff);
   border: none;
   border-radius: 8px;
   font-size: 1rem;
@@ -75,16 +75,16 @@ button {
 }
 
 button:hover:not(:disabled) {
-  background: #2980b9;
+  background: var(--c-2980b9);
 }
 
 button:disabled {
-  background: #bdc3c7;
+  background: var(--c-bdc3c7);
   cursor: not-allowed;
 }
 
 .error {
-  color: #e74c3c;
+  color: var(--c-e74c3c);
   font-size: 0.85rem;
   margin-bottom: 0.5rem;
 }
@@ -93,9 +93,9 @@ button:disabled {
   display: flex;
   align-items: center;
   gap: 0.6rem;
-  background: #fef5e0;
-  border: 1.5px solid #f8c61e;
-  color: #7a5c00;
+  background: var(--c-fef5e0);
+  border: 1.5px solid var(--c-f8c61e);
+  color: var(--c-7a5c00);
   padding: 0.8rem 1rem;
   border-radius: 8px;
   font-size: 0.9rem;
@@ -110,11 +110,11 @@ button:disabled {
 .register-link {
   text-align: center;
   margin-top: 1.5rem;
-  color: #666;
+  color: var(--c-666666);
 }
 
 .register-link a {
-  color: #3498db;
+  color: var(--c-3498db);
   text-decoration: none;
   font-weight: 500;
 }

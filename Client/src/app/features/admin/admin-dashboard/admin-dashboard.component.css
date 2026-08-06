@@ -14,7 +14,7 @@
 
 .eyebrow {
   display: block;
-  color: #3498db;
+  color: var(--c-3498db);
   font-size: 0.78rem;
   font-weight: 700;
   letter-spacing: 0.08em;
@@ -23,14 +23,14 @@
 
 .admin-header h2 {
   margin: 0.3rem 0 0;
-  color: #2c3e50;
+  color: var(--c-2c3e50);
   font-size: 1.7rem;
 }
 
 .refresh-btn {
   padding: 0.5rem 1rem;
-  background: #ecf5fc;
-  color: #2980b9;
+  background: var(--c-ecf5fc);
+  color: var(--c-2980b9);
   border: none;
   border-radius: 8px;
   font-family: inherit;
@@ -39,25 +39,25 @@
 }
 
 .refresh-btn:disabled {
-  color: #a9c9e0;
+  color: var(--c-a9c9e0);
   cursor: default;
 }
 
 .loading,
 .empty {
   padding: 2.5rem;
-  background: white;
+  background: var(--c-ffffff);
   border-radius: 12px;
-  color: #8b95a1;
+  color: var(--c-8b95a1);
   text-align: center;
 }
 
 .error {
   padding: 0.8rem 1rem;
-  background: #fdeeee;
-  border: 1px solid #f5c6c6;
+  background: var(--c-fdeeee);
+  border: 1px solid var(--c-f5c6c6);
   border-radius: 8px;
-  color: #c0392b;
+  color: var(--c-c0392b);
   font-size: 0.88rem;
 }
 
@@ -73,31 +73,31 @@
   flex-direction: column;
   gap: 0.2rem;
   padding: 1rem;
-  background: white;
+  background: var(--c-ffffff);
   border-radius: 12px;
   box-shadow: 0 2px 10px rgba(0,0,0,0.06);
 }
 
 .stat.highlight {
-  background: #fff8e6;
-  box-shadow: inset 0 0 0 1.5px #f8c61e;
+  background: var(--c-fff8e6);
+  box-shadow: inset 0 0 0 1.5px var(--c-f8c61e);
 }
 
 .stat.highlight.empty {
-  background: white;
+  background: var(--c-ffffff);
   box-shadow: 0 2px 10px rgba(0,0,0,0.06);
   padding: 1rem;
   text-align: left;
 }
 
 .stat-value {
-  color: #2c3e50;
+  color: var(--c-2c3e50);
   font-size: 1.6rem;
   font-weight: 700;
 }
 
 .stat-label {
-  color: #8b95a1;
+  color: var(--c-8b95a1);
   font-size: 0.78rem;
 }
 
@@ -112,9 +112,9 @@
   align-items: center;
   gap: 0.45rem;
   padding: 0.55rem 1rem;
-  background: white;
-  color: #7f8c8d;
-  border: 1px solid #e6ebf0;
+  background: var(--c-ffffff);
+  color: var(--c-7f8c8d);
+  border: 1px solid var(--c-e6ebf0);
   border-radius: 8px;
   font-family: inherit;
   font-size: 0.88rem;
@@ -123,25 +123,25 @@
 }
 
 .tabs button.active {
-  color: #2c3e50;
-  border-color: #3498db;
+  color: var(--c-2c3e50);
+  border-color: var(--c-3498db);
   font-weight: 700;
 }
 
 .tab-count {
-  background: #eef1f4;
+  background: var(--c-eef1f4);
   border-radius: 20px;
   padding: 0.05rem 0.5rem;
   font-size: 0.75rem;
 }
 
 .tabs button.active .tab-count {
-  background: #eaf4fc;
-  color: #2980b9;
+  background: var(--c-eaf4fc);
+  color: var(--c-2980b9);
 }
 
 .card {
-  background: white;
+  background: var(--c-ffffff);
   border-radius: 12px;
   padding: 1.3rem;
   margin-bottom: 0.9rem;
@@ -149,7 +149,7 @@
 }
 
 .card.request {
-  box-shadow: inset 0 0 0 1.5px #f8c61e, 0 2px 10px rgba(0,0,0,0.06);
+  box-shadow: inset 0 0 0 1.5px var(--c-f8c61e), 0 2px 10px rgba(0,0,0,0.06);
 }
 
 .card-head {
@@ -162,13 +162,13 @@
 
 .card-head h3 {
   margin: 0;
-  color: #2c3e50;
+  color: var(--c-2c3e50);
   font-size: 1.15rem;
 }
 
 .muted {
   margin: 0.25rem 0 0;
-  color: #8b95a1;
+  color: var(--c-8b95a1);
   font-size: 0.82rem;
 }
 
@@ -181,23 +181,23 @@
 }
 
 .badge.pending {
-  background: #fff8e6;
-  color: #9a7500;
+  background: var(--c-fff8e6);
+  color: var(--c-9a7500);
 }
 
 .badge.approved {
-  background: #eafaf1;
-  color: #1e8449;
+  background: var(--c-eafaf1);
+  color: var(--c-1e8449);
 }
 
 .badge.rejected {
-  background: #fdeeee;
-  color: #c0392b;
+  background: var(--c-fdeeee);
+  color: var(--c-c0392b);
 }
 
 .badge.neutral {
-  background: #eef1f4;
-  color: #7f8c8d;
+  background: var(--c-eef1f4);
+  color: var(--c-7f8c8d);
 }
 
 .details {
@@ -214,7 +214,7 @@
 }
 
 .details dt {
-  color: #a0aab4;
+  color: var(--c-a0aab4);
   font-size: 0.72rem;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -222,7 +222,7 @@
 
 .details dd {
   margin: 0;
-  color: #4a5560;
+  color: var(--c-4a5560);
   font-size: 0.88rem;
   word-break: break-word;
 }
@@ -230,13 +230,13 @@
 .prices {
   margin-bottom: 1rem;
   padding: 0.8rem 1rem;
-  background: #f8fafc;
+  background: var(--c-f8fafc);
   border-radius: 8px;
 }
 
 .prices h4 {
   margin: 0 0 0.5rem;
-  color: #2c3e50;
+  color: var(--c-2c3e50);
   font-size: 0.85rem;
 }
 
@@ -252,12 +252,12 @@
   justify-content: space-between;
   gap: 1rem;
   padding: 0.25rem 0;
-  color: #4a5560;
+  color: var(--c-4a5560);
   font-size: 0.85rem;
 }
 
 .price-value {
-  color: #2c3e50;
+  color: var(--c-2c3e50);
   font-weight: 700;
 }
 
@@ -270,12 +270,12 @@
   align-items: baseline;
   gap: 0.6rem;
   padding: 0.4rem 0;
-  border-top: 1px solid #f2f5f8;
+  border-top: 1px solid var(--c-f2f5f8);
   font-size: 0.88rem;
 }
 
 .pets strong {
-  color: #2c3e50;
+  color: var(--c-2c3e50);
 }
 
 .card-actions {
@@ -302,42 +302,42 @@
 }
 
 button.primary {
-  background: #2ecc71;
-  color: white;
+  background: var(--c-2ecc71);
+  color: var(--c-ffffff);
 }
 
 button.primary:hover:not(:disabled) {
-  background: #27ae60;
+  background: var(--c-27ae60);
 }
 
 button.danger {
-  background: #fdeeee;
-  color: #c0392b;
+  background: var(--c-fdeeee);
+  color: var(--c-c0392b);
 }
 
 button.danger:hover:not(:disabled) {
-  background: #f9dcdc;
+  background: var(--c-f9dcdc);
 }
 
 button.ghost {
-  background: #f2f5f8;
-  color: #7f8c8d;
+  background: var(--c-f2f5f8);
+  color: var(--c-7f8c8d);
 }
 
 button.ghost:hover:not(:disabled) {
-  background: #e8edf2;
+  background: var(--c-e8edf2);
 }
 
 .reject-box {
   padding: 0.9rem;
-  background: #fdf6f6;
+  background: var(--c-fdf6f6);
   border-radius: 8px;
 }
 
 .reject-box label {
   display: block;
   margin-bottom: 0.4rem;
-  color: #c0392b;
+  color: var(--c-c0392b);
   font-size: 0.8rem;
   font-weight: 700;
 }
@@ -345,7 +345,7 @@ button.ghost:hover:not(:disabled) {
 .reject-box input {
   width: 100%;
   padding: 0.55rem 0.7rem;
-  border: 1px solid #f0cccc;
+  border: 1px solid var(--c-f0cccc);
   border-radius: 8px;
   box-sizing: border-box;
   font-family: inherit;
@@ -354,7 +354,7 @@ button.ghost:hover:not(:disabled) {
 
 .reject-box input:focus {
   outline: none;
-  border-color: #e74c3c;
+  border-color: var(--c-e74c3c);
 }
 
 .reject-actions {

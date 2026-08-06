@@ -7,25 +7,25 @@
 .loading {
   text-align: center;
   padding: 3rem;
-  color: #666;
+  color: var(--c-666666);
 }
 
 .page-head h2 {
   margin: 0 0 0.4rem;
-  color: #2c3e50;
+  color: var(--c-2c3e50);
   font-size: 1.9rem;
 }
 
 .page-head p {
   margin: 0 0 1.5rem;
-  color: #7f8c9a;
+  color: var(--c-7f8c9a);
   font-size: 0.95rem;
   max-width: 620px;
   line-height: 1.6;
 }
 
 .profile-card {
-  background: white;
+  background: var(--c-ffffff);
   border-radius: 12px;
   padding: 2rem;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
@@ -47,19 +47,19 @@
   width: 150px;
   height: 150px;
   border-radius: 20px;
-  background: #f0f4f8;
+  background: var(--c-f0f4f8);
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  border: 3px solid #eef2f7;
+  border: 3px solid var(--c-eef2f7);
   padding: 0;
   cursor: pointer;
   transition: border-color 0.2s;
 }
 
 .avatar:hover {
-  border-color: #3498db;
+  border-color: var(--c-3498db);
 }
 
 .avatar img {
@@ -71,7 +71,7 @@
 .avatar-initials {
   font-size: 3rem;
   font-weight: 700;
-  color: #3498db;
+  color: var(--c-3498db);
 }
 
 .avatar-overlay {
@@ -92,7 +92,7 @@
 
 .avatar-caption {
   font-size: 0.78rem;
-  color: #94a3b8;
+  color: var(--c-94a3b8);
 }
 
 .profile-form {
@@ -109,12 +109,12 @@
 }
 
 .identity strong {
-  color: #2c3e50;
+  color: var(--c-2c3e50);
   font-size: 1.35rem;
 }
 
 .identity .username {
-  color: #94a3b8;
+  color: var(--c-94a3b8);
   font-size: 0.9rem;
 }
 
@@ -132,7 +132,7 @@
 .form-group label {
   display: block;
   margin-bottom: 0.35rem;
-  color: #55606e;
+  color: var(--c-55606e);
   font-size: 0.85rem;
   font-weight: 600;
 }
@@ -140,7 +140,7 @@
 .form-group input {
   width: 100%;
   padding: 0.7rem 0.9rem;
-  border: 1.5px solid #dfe6ec;
+  border: 1.5px solid var(--c-dfe6ec);
   border-radius: 8px;
   font-size: 0.95rem;
   font-family: inherit;
@@ -150,7 +150,7 @@
 
 .form-group input:focus {
   outline: none;
-  border-color: #3498db;
+  border-color: var(--c-3498db);
 }
 
 .error,
@@ -160,11 +160,11 @@
 }
 
 .error {
-  color: #e74c3c;
+  color: var(--c-e74c3c);
 }
 
 .success {
-  color: #27ae60;
+  color: var(--c-27ae60);
 }
 
 .form-actions {
@@ -173,8 +173,8 @@
 
 .save-btn {
   padding: 0.7rem 1.6rem;
-  background: #3498db;
-  color: white;
+  background: var(--c-3498db);
+  color: var(--c-ffffff);
   border: none;
   border-radius: 8px;
   cursor: pointer;
@@ -184,7 +184,7 @@
 }
 
 .save-btn:hover:not(:disabled) {
-  background: #2980b9;
+  background: var(--c-2980b9);
 }
 
 .save-btn:disabled {
@@ -200,11 +200,11 @@
 }
 
 .shortcuts a {
-  background: white;
-  border: 1.5px solid #e5ebf1;
+  background: var(--c-ffffff);
+  border: 1.5px solid var(--c-e5ebf1);
   border-radius: 10px;
   padding: 0.8rem 1.2rem;
-  color: #2c3e50;
+  color: var(--c-2c3e50);
   text-decoration: none;
   font-size: 0.92rem;
   font-weight: 500;
@@ -212,7 +212,7 @@
 }
 
 .shortcuts a:hover {
-  border-color: #3498db;
+  border-color: var(--c-3498db);
   transform: translateY(-2px);
 }
 
@@ -228,7 +228,7 @@
 }
 
 .crop-modal {
-  background: white;
+  background: var(--c-ffffff);
   border-radius: 16px;
   padding: 1.8rem;
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
@@ -239,13 +239,13 @@
 
 .crop-modal h3 {
   margin: 0 0 0.3rem;
-  color: #2c3e50;
+  color: var(--c-2c3e50);
   font-size: 1.3rem;
 }
 
 .crop-hint {
   margin: 0 0 1.2rem;
-  color: #94a3b8;
+  color: var(--c-94a3b8);
   font-size: 0.85rem;
 }
 
@@ -254,7 +254,7 @@
   margin: 0 auto;
   overflow: hidden;
   border-radius: 20px;
-  background: #f0f4f8;
+  background: var(--c-f0f4f8);
   cursor: grab;
   touch-action: none;
   user-select: none;
@@ -291,7 +291,7 @@
 
 .zoom-control input[type="range"] {
   flex: 1;
-  accent-color: #3498db;
+  accent-color: var(--c-3498db);
   cursor: pointer;
 }
 
@@ -309,8 +309,8 @@
 .change-btn {
   padding: 0.65rem 1.4rem;
   background: transparent;
-  color: #3498db;
-  border: 1.5px solid #3498db;
+  color: var(--c-3498db);
+  border: 1.5px solid var(--c-3498db);
   border-radius: 8px;
   cursor: pointer;
   font-size: 0.9rem;
@@ -318,8 +318,8 @@
 }
 
 .change-btn:hover:not(:disabled) {
-  background: #3498db;
-  color: white;
+  background: var(--c-3498db);
+  color: var(--c-ffffff);
 }
 
 .crop-secondary {
@@ -339,11 +339,11 @@
 }
 
 .link-danger {
-  color: #e74c3c;
+  color: var(--c-e74c3c);
 }
 
 .link-muted {
-  color: #94a3b8;
+  color: var(--c-94a3b8);
 }
 
 .link-danger:hover:not(:disabled),

@@ -44,11 +44,11 @@ export class ClinicDashboardComponent implements OnInit {
   };
 
   statusColors: { [key: number]: string } = {
-    0: '#f39c12',
-    1: '#2ecc71',
-    2: '#e74c3c',
-    3: '#3498db',
-    4: '#c0392b' 
+    0: 'var(--c-f39c12)',
+    1: 'var(--c-2ecc71)',
+    2: 'var(--c-e74c3c)',
+    3: 'var(--c-3498db)',
+    4: 'var(--c-c0392b)' 
   };
 
   constructor(
