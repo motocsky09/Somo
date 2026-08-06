@@ -27,7 +27,7 @@
 .btn-ghost {
   background: transparent;
   color: var(--c-3498db);
-  border: 1.5px solid var(--c-cbd5e0);
+  border: 1.5px solid var(--c-64748b);
 }
 
 .btn-ghost:hover {
@@ -50,7 +50,11 @@
 .hero {
   background: linear-gradient(160deg, var(--c-252c37) 0%, var(--c-2c3e50) 100%);
   color: var(--c-ffffff);
-  border-bottom: 4px solid var(--c-f8c61e);
+  border-bottom: 1px solid var(--c-64748b);
+}
+
+:host-context([data-theme="dark"]) .hero {
+  border-top: 1px solid var(--c-64748b);
 }
 
 .hero-inner {
@@ -343,7 +347,7 @@
 
 .store-cta {
   margin-top: 0.4rem;
-  color: var(--c-3498db);
+  color: var(--c-64748b);
   font-weight: 600;
   font-size: 0.9rem;
 }
@@ -414,7 +418,7 @@
 .cta-final {
   background: linear-gradient(160deg, var(--c-2c3e50) 0%, var(--c-252c37) 100%);
   color: var(--c-ffffff);
-  border-top: 4px solid var(--c-f8c61e);
+  border-top: 0.5px solid var(--c-64748b);
 }
 
 .cta-inner {

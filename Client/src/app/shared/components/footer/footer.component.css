@@ -1,7 +1,7 @@
 .footer {
   background: var(--c-252c37);
   color: var(--c-d3dae3);
-  border-top: 3px solid var(--c-f8c61e);
+  border-top: 0.5px solid var(--c-64748b);
 }
 
 .footer-inner {
@@ -16,7 +16,7 @@
 .footer-logo {
   font-size: 1.4rem;
   font-weight: 700;
-  color: var(--c-f8c61e);
+  color: var(--c-ffffff);
   text-decoration: none;
   display: inline-block;
   margin-bottom: 0.7rem;
