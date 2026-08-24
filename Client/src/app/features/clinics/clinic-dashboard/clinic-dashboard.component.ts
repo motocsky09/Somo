@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
+import { VetService, VetAccount } from '../../../core/services/vet.service';
 import { environment } from '../../../../environments/environment';
 
 @Component({
@@ -26,6 +27,8 @@ export class ClinicDashboardComponent implements OnInit {
   isSubmittingVet = false;
   vetError = '';
   vetSuccess = '';
+  createdAccount: VetAccount | null = null;
+  copyFeedback = '';
   newVet = {
     firstName: '',
     lastName: '',
@@ -54,7 +57,8 @@ export class ClinicDashboardComponent implements OnInit {
   constructor(
     private http: HttpClient,
     private authService: AuthService,
-    private router: Router 
+    private vetService: VetService,
+    private router: Router
   ) { }
   
   openAppointment(id: string): void {
@@ -121,6 +125,8 @@ export class ClinicDashboardComponent implements OnInit {
     this.showAddVetForm = !this.showAddVetForm;
     this.vetError = '';
     this.vetSuccess = '';
+    this.createdAccount = null;
+    this.copyFeedback = '';
     this.newVet = {
       firstName: '',
       lastName: '',
@@ -136,25 +142,74 @@ export class ClinicDashboardComponent implements OnInit {
       this.vetError = 'Completează cel puțin numele și specializarea.';
       return;
     }
+    if (!this.newVet.email) {
+      this.vetError = 'Adresa de email este necesară pentru contul medicului.';
+      return;
+    }
 
     this.isSubmittingVet = true;
     this.vetError = '';
 
-    this.http.post<any>(`${environment.apiUrl}/Vets`, this.newVet).subscribe({
-      next: (vet) => {
-        this.vets.push(vet);
-        this.vetSuccess = `Dr. ${vet.firstName} ${vet.lastName} a fost adăugat cu succes!`;
+    this.vetService.create(this.newVet).subscribe({
+      next: (account) => {
+        this.vets.push(account.vet);
+        this.createdAccount = account;
+        this.vetSuccess = `Dr. ${account.vet.firstName} ${account.vet.lastName} a fost adăugat.`;
         this.isSubmittingVet = false;
-        setTimeout(() => {
-          this.showAddVetForm = false;
-          this.vetSuccess = '';
-        }, 2000);
+        this.showAddVetForm = false;
       },
-      error: () => {
-        this.vetError = 'Eroare la adăugarea medicului. Încearcă din nou.';
+      error: (err) => {
+        this.vetError = err?.error?.error || 'Eroare la adăugarea medicului. Încearcă din nou.';
         this.isSubmittingVet = false;
       }
     });
+  }
+
+  /**
+   * Medicii adăugați înainte de introducerea conturilor nu au acces în aplicație;
+   * cabinetul le poate genera unul păstrând fișa existentă.
+   */
+  grantAccount(vet: any): void {
+    const email = (vet.email || '').trim() ||
+      (prompt(`Adresa de email pentru contul lui Dr. ${vet.firstName} ${vet.lastName}:`) || '').trim();
+
+    if (!email) return;
+
+    this.vetError = '';
+    this.vetService.createAccount(vet.id, email).subscribe({
+      next: (account) => {
+        vet.hasAccount = true;
+        vet.email = account.vet.email;
+        this.createdAccount = account;
+        this.vetSuccess = `Contul lui Dr. ${vet.firstName} ${vet.lastName} a fost creat.`;
+      },
+      error: (err) => {
+        this.vetError = err?.error?.error || 'Contul nu a putut fi creat.';
+      }
+    });
+  }
+
+  /** Credențialele se văd o singură dată, până când cabinetul confirmă că le-a notat. */
+  dismissCredentials(): void {
+    this.createdAccount = null;
+    this.vetSuccess = '';
+    this.copyFeedback = '';
+  }
+
+  copyCredentials(): void {
+    if (!this.createdAccount) return;
+
+    const text =
+      `Utilizator: ${this.createdAccount.username}\n` +
+      `Parolă temporară: ${this.createdAccount.temporaryPassword}`;
+
+    navigator.clipboard?.writeText(text).then(
+      () => {
+        this.copyFeedback = 'Datele au fost copiate.';
+        setTimeout(() => this.copyFeedback = '', 2500);
+      },
+      () => this.copyFeedback = 'Copierea nu a funcționat. Notează datele manual.'
+    );
   }
 
   getPetName(app: any): string {

@@ -171,19 +171,44 @@
 			</div>
 			</div>
 			<div class="form-group">
-			<label>Email</label>
+			<label>Email *</label>
 			<input type="email" [(ngModel)]="newVet.email" placeholder="doctor@cabinet.ro" />
+			<span class="field-hint">Pe această adresă îi trimitem medicului datele de acces.</span>
 			</div>
 
 			<p class="vet-error" *ngIf="vetError">{{ vetError }}</p>
-			<p class="vet-success" *ngIf="vetSuccess">✅ {{ vetSuccess }}</p>
 
 			<button class="btn-submit-vet" (click)="submitVet()" [disabled]="isSubmittingVet">
 			{{ isSubmittingVet ? 'Se adaugă...' : 'Salvează medic' }}
 			</button>
 		</div>
 
-		<div class="empty-panel" *ngIf="vets.length === 0 && !showAddVetForm">
+		<div class="credentials-box" *ngIf="createdAccount as account">
+			<p class="credentials-title">✅ {{ vetSuccess }}</p>
+			<p class="credentials-note">
+			Notează datele de mai jos — parola temporară nu mai poate fi afișată după ce închizi acest mesaj.
+			</p>
+
+			<div class="credentials-grid">
+			<span class="credentials-label">Utilizator</span>
+			<code>{{ account.username }}</code>
+			<span class="credentials-label">Parolă temporară</span>
+			<code>{{ account.temporaryPassword }}</code>
+			</div>
+
+			<p class="credentials-note" *ngIf="account.credentialsEmailed">
+			Datele au fost trimise și pe {{ account.vet.email }}.
+			</p>
+
+			<p class="vet-success" *ngIf="copyFeedback">{{ copyFeedback }}</p>
+
+			<div class="credentials-actions">
+			<button class="btn-submit-vet" (click)="copyCredentials()">Copiază datele</button>
+			<button class="btn-add-vet" (click)="dismissCredentials()">Am notat, închide</button>
+			</div>
+		</div>
+
+		<div class="empty-panel" *ngIf="vets.length === 0 && !showAddVetForm && !createdAccount">
 			Nu există medici înregistrați. Adaugă primul medic pentru a primi programări.
 		</div>
 
@@ -194,7 +219,12 @@
 				<strong>Dr. {{ vet.firstName }} {{ vet.lastName }}</strong>
 				<span>{{ vet.specialization }}</span>
 				<span *ngIf="vet.phone">📞 {{ vet.phone }}</span>
+				<span class="vet-account" *ngIf="vet.hasAccount">🔑 Are cont Somo</span>
 			</div>
+			<button class="btn-add-vet" *ngIf="!vet.hasAccount" (click)="grantAccount(vet)"
+					title="Creează un cont ca medicul să își vadă agenda">
+				Creează cont
+			</button>
 			</div>
 		</div>
 		</div>

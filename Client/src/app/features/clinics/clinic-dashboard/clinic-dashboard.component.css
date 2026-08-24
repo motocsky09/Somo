@@ -545,6 +545,74 @@
   font-size: 0.82rem;
 }
 
+.vet-info .vet-account {
+  color: var(--c-27ae60);
+  font-weight: 600;
+}
+
+.vet-item .btn-add-vet {
+  margin-left: auto;
+  align-self: center;
+  flex-shrink: 0;
+}
+
+.field-hint {
+  margin-top: 0.35rem;
+  font-size: 0.78rem;
+  color: var(--c-94a3b8);
+}
+
+.credentials-box {
+  margin-bottom: 1.2rem;
+  padding: 1.2rem 1.4rem;
+  border-radius: 10px;
+  background: var(--c-eafaf1);
+  border-left: 4px solid var(--c-27ae60);
+}
+
+.credentials-title {
+  margin: 0;
+  font-weight: 700;
+  color: var(--c-2c3e50);
+  font-size: 0.95rem;
+}
+
+.credentials-note {
+  margin: 0.4rem 0 0;
+  font-size: 0.83rem;
+  color: var(--c-4a5568);
+}
+
+.credentials-grid {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.5rem 1rem;
+  align-items: center;
+  margin: 1rem 0;
+}
+
+.credentials-label {
+  font-size: 0.82rem;
+  color: var(--c-666666);
+}
+
+.credentials-grid code {
+  padding: 0.4rem 0.7rem;
+  border-radius: 6px;
+  background: var(--c-ffffff);
+  border: 1px solid var(--c-d3dae3);
+  font-family: var(--app-font-mono);
+  font-size: 0.9rem;
+  color: var(--c-2c3e50);
+  overflow-wrap: anywhere;
+}
+
+.credentials-actions {
+  display: flex;
+  gap: 0.7rem;
+  flex-wrap: wrap;
+}
+
 @media (max-width: 992px) {
   .stats-row {
     grid-template-columns: repeat(2, 1fr);
