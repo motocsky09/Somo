@@ -1,3 +1,19 @@
+/*
+ * Coloana aplicației ține cât tot ecranul, iar footer-ul își ia toată marja
+ * liberă de deasupra. Așa stă lipit de partea de jos pe paginile scurte și
+ * coboară sub conținut pe cele lungi, fără să acopere nimic.
+ */
+:host {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+app-footer {
+  margin-top: auto;
+}
+
 .navbar {
   background: var(--c-252c37);
   border-bottom: 3px solid var(--c-f8c61e);
