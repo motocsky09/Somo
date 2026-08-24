@@ -5,6 +5,10 @@ import { AppointmentService, Appointment } from '../../../core/services/appointm
 import { ClinicService, Clinic } from '../../../core/services/clinic.service';
 import { VetService, Vet } from '../../../core/services/vet.service';
 import { AuthService } from '../../../core/services/auth.service';
+import { MedicalRecordService, MedicalRecord } from '../../../core/services/medical-record.service';
+import { VaccinationService, Vaccination, VaccinationStatus } from '../../../core/services/vaccination.service';
+
+type PetTab = 'appointments' | 'medical' | 'vaccinations';
 
 @Component({
   selector: 'app-pet-detail',
@@ -16,6 +20,11 @@ export class PetDetailComponent implements OnInit {
   appointments: Appointment[] = [];
   clinics: Clinic[] = [];
   vets: Vet[] = [];
+  medicalRecords: MedicalRecord[] = [];
+  vaccinations: Vaccination[] = [];
+
+  activeTab: PetTab = 'appointments';
+  isLoadingChart = false;
 
   isLoading = true;
   isEditing = false;
@@ -67,7 +76,9 @@ export class PetDetailComponent implements OnInit {
     private appointmentService: AppointmentService,
     private clinicService: ClinicService,
     private vetService: VetService,
-    private authService: AuthService
+    private authService: AuthService,
+    private medicalRecordService: MedicalRecordService,
+    private vaccinationService: VaccinationService
   ) {}
 
   ngOnInit(): void {
@@ -87,6 +98,7 @@ export class PetDetailComponent implements OnInit {
         this.pet = pet;
         this.isLoading = false;
         this.loadAppointments(pet.id);
+        this.loadChart(pet.id);
       },
       error: () => {
         this.isLoading = false;
@@ -102,6 +114,83 @@ export class PetDetailComponent implements OnInit {
         .filter(a => a.petId === petId)
         .sort((a, b) => new Date(b.dateTime).getTime() - new Date(a.dateTime).getTime());
     });
+  }
+
+  loadChart(petId: string): void {
+    this.isLoadingChart = true;
+    let pending = 2;
+    const done = () => {
+      if (--pending === 0) this.isLoadingChart = false;
+    };
+
+    this.medicalRecordService.getByPet(petId).subscribe({
+      next: records => { this.medicalRecords = records; done(); },
+      error: () => done()
+    });
+
+    this.vaccinationService.getByPet(petId).subscribe({
+      next: vaccinations => { this.vaccinations = vaccinations; done(); },
+      error: () => done()
+    });
+  }
+
+  setTab(tab: PetTab): void {
+    this.activeTab = tab;
+  }
+
+  /**
+   * Diferența de greutate față de vizita precedentă. Lista vine ordonată
+   * descrescător, deci precedenta este următoarea din listă.
+   */
+  weightChange(index: number): number | null {
+    const current = this.medicalRecords[index];
+    if (!current || current.weight <= 0) return null;
+
+    const previous = this.medicalRecords
+      .slice(index + 1)
+      .find(r => r.weight > 0);
+
+    if (!previous) return null;
+    return Math.round((current.weight - previous.weight) * 100) / 100;
+  }
+
+  vaccinationStatus(vaccination: Vaccination): VaccinationStatus {
+    return VaccinationService.statusOf(vaccination);
+  }
+
+  vaccinationStatusLabel(vaccination: Vaccination): string {
+    switch (this.vaccinationStatus(vaccination)) {
+      case 'overdue': return 'Rapel depășit';
+      case 'due-soon': return 'Rapel curând';
+      default: return 'La zi';
+    }
+  }
+
+  vaccinationStatusColor(vaccination: Vaccination): string {
+    switch (this.vaccinationStatus(vaccination)) {
+      case 'overdue': return 'var(--c-e74c3c)';
+      case 'due-soon': return 'var(--c-f39c12)';
+      default: return 'var(--c-2ecc71)';
+    }
+  }
+
+  dueDescription(vaccination: Vaccination): string {
+    const days = vaccination.daysUntilDue;
+    if (days < 0) return `depășit cu ${Math.abs(days)} zile`;
+    if (days === 0) return 'scadent astăzi';
+    if (days === 1) return 'scadent mâine';
+    return `în ${days} zile`;
+  }
+
+  /** Cel mai apropiat rapel, folosit pentru avertizarea din capul paginii. */
+  get nextVaccination(): Vaccination | null {
+    const upcoming = [...this.vaccinations].sort((a, b) => a.daysUntilDue - b.daysUntilDue);
+    return upcoming.length > 0 ? upcoming[0] : null;
+  }
+
+  get hasVaccinationAlert(): boolean {
+    const next = this.nextVaccination;
+    return !!next && this.vaccinationStatus(next) !== 'up-to-date';
   }
 
   startEdit(): void {

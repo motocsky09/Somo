@@ -72,7 +72,37 @@
       </div>
     </div>
 
-    <div class="appointments-section">
+    <div class="vaccine-alert" *ngIf="hasVaccinationAlert && nextVaccination as next"
+         [class.overdue]="vaccinationStatus(next) === 'overdue'">
+      <span class="vaccine-alert-icon">💉</span>
+      <div>
+        <p class="vaccine-alert-title">
+          {{ vaccinationStatus(next) === 'overdue' ? 'Rapel depășit' : 'Se apropie un rapel' }}
+        </p>
+        <p class="vaccine-alert-text">
+          {{ next.vaccineName }} pentru {{ pet.name }} — {{ dueDescription(next) }}
+          ({{ formatDate(next.nextDueOn) }}).
+        </p>
+      </div>
+      <button class="new-appt-btn" (click)="newAppointment()">Programează rapelul</button>
+    </div>
+
+    <div class="tabs" role="tablist">
+      <button role="tab" [attr.aria-selected]="activeTab === 'appointments'"
+              [class.active]="activeTab === 'appointments'" (click)="setTab('appointments')">
+        Programări <span class="tab-count">{{ appointments.length }}</span>
+      </button>
+      <button role="tab" [attr.aria-selected]="activeTab === 'medical'"
+              [class.active]="activeTab === 'medical'" (click)="setTab('medical')">
+        Fișă medicală <span class="tab-count">{{ medicalRecords.length }}</span>
+      </button>
+      <button role="tab" [attr.aria-selected]="activeTab === 'vaccinations'"
+              [class.active]="activeTab === 'vaccinations'" (click)="setTab('vaccinations')">
+        Carnet de vaccinare <span class="tab-count">{{ vaccinations.length }}</span>
+      </button>
+    </div>
+
+    <div class="appointments-section" *ngIf="activeTab === 'appointments'">
       <div class="section-head">
         <h3>Programări</h3>
         <button class="new-appt-btn" (click)="newAppointment()">+ Programare nouă</button>
@@ -99,6 +129,113 @@
             {{ statusLabels[appt.status] }}
           </span>
         </div>
+      </div>
+    </div>
+
+    <div class="appointments-section" *ngIf="activeTab === 'medical'">
+      <div class="section-head">
+        <h3>Fișă medicală</h3>
+      </div>
+
+      <div class="loading" *ngIf="isLoadingChart">
+        <p>Se încarcă fișa...</p>
+      </div>
+
+      <div class="empty-appts" *ngIf="!isLoadingChart && medicalRecords.length === 0">
+        <p>🩺</p>
+        <p>Fișa medicală a lui {{ pet.name }} este goală.</p>
+        <p class="empty-hint">Medicul o completează după fiecare consultație.</p>
+      </div>
+
+      <div class="record-list" *ngIf="!isLoadingChart && medicalRecords.length > 0">
+        <article class="record-card" *ngFor="let record of medicalRecords; let i = index">
+          <header class="record-head">
+            <div>
+              <p class="record-date">{{ formatDate(record.date) }}</p>
+              <p class="record-meta">
+                {{ record.vetName || 'Medic necunoscut' }}
+                <span *ngIf="record.clinicName"> · {{ record.clinicName }}</span>
+              </p>
+            </div>
+            <div class="record-vitals">
+              <span class="vital" *ngIf="record.weight > 0">
+                <span class="vital-value">{{ record.weight }} kg</span>
+                <span class="vital-delta" *ngIf="weightChange(i) as delta"
+                      [class.up]="delta > 0" [class.down]="delta < 0">
+                  {{ delta > 0 ? '▲' : '▼' }} {{ delta > 0 ? delta : -delta }} kg
+                </span>
+              </span>
+              <span class="vital" *ngIf="record.temperature > 0">
+                <span class="vital-value">{{ record.temperature }} °C</span>
+              </span>
+            </div>
+          </header>
+
+          <dl class="record-body">
+            <ng-container *ngIf="record.diagnosis">
+              <dt>Diagnostic</dt>
+              <dd>{{ record.diagnosis }}</dd>
+            </ng-container>
+            <ng-container *ngIf="record.treatment">
+              <dt>Tratament</dt>
+              <dd>{{ record.treatment }}</dd>
+            </ng-container>
+            <ng-container *ngIf="record.notes">
+              <dt>Observații</dt>
+              <dd>{{ record.notes }}</dd>
+            </ng-container>
+          </dl>
+        </article>
+      </div>
+    </div>
+
+    <div class="appointments-section" *ngIf="activeTab === 'vaccinations'">
+      <div class="section-head">
+        <h3>Carnet de vaccinare</h3>
+      </div>
+
+      <div class="loading" *ngIf="isLoadingChart">
+        <p>Se încarcă carnetul...</p>
+      </div>
+
+      <div class="empty-appts" *ngIf="!isLoadingChart && vaccinations.length === 0">
+        <p>💉</p>
+        <p>{{ pet.name }} nu are încă vaccinuri înregistrate.</p>
+        <p class="empty-hint">Medicul le trece în carnet la fiecare vizită.</p>
+      </div>
+
+      <div class="record-list" *ngIf="!isLoadingChart && vaccinations.length > 0">
+        <article class="record-card" *ngFor="let vaccination of vaccinations">
+          <header class="record-head">
+            <div>
+              <p class="record-date">{{ vaccination.vaccineName }}</p>
+              <p class="record-meta">
+                Administrat {{ formatDate(vaccination.administeredOn) }}
+                <span *ngIf="vaccination.vetName"> · {{ vaccination.vetName }}</span>
+              </p>
+            </div>
+            <span class="appt-status" [style.background]="vaccinationStatusColor(vaccination)">
+              {{ vaccinationStatusLabel(vaccination) }}
+            </span>
+          </header>
+
+          <dl class="record-body">
+            <dt>Rapel</dt>
+            <dd>{{ formatDate(vaccination.nextDueOn) }} — {{ dueDescription(vaccination) }}</dd>
+            <ng-container *ngIf="vaccination.batchNumber">
+              <dt>Serie lot</dt>
+              <dd>{{ vaccination.batchNumber }}</dd>
+            </ng-container>
+            <ng-container *ngIf="vaccination.clinicName">
+              <dt>Cabinet</dt>
+              <dd>{{ vaccination.clinicName }}</dd>
+            </ng-container>
+            <ng-container *ngIf="vaccination.notes">
+              <dt>Observații</dt>
+              <dd>{{ vaccination.notes }}</dd>
+            </ng-container>
+          </dl>
+        </article>
       </div>
     </div>
   </ng-container>
