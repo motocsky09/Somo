@@ -14,6 +14,9 @@ public class MedicalRecordRepository : IMedicalRecordRepository
     public async Task<IEnumerable<MedicalRecord>> GetAllByPetIdAsync(string petId)
         => await _collection.Find(r => r.PetId == petId).ToListAsync();
 
+    public async Task<IEnumerable<MedicalRecord>> GetByAppointmentIdAsync(string appointmentId)
+        => await _collection.Find(r => r.AppointmentId == appointmentId).ToListAsync();
+
     public async Task<MedicalRecord?> GetByIdAsync(string id)
         => await _collection.Find(r => r.Id == id).FirstOrDefaultAsync();
 
