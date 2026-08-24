@@ -1,0 +1,337 @@
+.vet-container {
+  max-width: 1000px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+.vet-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1.5rem;
+  background: var(--c-ffffff);
+  border-radius: 12px;
+  padding: 1.6rem 1.8rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+.vet-header h1 {
+  margin: 0;
+  color: var(--c-2c3e50);
+  font-size: 1.6rem;
+}
+
+.vet-subtitle {
+  margin: 0.35rem 0 0;
+  color: var(--c-666666);
+  font-size: 0.92rem;
+}
+
+.today-badge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+  padding: 0.8rem 1.4rem;
+  border-radius: 12px;
+  background: var(--c-f8fafc);
+  border: 1.5px solid var(--c-eef2f7);
+}
+
+.today-count {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--c-3498db);
+  line-height: 1;
+}
+
+.today-label {
+  margin-top: 0.25rem;
+  font-size: 0.78rem;
+  color: var(--c-94a3b8);
+}
+
+.loading,
+.error-box {
+  text-align: center;
+  padding: 2rem;
+  color: var(--c-666666);
+}
+
+.error-box {
+  margin-top: 1.5rem;
+  background: var(--c-fdecea);
+  color: var(--c-c0392b);
+  border-radius: 10px;
+  padding: 1rem;
+}
+
+.tabs {
+  display: flex;
+  gap: 0.4rem;
+  margin-top: 1.8rem;
+  border-bottom: 1.5px solid var(--c-e2e8f0);
+  overflow-x: auto;
+}
+
+.tabs button {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.75rem 1.1rem;
+  background: transparent;
+  border: none;
+  border-bottom: 3px solid transparent;
+  margin-bottom: -1.5px;
+  color: var(--c-64748b);
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.tabs button:hover {
+  color: var(--c-2c3e50);
+}
+
+.tabs button.active {
+  color: var(--c-3498db);
+  border-bottom-color: var(--c-3498db);
+}
+
+.tab-count {
+  padding: 0.1rem 0.5rem;
+  border-radius: 999px;
+  background: var(--c-eef2f7);
+  color: var(--c-64748b);
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.tabs button.active .tab-count {
+  background: var(--c-e8f0fe);
+  color: var(--c-3498db);
+}
+
+.empty-state {
+  background: var(--c-ffffff);
+  border-radius: 12px;
+  padding: 3rem;
+  margin-top: 1.5rem;
+  text-align: center;
+  color: var(--c-999999);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+}
+
+.empty-state p:first-child {
+  font-size: 2.5rem;
+  margin-bottom: 0.3rem;
+}
+
+.agenda {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.agenda-card {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  background: var(--c-ffffff);
+  border-radius: 12px;
+  padding: 1.2rem 1.5rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+}
+
+.agenda-time {
+  display: flex;
+  flex-direction: column;
+  min-width: 130px;
+  flex-shrink: 0;
+}
+
+.agenda-hour {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--c-3498db);
+}
+
+.agenda-day {
+  font-size: 0.82rem;
+  color: var(--c-94a3b8);
+}
+
+.agenda-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.agenda-pet {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.pet-emoji {
+  font-size: 1.8rem;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  background: var(--c-f0f4f8);
+  flex-shrink: 0;
+}
+
+.pet-photo {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.pet-name {
+  margin: 0;
+  font-weight: 700;
+  color: var(--c-2c3e50);
+}
+
+.pet-meta {
+  margin: 0.1rem 0 0;
+  font-size: 0.83rem;
+  color: var(--c-94a3b8);
+}
+
+.agenda-owner {
+  margin: 0.6rem 0 0;
+  font-size: 0.88rem;
+  color: var(--c-475569);
+}
+
+.owner-contact {
+  color: var(--c-94a3b8);
+}
+
+.agenda-reason {
+  margin: 0.25rem 0 0;
+  font-size: 0.85rem;
+  font-style: italic;
+  color: var(--c-94a3b8);
+}
+
+.agenda-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.7rem;
+  flex-shrink: 0;
+}
+
+.status-pill {
+  color: var(--c-ffffff);
+  padding: 0.35rem 0.8rem;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.action-row {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.primary-btn,
+.ghost-btn,
+.danger-btn {
+  padding: 0.55rem 1.1rem;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 0.87rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.2s, color 0.2s;
+}
+
+.primary-btn {
+  background: var(--c-3498db);
+  color: var(--c-ffffff);
+  border: none;
+}
+
+.primary-btn:hover:not(:disabled) {
+  background: var(--c-2980b9);
+}
+
+.primary-btn:disabled {
+  background: var(--c-bdc3c7);
+  cursor: default;
+}
+
+.ghost-btn {
+  background: transparent;
+  color: var(--c-3498db);
+  border: 1.5px solid var(--c-3498db);
+}
+
+.ghost-btn:hover {
+  background: var(--c-3498db);
+  color: var(--c-ffffff);
+}
+
+.danger-btn {
+  background: transparent;
+  color: var(--c-e74c3c);
+  border: 1.5px solid var(--c-f5c6c6);
+}
+
+.danger-btn:hover {
+  background: var(--c-e74c3c);
+  color: var(--c-ffffff);
+}
+
+/* Butonul de fișă este un link către pagina pacientului. */
+a.primary-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+
+@media (max-width: 768px) {
+  .vet-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .today-badge {
+    align-self: stretch;
+  }
+  .agenda-card {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+  }
+  .agenda-time {
+    flex-direction: row;
+    align-items: baseline;
+    gap: 0.6rem;
+    min-width: 0;
+  }
+  .agenda-actions {
+    align-items: stretch;
+  }
+  .action-row {
+    flex-wrap: wrap;
+  }
+  .action-row button,
+  .action-row a.primary-btn {
+    flex: 1 1 auto;
+  }
+}

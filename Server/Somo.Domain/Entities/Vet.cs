@@ -14,4 +14,10 @@ public class Vet
     public string Phone { get; set; } = string.Empty;
     public string Specialization { get; set; } = string.Empty;
     public List<string> ClinicIds { get; set; } = new();
+
+    /// <summary>
+    /// Contul de autentificare al medicului. Gol pentru medicii introduși
+    /// înainte ca aplicația să genereze conturi.
+    /// </summary>
+    public string UserId { get; set; } = string.Empty;
 }

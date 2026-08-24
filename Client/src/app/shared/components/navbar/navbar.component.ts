@@ -22,7 +22,7 @@ export class NavbarComponent implements OnDestroy {
   }
 
   get canEditProfile(): boolean {
-    return this.authService.isOwner;
+    return this.authService.isOwner || this.authService.isVet;
   }
 
   get initials(): string {

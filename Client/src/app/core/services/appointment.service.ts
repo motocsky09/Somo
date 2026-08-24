@@ -47,4 +47,8 @@ export class AppointmentService {
   getMyAppointments(ownerId: string): Observable<Appointment[]> {
     return this.http.get<Appointment[]>(`${this.apiUrl}/owner/${ownerId}`);
   }
+
+  updateStatus(id: string, status: number): Observable<void> {
+    return this.http.patch<void>(`${this.apiUrl}/${id}/status`, status);
+  }
 }

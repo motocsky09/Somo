@@ -1,0 +1,390 @@
+<div class="chart-page">
+
+  <!-- Setul de pictograme folosite de butoanele din tabele. -->
+  <svg class="icon-sprite" aria-hidden="true" focusable="false">
+    <symbol id="i-confirm" viewBox="0 0 24 24">
+      <path d="M4 12.5 9.5 18 20 7"></path>
+    </symbol>
+    <symbol id="i-edit" viewBox="0 0 24 24">
+      <path d="M4 20h4l10-10a2.8 2.8 0 0 0-4-4L4 16v4z"></path>
+    </symbol>
+    <symbol id="i-cancel" viewBox="0 0 24 24">
+      <path d="M6 6l12 12M18 6L6 18"></path>
+    </symbol>
+    <symbol id="i-delete" viewBox="0 0 24 24">
+      <path d="M4 7h16M10 7V4h4v3M6 7l1 13h10l1-13M10 11v6M14 11v6"></path>
+    </symbol>
+    <symbol id="i-back" viewBox="0 0 24 24">
+      <path d="M15 5l-7 7 7 7"></path>
+    </symbol>
+  </svg>
+
+  <a class="back-link" routerLink="/vet-dashboard">
+    <svg class="icon" aria-hidden="true"><use href="#i-back"></use></svg>
+    Înapoi la agendă
+  </a>
+
+  <div class="page-message error-box" *ngIf="loadError">{{ loadError }}</div>
+
+  <div class="page-message" *ngIf="isLoading">Se încarcă fișa pacientului...</div>
+
+  <ng-container *ngIf="patient as patient">
+    <header class="patient-head">
+      <div class="patient-identity">
+        <span class="pet-emoji" *ngIf="!patient.pet.photoUrl">
+          {{ getSpeciesEmoji(patient.pet.species) }}
+        </span>
+        <img *ngIf="patient.pet.photoUrl" [src]="patient.pet.photoUrl"
+             [alt]="patient.pet.name" class="pet-photo" />
+        <div class="patient-titles">
+          <h1>{{ patient.pet.name }}</h1>
+          <p class="patient-meta">
+            {{ patient.pet.species }}
+            <span *ngIf="patient.pet.breed"> · {{ patient.pet.breed }}</span>
+            <span *ngIf="patient.pet.age"> · {{ patient.pet.age }} ani</span>
+          </p>
+          <p class="patient-owner" *ngIf="patient.owner">
+            {{ patient.owner.fullName || patient.owner.username }}
+            <span *ngIf="patient.owner.phone"> · {{ patient.owner.phone }}</span>
+            <span *ngIf="patient.owner.email"> · {{ patient.owner.email }}</span>
+          </p>
+        </div>
+      </div>
+
+      <div class="appointment-box" *ngIf="appointment as appointment">
+        <span class="summary-label">Programare</span>
+        <span class="appointment-when">
+          {{ formatDate(appointment.dateTime) }}, {{ formatTime(appointment.dateTime) }}
+        </span>
+        <span class="status-pill" [style.background]="statusColors[appointment.status]">
+          {{ statusLabels[appointment.status] }}
+        </span>
+        <button class="ghost-btn" *ngIf="canCompleteAppointment" (click)="completeAppointment()">
+          Marchează finalizată
+        </button>
+      </div>
+    </header>
+
+    <div class="chart-summary">
+      <div class="summary-cell">
+        <span class="summary-label">Greutate</span>
+        <span class="summary-value">{{ currentWeight ? currentWeight + ' kg' : '—' }}</span>
+      </div>
+      <div class="summary-cell">
+        <span class="summary-label">Ultima consultație</span>
+        <span class="summary-value">{{ lastVisit ? formatDate(lastVisit.date) : '—' }}</span>
+      </div>
+      <div class="summary-cell">
+        <span class="summary-label">Consultații</span>
+        <span class="summary-value">{{ records.length }}</span>
+      </div>
+      <div class="summary-cell">
+        <span class="summary-label">Următorul rapel</span>
+        <span class="summary-value" *ngIf="nextBooster as booster"
+              [class.value-alert]="vaccineStatus(booster) === 'overdue'">
+          {{ formatDate(booster.nextDueOn) }}
+        </span>
+        <span class="summary-value" *ngIf="!nextBooster">—</span>
+      </div>
+    </div>
+
+    <p class="readonly-note" *ngIf="!canWrite">
+      Poți doar consulta fișa: animalul nu are programare într-un cabinet în care lucrezi.
+    </p>
+
+    <div class="tabs" role="tablist">
+      <button role="tab" [class.active]="activeTab === 'record'" (click)="activeTab = 'record'">
+        Consultații <span class="tab-count">{{ records.length }}</span>
+      </button>
+      <button role="tab" [class.active]="activeTab === 'vaccine'" (click)="activeTab = 'vaccine'">
+        Vaccinări <span class="tab-count">{{ vaccinations.length }}</span>
+      </button>
+    </div>
+
+    <!-- --------------------------------------------------------- consultații -->
+    <section class="chart-section" *ngIf="activeTab === 'record'">
+      <p class="chart-hint" *ngIf="canWrite">
+        Primul rând este gol: completează-l și confirmă cu bifa verde ca să adaugi consultația.
+        Rândurile tale se pot modifica oricând cu creionul.
+      </p>
+
+      <p class="form-error" *ngIf="recordError">{{ recordError }}</p>
+      <p class="form-success" *ngIf="recordSuccess">{{ recordSuccess }}</p>
+
+      <div class="table-wrap">
+        <table class="chart-table">
+          <thead>
+            <tr>
+              <th>Data</th>
+              <th>Diagnostic</th>
+              <th>Tratament</th>
+              <th>Greutate</th>
+              <th>Temp.</th>
+              <th>Observații</th>
+              <th class="col-actions"><span class="sr-only">Acțiuni</span></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="row-new" *ngIf="canWrite">
+              <td data-label="Data">
+                <input type="date" class="cell-input" [(ngModel)]="newRecord.date"
+                       aria-label="Data consultației noi" />
+              </td>
+              <td data-label="Diagnostic">
+                <textarea rows="2" class="cell-input" [(ngModel)]="newRecord.diagnosis"
+                          placeholder="Ce ai identificat" aria-label="Diagnostic nou"></textarea>
+              </td>
+              <td data-label="Tratament">
+                <textarea rows="2" class="cell-input" [(ngModel)]="newRecord.treatment"
+                          placeholder="Medicație, doze, durată" aria-label="Tratament nou"></textarea>
+              </td>
+              <td data-label="Greutate (kg)">
+                <input type="number" min="0" step="0.1" class="cell-input"
+                       [(ngModel)]="newRecord.weight" placeholder="kg" aria-label="Greutate nouă" />
+              </td>
+              <td data-label="Temperatură (°C)">
+                <input type="number" min="0" step="0.1" class="cell-input"
+                       [(ngModel)]="newRecord.temperature" placeholder="°C"
+                       aria-label="Temperatură nouă" />
+              </td>
+              <td data-label="Observații">
+                <textarea rows="2" class="cell-input" [(ngModel)]="newRecord.notes"
+                          placeholder="Recomandări pentru proprietar"
+                          aria-label="Observații noi"></textarea>
+              </td>
+              <td class="col-actions" data-label="">
+                <button class="confirm-btn" (click)="addRecord()" [disabled]="isSavingRecord"
+                        title="Adaugă consultația în fișă">
+                  <svg class="icon" aria-hidden="true"><use href="#i-confirm"></use></svg>
+                  <span class="btn-label">Adaugă</span>
+                </button>
+              </td>
+            </tr>
+
+            <ng-container *ngFor="let entry of records">
+              <tr *ngIf="editingRecordId !== entry.id">
+                <td data-label="Data">
+                  <span class="cell-strong">{{ formatDate(entry.date) }}</span>
+                  <span class="cell-sub">{{ entry.vetName }}</span>
+                </td>
+                <td data-label="Diagnostic">{{ entry.diagnosis || '—' }}</td>
+                <td data-label="Tratament">{{ entry.treatment || '—' }}</td>
+                <td data-label="Greutate (kg)">{{ entry.weight > 0 ? entry.weight + ' kg' : '—' }}</td>
+                <td data-label="Temperatură (°C)">
+                  {{ entry.temperature > 0 ? entry.temperature + ' °C' : '—' }}
+                </td>
+                <td data-label="Observații">{{ entry.notes || '—' }}</td>
+                <td class="col-actions" data-label="">
+                  <ng-container *ngIf="canEditEntry(entry.vetId); else lockedRecord">
+                    <button class="icon-btn" (click)="startEditRecord(entry)" title="Modifică rândul">
+                      <svg class="icon" aria-hidden="true"><use href="#i-edit"></use></svg>
+                      <span class="btn-label">Modifică</span>
+                    </button>
+                    <button class="icon-btn danger" (click)="deleteRecord(entry)" title="Șterge rândul">
+                      <svg class="icon" aria-hidden="true"><use href="#i-delete"></use></svg>
+                      <span class="btn-label">Șterge</span>
+                    </button>
+                  </ng-container>
+                  <ng-template #lockedRecord>
+                    <span class="locked" title="Rând scris de alt medic">altă semnătură</span>
+                  </ng-template>
+                </td>
+              </tr>
+
+              <tr class="row-edit" *ngIf="editingRecordId === entry.id">
+                <td data-label="Data">
+                  <input type="date" class="cell-input" [(ngModel)]="recordDraft.date"
+                         aria-label="Data consultației" />
+                </td>
+                <td data-label="Diagnostic">
+                  <textarea rows="2" class="cell-input" [(ngModel)]="recordDraft.diagnosis"
+                            aria-label="Diagnostic"></textarea>
+                </td>
+                <td data-label="Tratament">
+                  <textarea rows="2" class="cell-input" [(ngModel)]="recordDraft.treatment"
+                            aria-label="Tratament"></textarea>
+                </td>
+                <td data-label="Greutate (kg)">
+                  <input type="number" min="0" step="0.1" class="cell-input"
+                         [(ngModel)]="recordDraft.weight" placeholder="kg" aria-label="Greutate" />
+                </td>
+                <td data-label="Temperatură (°C)">
+                  <input type="number" min="0" step="0.1" class="cell-input"
+                         [(ngModel)]="recordDraft.temperature" placeholder="°C"
+                         aria-label="Temperatură" />
+                </td>
+                <td data-label="Observații">
+                  <textarea rows="2" class="cell-input" [(ngModel)]="recordDraft.notes"
+                            aria-label="Observații"></textarea>
+                </td>
+                <td class="col-actions" data-label="">
+                  <button class="confirm-btn" (click)="saveEditRecord()" [disabled]="isSavingRecord"
+                          title="Salvează modificările">
+                    <svg class="icon" aria-hidden="true"><use href="#i-confirm"></use></svg>
+                    <span class="btn-label">Salvează</span>
+                  </button>
+                  <button class="icon-btn" (click)="cancelEditRecord()" title="Renunță">
+                    <svg class="icon" aria-hidden="true"><use href="#i-cancel"></use></svg>
+                    <span class="btn-label">Renunță</span>
+                  </button>
+                </td>
+              </tr>
+            </ng-container>
+
+            <tr class="row-empty" *ngIf="records.length === 0">
+              <td colspan="7">
+                Fișa este goală.<span *ngIf="canWrite"> Prima consultație o adaugi din rândul de sus.</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ---------------------------------------------------------- vaccinări -->
+    <section class="chart-section" *ngIf="activeTab === 'vaccine'">
+      <p class="chart-hint" *ngIf="canWrite">
+        Rapelul se completează singur din schema de vaccinare, dar îl poți schimba.
+        Proprietarul primește reminder înainte de data trecută aici.
+      </p>
+
+      <p class="form-error" *ngIf="vaccineError">{{ vaccineError }}</p>
+      <p class="form-success" *ngIf="vaccineSuccess">{{ vaccineSuccess }}</p>
+
+      <div class="table-wrap">
+        <table class="chart-table">
+          <thead>
+            <tr>
+              <th>Vaccin</th>
+              <th>Administrat</th>
+              <th>Rapel</th>
+              <th>Serie lot</th>
+              <th>Observații</th>
+              <th>Stare</th>
+              <th class="col-actions"><span class="sr-only">Acțiuni</span></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="row-new" *ngIf="canWrite">
+              <td data-label="Vaccin">
+                <select class="cell-input" [(ngModel)]="newVaccine.vaccineCode"
+                        (ngModelChange)="onVaccineChanged(newVaccine)" aria-label="Vaccin nou">
+                  <option value="">Alege vaccinul</option>
+                  <option *ngFor="let type of availableVaccines" [value]="type.code">
+                    {{ type.name }}{{ type.isMandatory ? ' (obligatoriu)' : '' }}
+                  </option>
+                </select>
+                <span class="cell-sub" *ngIf="vaccineTypeOf(newVaccine.vaccineCode) as type">
+                  rapel la {{ type.intervalMonths }} luni
+                </span>
+              </td>
+              <td data-label="Administrat">
+                <input type="date" class="cell-input" [(ngModel)]="newVaccine.administeredOn"
+                       (ngModelChange)="onVaccineChanged(newVaccine)"
+                       aria-label="Data administrării" />
+              </td>
+              <td data-label="Rapel">
+                <input type="date" class="cell-input" [(ngModel)]="newVaccine.nextDueOn"
+                       aria-label="Data rapelului" />
+              </td>
+              <td data-label="Serie lot">
+                <input type="text" class="cell-input" [(ngModel)]="newVaccine.batchNumber"
+                       placeholder="de pe flacon" aria-label="Serie lot" />
+              </td>
+              <td data-label="Observații">
+                <textarea rows="2" class="cell-input" [(ngModel)]="newVaccine.notes"
+                          aria-label="Observații vaccin"></textarea>
+              </td>
+              <td data-label="Stare"><span class="cell-sub">—</span></td>
+              <td class="col-actions" data-label="">
+                <button class="confirm-btn" (click)="addVaccine()" [disabled]="isSavingVaccine"
+                        title="Adaugă vaccinul în carnet">
+                  <svg class="icon" aria-hidden="true"><use href="#i-confirm"></use></svg>
+                  <span class="btn-label">Adaugă</span>
+                </button>
+              </td>
+            </tr>
+
+            <ng-container *ngFor="let entry of vaccinations">
+              <tr *ngIf="editingVaccineId !== entry.id">
+                <td data-label="Vaccin">
+                  <span class="cell-strong">{{ entry.vaccineName }}</span>
+                  <span class="cell-sub">{{ entry.vetName }}</span>
+                </td>
+                <td data-label="Administrat">{{ formatDate(entry.administeredOn) }}</td>
+                <td data-label="Rapel">{{ formatDate(entry.nextDueOn) }}</td>
+                <td data-label="Serie lot">{{ entry.batchNumber || '—' }}</td>
+                <td data-label="Observații">{{ entry.notes || '—' }}</td>
+                <td data-label="Stare">
+                  <span class="vaccine-pill" [ngClass]="'is-' + vaccineStatus(entry)">
+                    {{ vaccineStatusLabels[vaccineStatus(entry)] }}
+                  </span>
+                </td>
+                <td class="col-actions" data-label="">
+                  <ng-container *ngIf="canEditEntry(entry.vetId); else lockedVaccine">
+                    <button class="icon-btn" (click)="startEditVaccine(entry)" title="Modifică rândul">
+                      <svg class="icon" aria-hidden="true"><use href="#i-edit"></use></svg>
+                      <span class="btn-label">Modifică</span>
+                    </button>
+                    <button class="icon-btn danger" (click)="deleteVaccine(entry)" title="Șterge rândul">
+                      <svg class="icon" aria-hidden="true"><use href="#i-delete"></use></svg>
+                      <span class="btn-label">Șterge</span>
+                    </button>
+                  </ng-container>
+                  <ng-template #lockedVaccine>
+                    <span class="locked" title="Rând scris de alt medic">altă semnătură</span>
+                  </ng-template>
+                </td>
+              </tr>
+
+              <tr class="row-edit" *ngIf="editingVaccineId === entry.id">
+                <td data-label="Vaccin">
+                  <select class="cell-input" [(ngModel)]="vaccineDraft.vaccineCode"
+                          (ngModelChange)="onVaccineChanged(vaccineDraft)" aria-label="Vaccin">
+                    <option value="">Alege vaccinul</option>
+                    <option *ngFor="let type of availableVaccines" [value]="type.code">
+                      {{ type.name }}{{ type.isMandatory ? ' (obligatoriu)' : '' }}
+                    </option>
+                  </select>
+                </td>
+                <td data-label="Administrat">
+                  <input type="date" class="cell-input" [(ngModel)]="vaccineDraft.administeredOn"
+                         (ngModelChange)="onVaccineChanged(vaccineDraft)"
+                         aria-label="Data administrării" />
+                </td>
+                <td data-label="Rapel">
+                  <input type="date" class="cell-input" [(ngModel)]="vaccineDraft.nextDueOn"
+                         aria-label="Data rapelului" />
+                </td>
+                <td data-label="Serie lot">
+                  <input type="text" class="cell-input" [(ngModel)]="vaccineDraft.batchNumber"
+                         aria-label="Serie lot" />
+                </td>
+                <td data-label="Observații">
+                  <textarea rows="2" class="cell-input" [(ngModel)]="vaccineDraft.notes"
+                            aria-label="Observații vaccin"></textarea>
+                </td>
+                <td data-label="Stare"><span class="cell-sub">—</span></td>
+                <td class="col-actions" data-label="">
+                  <button class="confirm-btn" (click)="saveEditVaccine()" [disabled]="isSavingVaccine"
+                          title="Salvează modificările">
+                    <svg class="icon" aria-hidden="true"><use href="#i-confirm"></use></svg>
+                    <span class="btn-label">Salvează</span>
+                  </button>
+                  <button class="icon-btn" (click)="cancelEditVaccine()" title="Renunță">
+                    <svg class="icon" aria-hidden="true"><use href="#i-cancel"></use></svg>
+                    <span class="btn-label">Renunță</span>
+                  </button>
+                </td>
+              </tr>
+            </ng-container>
+
+            <tr class="row-empty" *ngIf="vaccinations.length === 0">
+              <td colspan="7">Carnetul de vaccinare este gol.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </ng-container>
+</div>

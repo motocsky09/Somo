@@ -1,0 +1,714 @@
+.chart-page {
+  max-width: 1400px;
+  margin: 1.6rem auto 3rem;
+  padding: 0 1rem;
+}
+
+.icon-sprite {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.icon {
+  width: 17px;
+  height: 17px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  flex-shrink: 0;
+}
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-bottom: 1rem;
+  color: var(--c-64748b);
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.back-link:hover {
+  color: var(--c-3498db);
+}
+
+.page-message {
+  padding: 2rem;
+  text-align: center;
+  color: var(--c-666666);
+}
+
+.error-box {
+  background: var(--c-fdecea);
+  color: var(--c-c0392b);
+  border-radius: 10px;
+}
+
+/* ---------------------------------------------------------- antetul fișei */
+
+.patient-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  background: var(--c-ffffff);
+  border-radius: 12px 12px 0 0;
+  padding: 1.4rem 1.6rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+}
+
+.patient-identity {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  min-width: 0;
+}
+
+.pet-emoji {
+  font-size: 2.1rem;
+  width: 58px;
+  height: 58px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  background: var(--c-f0f4f8);
+  flex-shrink: 0;
+}
+
+.pet-photo {
+  width: 58px;
+  height: 58px;
+  border-radius: 12px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.patient-titles {
+  min-width: 0;
+}
+
+.patient-head h1 {
+  margin: 0;
+  color: var(--c-2c3e50);
+  font-size: 1.55rem;
+}
+
+.patient-meta {
+  margin: 0.2rem 0 0;
+  color: var(--c-94a3b8);
+  font-size: 0.88rem;
+}
+
+.patient-owner {
+  margin: 0.3rem 0 0;
+  color: var(--c-475569);
+  font-size: 0.86rem;
+  overflow-wrap: anywhere;
+}
+
+.appointment-box {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  flex-wrap: wrap;
+  padding: 0.7rem 0.9rem;
+  border-radius: 10px;
+  background: var(--c-f8fafc);
+  border: 1.5px solid var(--c-eef2f7);
+}
+
+.appointment-when {
+  font-weight: 700;
+  color: var(--c-2c3e50);
+  font-size: 0.92rem;
+}
+
+.status-pill {
+  color: var(--c-ffffff);
+  padding: 0.3rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.76rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.chart-summary {
+  display: flex;
+  align-items: center;
+  gap: 2.4rem;
+  flex-wrap: wrap;
+  padding: 0.9rem 1.6rem;
+  background: var(--c-f8fafc);
+  border-top: 1px solid var(--c-eef2f7);
+  border-bottom: 1px solid var(--c-eef2f7);
+}
+
+.summary-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.summary-label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--c-94a3b8);
+  font-weight: 600;
+}
+
+.summary-value {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--c-2c3e50);
+}
+
+.value-alert {
+  color: var(--c-c0392b);
+}
+
+.readonly-note {
+  margin: 0;
+  padding: 0.7rem 1.6rem;
+  background: var(--c-fef5e0);
+  color: var(--c-7a5c00);
+  font-size: 0.86rem;
+  font-weight: 600;
+}
+
+.ghost-btn {
+  padding: 0.45rem 0.9rem;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--c-3498db);
+  border: 1.5px solid var(--c-3498db);
+  font-family: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.2s, color 0.2s;
+}
+
+.ghost-btn:hover {
+  background: var(--c-3498db);
+  color: var(--c-ffffff);
+}
+
+.tabs {
+  display: flex;
+  gap: 0.4rem;
+  padding: 0 1.6rem;
+  background: var(--c-ffffff);
+  border-bottom: 1.5px solid var(--c-e2e8f0);
+  overflow-x: auto;
+}
+
+.tabs button {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.75rem 1.1rem;
+  background: transparent;
+  border: none;
+  border-bottom: 3px solid transparent;
+  margin-bottom: -1.5px;
+  color: var(--c-64748b);
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.tabs button:hover {
+  color: var(--c-2c3e50);
+}
+
+.tabs button.active {
+  color: var(--c-3498db);
+  border-bottom-color: var(--c-3498db);
+}
+
+.tab-count {
+  padding: 0.1rem 0.5rem;
+  border-radius: 999px;
+  background: var(--c-eef2f7);
+  color: var(--c-64748b);
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.tabs button.active .tab-count {
+  background: var(--c-e8f0fe);
+  color: var(--c-3498db);
+}
+
+/* --------------------------------------------------------------- tabelul */
+
+.chart-section {
+  background: var(--c-ffffff);
+  border-radius: 0 0 12px 12px;
+  padding: 1.2rem 1.6rem 1.6rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+}
+
+.chart-hint {
+  margin: 0 0 0.9rem;
+  font-size: 0.84rem;
+  color: var(--c-94a3b8);
+}
+
+.form-error,
+.form-success {
+  margin: 0 0 0.8rem;
+  padding: 0.55rem 0.8rem;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.form-error {
+  background: var(--c-fdecea);
+  color: var(--c-c0392b);
+}
+
+.form-success {
+  background: var(--c-eafaf1);
+  color: var(--c-1e8449);
+}
+
+.table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--c-e2e8f0);
+  border-radius: 12px;
+}
+
+/*
+ * Cele șase coloane de date împart la egal lățimea rămasă după coloana de
+ * acțiuni, ca inputurile să fie de aceeași dimensiune indiferent de conținut.
+ */
+.chart-table {
+  table-layout: fixed;
+  width: 100%;
+  min-width: 1000px;
+  border-collapse: collapse;
+  font-size: 0.87rem;
+}
+
+.chart-table th {
+  width: calc((100% - 150px) / 6);
+  text-align: left;
+  padding: 0.65rem 0.75rem;
+  background: var(--c-f8fafc);
+  border-bottom: 1.5px solid var(--c-e2e8f0);
+  color: var(--c-64748b);
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+}
+
+.chart-table th.col-actions {
+  width: 150px;
+}
+
+.chart-table td {
+  padding: 0.6rem 0.75rem;
+  border-bottom: 1px solid var(--c-eef2f7);
+  color: var(--c-475569);
+  vertical-align: top;
+  overflow-wrap: anywhere;
+}
+
+.chart-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* Butoanele stau despărțite de inputuri printr-un culoar propriu. */
+.chart-table th.col-actions,
+.chart-table td.col-actions {
+  padding-left: 1.4rem;
+  border-left: 1px solid var(--c-eef2f7);
+  white-space: nowrap;
+}
+
+/* Rândul de sus este mereu gol: de acolo se adaugă o intrare nouă. */
+.row-new td {
+  background: var(--c-f1f6fb);
+  border-bottom: 1.5px solid var(--c-e2e8f0);
+}
+
+/* Rândul aflat în modificare rămâne evident cât timp nu e salvat. */
+.row-edit td {
+  background: var(--c-fff8e6);
+}
+
+.chart-table tbody tr:not(.row-new):not(.row-edit):not(.row-empty):hover td {
+  background: var(--c-f8fafc);
+}
+
+.row-empty td {
+  padding: 2.5rem 1rem;
+  text-align: center;
+  color: var(--c-94a3b8);
+}
+
+.cell-strong {
+  display: block;
+  font-weight: 700;
+  color: var(--c-2c3e50);
+}
+
+.cell-sub {
+  display: block;
+  margin-top: 0.15rem;
+  font-size: 0.75rem;
+  color: var(--c-94a3b8);
+}
+
+.locked {
+  font-size: 0.72rem;
+  color: var(--c-aaaaaa);
+  font-style: italic;
+}
+
+/*
+ * Toate controalele din tabel au aceeași cutie: border-box ca padding-ul și
+ * bordura să intre în cele 100% ale coloanei (altfel input, select și textarea
+ * ies pe lățimi diferite), plus o înălțime comună cât două rânduri de text.
+ */
+.cell-input {
+  box-sizing: border-box;
+  display: block;
+  width: 100%;
+  min-width: 0;
+  height: 3.4rem;
+  padding: 0.45rem 0.6rem;
+  border: 1.5px solid var(--c-dddddd);
+  border-radius: 7px;
+  font-family: inherit;
+  font-size: 0.86rem;
+  line-height: 1.35;
+  background: var(--c-ffffff);
+  color: var(--c-333333);
+}
+
+textarea.cell-input {
+  min-height: 3.4rem;
+  resize: vertical;
+}
+
+/*
+ * Săgeata proprie: Safari ignoră înălțimea pe un select cu aspect nativ, așa că
+ * ar fi rămas singurul control mai scund din rând.
+ */
+select.cell-input {
+  appearance: none;
+  -webkit-appearance: none;
+  padding-right: 1.9rem;
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.6rem center;
+  background-size: 0.85rem;
+}
+
+.cell-input:focus {
+  outline: none;
+  border-color: var(--c-3498db);
+  box-shadow: 0 0 0 3px var(--c-e8f0fe);
+}
+
+/*
+ * Bifa verde confirmă intrarea nouă sau modificarea unui rând. Fiind bloc, ocupă
+ * toată coloana de acțiuni și împinge butonul de renunțare pe rândul de dedesubt.
+ */
+.confirm-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  width: 100%;
+  padding: 0.5rem 0.7rem;
+  border-radius: 8px;
+  border: 1.5px solid var(--c-27ae60);
+  background: var(--c-27ae60);
+  color: var(--c-ffffff);
+  font-family: inherit;
+  font-size: 0.86rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.confirm-btn:hover:not(:disabled) {
+  background: var(--c-1e8449);
+  border-color: var(--c-1e8449);
+}
+
+.confirm-btn:disabled {
+  opacity: 0.55;
+  cursor: default;
+}
+
+.confirm-btn .icon {
+  stroke-width: 2.6;
+}
+
+.confirm-btn + .icon-btn {
+  margin-top: 0.45rem;
+}
+
+.icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border-radius: 8px;
+  border: 1.5px solid var(--c-e2e8f0);
+  background: var(--c-ffffff);
+  color: var(--c-64748b);
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+
+.icon-btn + .icon-btn {
+  margin-left: 0.4rem;
+}
+
+.icon-btn:hover:not(:disabled) {
+  border-color: var(--c-3498db);
+  color: var(--c-3498db);
+}
+
+.icon-btn.danger:hover:not(:disabled) {
+  border-color: var(--c-e74c3c);
+  color: var(--c-e74c3c);
+}
+
+/* Eticheta butonului rotund apare doar în varianta de mobil, unde e loc. */
+.icon-btn .btn-label {
+  display: none;
+}
+
+.vaccine-pill {
+  display: inline-block;
+  padding: 0.22rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.73rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.vaccine-pill.is-up-to-date {
+  background: var(--c-eafaf1);
+  color: var(--c-1e8449);
+}
+
+.vaccine-pill.is-due-soon {
+  background: var(--c-fef5e0);
+  color: var(--c-9a7500);
+}
+
+.vaccine-pill.is-overdue {
+  background: var(--c-fdecea);
+  color: var(--c-c0392b);
+}
+
+/* ------------------------------------------------------------------ mobil */
+
+/*
+ * Sub 900px tabelul nu mai încape pe orizontală, așa că fiecare rând devine un
+ * card, iar antetul coloanei se mută în fața fiecărei celule.
+ */
+@media (max-width: 900px) {
+  .chart-table {
+    min-width: 0;
+    display: block;
+    table-layout: auto;
+  }
+
+  .chart-table thead {
+    display: none;
+  }
+
+  .chart-table tbody,
+  .chart-table tr,
+  .chart-table td {
+    display: block;
+    width: auto;
+  }
+
+  .chart-table tr {
+    margin-bottom: 0.8rem;
+    padding: 0.6rem 0.85rem 0.75rem;
+    border: 1.5px solid var(--c-e2e8f0);
+    border-radius: 12px;
+    background: var(--c-ffffff);
+  }
+
+  .chart-table tr.row-new {
+    border-color: var(--c-a9c9e0);
+    background: var(--c-f1f6fb);
+  }
+
+  .chart-table tr.row-edit {
+    border-color: var(--c-f4d67c);
+    background: var(--c-fff8e6);
+  }
+
+  .chart-table tr.row-new::before,
+  .chart-table tr.row-edit::before {
+    display: block;
+    margin-bottom: 0.4rem;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--c-64748b);
+  }
+
+  .chart-table tr.row-new::before {
+    content: 'Intrare nouă';
+  }
+
+  .chart-table tr.row-edit::before {
+    content: 'Se modifică';
+  }
+
+  /*
+   * Eticheta stă deasupra valorii, nu lângă ea: pe telefon un input pe jumătate
+   * de rând ar fi fost mai îngust decât restul, iar celulele cu două elemente
+   * (nume plus medic, select plus interval) s-ar fi așezat una lângă alta.
+   */
+  .chart-table td,
+  .row-new td,
+  .row-edit td {
+    display: block;
+    padding: 0.5rem 0;
+    background: transparent;
+    border-bottom: 1px solid var(--c-eef2f7);
+  }
+
+  .chart-table tr td:last-child {
+    border-bottom: none;
+  }
+
+  .chart-table tbody tr:not(.row-new):not(.row-edit):hover td {
+    background: transparent;
+  }
+
+  .chart-table td::before {
+    content: attr(data-label);
+    display: block;
+    margin-bottom: 0.3rem;
+    color: var(--c-94a3b8);
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+
+  /* Pe card, culoarul dintre date și butoane devine o linie orizontală. */
+  .chart-table td.col-actions {
+    display: flex;
+    gap: 0.55rem;
+    margin-top: 0.35rem;
+    padding: 0.75rem 0 0;
+    border-left: none;
+    border-top: 1px solid var(--c-e2e8f0);
+  }
+
+  .chart-table td.col-actions::before,
+  .row-empty td::before {
+    display: none;
+  }
+
+  .col-actions .confirm-btn,
+  .col-actions .icon-btn {
+    flex: 1 1 auto;
+    width: auto;
+    height: 42px;
+  }
+
+  .confirm-btn + .icon-btn {
+    margin-top: 0;
+  }
+
+  .icon-btn + .icon-btn {
+    margin-left: 0;
+  }
+
+  .icon-btn .btn-label {
+    display: inline;
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+
+  .col-actions .locked {
+    padding-top: 0.3rem;
+  }
+
+  .table-wrap {
+    border: none;
+    border-radius: 0;
+    overflow-x: hidden;
+  }
+
+  .row-empty td {
+    text-align: left;
+    padding: 0.6rem 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .chart-page {
+    padding: 0 0.6rem;
+  }
+  .patient-head {
+    padding: 1.1rem 1rem;
+  }
+  .patient-head h1 {
+    font-size: 1.3rem;
+  }
+  .appointment-box {
+    width: 100%;
+  }
+  .chart-summary {
+    gap: 1rem 1.6rem;
+    padding: 0.8rem 1rem;
+  }
+  .readonly-note {
+    padding: 0.7rem 1rem;
+  }
+  .tabs {
+    padding: 0 1rem;
+  }
+  .chart-section {
+    padding: 1rem 1rem 1.2rem;
+  }
+}

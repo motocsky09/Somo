@@ -1,0 +1,95 @@
+<div class="vet-container">
+
+  <header class="vet-header" *ngIf="profile">
+    <div>
+      <h1>{{ profile.fullName }}</h1>
+      <p class="vet-subtitle">
+        {{ profile.specialization || 'Medic veterinar' }}
+        <span *ngIf="profile.clinics.length > 0">
+          · {{ profile.clinics[0].name }}<span *ngIf="profile.clinics.length > 1">
+            și încă {{ profile.clinics.length - 1 }} cabinete</span>
+        </span>
+      </p>
+    </div>
+    <div class="today-badge">
+      <span class="today-count">{{ openTodayCount }}</span>
+      <span class="today-label">de rezolvat azi</span>
+    </div>
+  </header>
+
+  <div class="error-box" *ngIf="loadError">{{ loadError }}</div>
+
+  <div class="loading" *ngIf="isLoading">
+    <p>Se încarcă agenda...</p>
+  </div>
+
+  <ng-container *ngIf="!isLoading">
+    <div class="tabs" role="tablist">
+      <button role="tab" [class.active]="activeFilter === 'today'" (click)="setFilter('today')">
+        Azi <span class="tab-count">{{ todayAppointments.length }}</span>
+      </button>
+      <button role="tab" [class.active]="activeFilter === 'upcoming'" (click)="setFilter('upcoming')">
+        Următoarele <span class="tab-count">{{ upcomingAppointments.length }}</span>
+      </button>
+      <button role="tab" [class.active]="activeFilter === 'past'" (click)="setFilter('past')">
+        Istoric <span class="tab-count">{{ pastAppointments.length }}</span>
+      </button>
+    </div>
+
+    <div class="empty-state" *ngIf="visibleAppointments.length === 0">
+      <p>🗓️</p>
+      <p *ngIf="activeFilter === 'today'">Nu ai programări astăzi.</p>
+      <p *ngIf="activeFilter === 'upcoming'">Nu ai programări viitoare.</p>
+      <p *ngIf="activeFilter === 'past'">Nu ai programări trecute.</p>
+    </div>
+
+    <div class="agenda">
+      <article class="agenda-card" *ngFor="let appointment of visibleAppointments">
+        <div class="agenda-time">
+          <span class="agenda-hour">{{ formatTime(appointment.dateTime) }}</span>
+          <span class="agenda-day">{{ formatDate(appointment.dateTime) }}</span>
+        </div>
+
+        <div class="agenda-body">
+          <div class="agenda-pet">
+            <span class="pet-emoji" *ngIf="!appointment.pet?.photoUrl">
+              {{ getSpeciesEmoji(appointment.pet?.species) }}
+            </span>
+            <img *ngIf="appointment.pet?.photoUrl" [src]="appointment.pet?.photoUrl"
+                 [alt]="appointment.pet?.name" class="pet-photo" />
+            <div>
+              <p class="pet-name">{{ appointment.pet?.name || 'Animal necunoscut' }}</p>
+              <p class="pet-meta">
+                {{ appointment.pet?.species }}
+                <span *ngIf="appointment.pet?.breed"> · {{ appointment.pet?.breed }}</span>
+                <span *ngIf="appointment.pet?.weight"> · {{ appointment.pet?.weight }} kg</span>
+              </p>
+            </div>
+          </div>
+
+          <p class="agenda-owner" *ngIf="appointment.owner">
+            {{ appointment.owner.fullName || appointment.owner.username }}
+            <span class="owner-contact" *ngIf="appointment.owner.phone">
+              · {{ appointment.owner.phone }}</span>
+          </p>
+          <p class="agenda-reason" *ngIf="appointment.reason">„{{ appointment.reason }}"</p>
+        </div>
+
+        <div class="agenda-actions">
+          <span class="status-pill" [style.background]="statusColors[appointment.status]">
+            {{ statusLabels[appointment.status] }}
+          </span>
+          <div class="action-row">
+            <button class="ghost-btn" *ngIf="canConfirm(appointment)"
+                    (click)="confirm(appointment)">Confirmă</button>
+            <a class="primary-btn" [routerLink]="['/patients', appointment.petId]"
+               [queryParams]="{ appointment: appointment.id }">Fișă medicală</a>
+            <button class="danger-btn" *ngIf="canComplete(appointment)"
+                    (click)="cancel(appointment)">Anulează</button>
+          </div>
+        </div>
+      </article>
+    </div>
+  </ng-container>
+
+</div>

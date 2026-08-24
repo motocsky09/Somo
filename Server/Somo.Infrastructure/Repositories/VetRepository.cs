@@ -14,8 +14,14 @@ public class VetRepository : IVetRepository
     public async Task<IEnumerable<Vet>> GetAllAsync()
         => await _collection.Find(_ => true).ToListAsync();
 
+    public async Task<IEnumerable<Vet>> GetByClinicIdAsync(string clinicId)
+        => await _collection.Find(v => v.ClinicIds.Contains(clinicId)).ToListAsync();
+
     public async Task<Vet?> GetByIdAsync(string id)
         => await _collection.Find(v => v.Id == id).FirstOrDefaultAsync();
+
+    public async Task<Vet?> GetByUserIdAsync(string userId)
+        => await _collection.Find(v => v.UserId == userId).FirstOrDefaultAsync();
 
     public async Task CreateAsync(Vet vet)
         => await _collection.InsertOneAsync(vet);

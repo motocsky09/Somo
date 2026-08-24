@@ -107,6 +107,10 @@ export class AuthService {
     );
   }
 
+  changePassword(currentPassword: string, newPassword: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/change-password`, { currentPassword, newPassword });
+  }
+
   logout(): void {
     localStorage.removeItem('currentUser');
     localStorage.removeItem('token');
@@ -137,18 +141,23 @@ export class AuthService {
     return this.hasRole('ClinicAdmin');
   }
 
+  get isVet(): boolean {
+    return this.hasRole('Vet');
+  }
+
   get isSomoAdmin(): boolean {
     return this.hasRole('SomoAdmin');
   }
 
   get homeRoute(): string {
     if (this.isClinicAdmin) return '/clinic-dashboard';
+    if (this.isVet) return '/vet-dashboard';
     if (this.isSomoAdmin) return '/admin';
     return '/home';
   }
 
   get worksFromDashboard(): boolean {
-    return this.isClinicAdmin || this.isSomoAdmin;
+    return this.isClinicAdmin || this.isVet || this.isSomoAdmin;
   }
 
   get displayName(): string {

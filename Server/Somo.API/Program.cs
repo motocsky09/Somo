@@ -8,6 +8,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Somo.API.Services;
 using Somo.Application;
+using Somo.Application.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -97,6 +98,10 @@ builder.Services.AddAuthentication(options =>
     });
 
 builder.Services.AddInfrastructure(builder.Configuration);
+
+builder.Services.AddScoped<IUserDirectory, IdentityUserDirectory>();
+builder.Services.AddScoped<VetAccountProvisioner>();
+
 builder.Services.AddControllers();
 
 var app = builder.Build();

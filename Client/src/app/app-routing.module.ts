@@ -16,6 +16,8 @@ import { AdminDashboardComponent } from './features/admin/admin-dashboard/admin-
 import { RoleGuard } from './core/guards/role.guard';
 import { HomeGuard } from './core/guards/home.guard';
 import { ProfileComponent } from './features/profile/profile.component';
+import { VetDashboardComponent } from './features/vets/vet-dashboard/vet-dashboard.component';
+import { PatientChartComponent } from './features/vets/patient-chart/patient-chart.component';
 
 
 const routes: Routes = [
@@ -40,6 +42,18 @@ const routes: Routes = [
     component: ClinicDashboardComponent,
     canActivate: [RoleGuard],
     data: { roles: ['ClinicAdmin'] }
+  },
+  {
+    path: 'vet-dashboard',
+    component: VetDashboardComponent,
+    canActivate: [RoleGuard],
+    data: { roles: ['Vet'] }
+  },
+  {
+    path: 'patients/:petId',
+    component: PatientChartComponent,
+    canActivate: [RoleGuard],
+    data: { roles: ['Vet'] }
   },
   {
     path: 'admin',

@@ -22,6 +22,8 @@ import { FooterComponent } from './shared/components/footer/footer.component';
 import { PetDetailComponent } from './features/pets/pet-detail/pet-detail.component';
 import { AdminDashboardComponent } from './features/admin/admin-dashboard/admin-dashboard.component';
 import { ProfileComponent } from './features/profile/profile.component';
+import { VetDashboardComponent } from './features/vets/vet-dashboard/vet-dashboard.component';
+import { PatientChartComponent } from './features/vets/patient-chart/patient-chart.component';
 
 
 @NgModule({
@@ -41,7 +43,9 @@ import { ProfileComponent } from './features/profile/profile.component';
     FooterComponent,
     PetDetailComponent,
     AdminDashboardComponent,
-    ProfileComponent
+    ProfileComponent,
+    VetDashboardComponent,
+    PatientChartComponent
   ],
   imports: [
     BrowserModule,

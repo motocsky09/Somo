@@ -12,6 +12,10 @@
       <a routerLink="/clinics" routerLinkActive="active">Cabinete</a>
       <a routerLink="/my-pets" routerLinkActive="active">Animalele mele</a>
     </ng-container>
+
+    <ng-container *ngIf="authService.isVet">
+      <a routerLink="/vet-dashboard" routerLinkActive="active">Agenda mea</a>
+    </ng-container>
   </div>
 
   <div class="navbar-actions">
@@ -66,6 +70,10 @@
       <a routerLink="/home" routerLinkActive="active" (click)="closeMenu()">Acasă</a>
       <a routerLink="/clinics" routerLinkActive="active" (click)="closeMenu()">Cabinete</a>
       <a routerLink="/my-pets" routerLinkActive="active" (click)="closeMenu()">Animalele mele</a>
+    </ng-container>
+
+    <ng-container *ngIf="authService.isVet">
+      <a routerLink="/vet-dashboard" routerLinkActive="active" (click)="closeMenu()">Agenda mea</a>
     </ng-container>
 
     <a *ngIf="canEditProfile" routerLink="/profile" routerLinkActive="active" (click)="closeMenu()">Contul meu</a>
