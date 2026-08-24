@@ -98,6 +98,7 @@
 
 :root[data-theme="dark"] {
 	color-scheme: dark;
+	--edge: rgba(255, 255, 255, 0.14);
 	--overlay-rgb: 0, 0, 0;
 
 	--c-005f9e: #55bbff;
@@ -194,6 +195,26 @@
 :root[data-theme="dark"] .dark-surface {
 	--c-252c37: #10141c;
 	--c-2c3e50: #10141c;
+}
+
+:root[data-theme="dark"] :is(
+	.card, .panel, .prices, .summary, .form-card, .profile-card, .login-card, .register-card,
+	.feature-card, .food-card, .faq-item, .store-btn, .stat, .stat-card, .clinic-card,
+	.pet-card, .pet-item, .appt-card, .appointment-card, .appointment-item, .vet-item,
+	.status-list li, .search-pane, .clinic-panel, .cache-note, .crop-modal,
+	.add-vet-form, .add-form-container, .edit-field, .role-option,
+	.empty, .empty-appts, .empty-state, .status-state,
+	.secondary-btn, .shortcuts a, .tabs button
+) {
+	border: 0.5px solid var(--edge);
+}
+
+:root[data-theme="dark"] :is(input, select, textarea) {
+	border-color: var(--edge);
+}
+
+:root[data-theme="dark"] .section {
+	border-top: 0.5px solid var(--edge);
 }
 
 html, body {
