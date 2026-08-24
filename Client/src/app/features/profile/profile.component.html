@@ -9,9 +9,12 @@
   <ng-container *ngIf="!isLoading">
     <div class="page-head">
       <h2>👤 Contul meu</h2>
-      <p>
+      <p *ngIf="!isVet">
         Datele de contact completate aici sunt trimise cabinetului veterinar odată cu programările,
         ca medicul să te poată contacta.
+      </p>
+      <p *ngIf="isVet">
+        Datele de aici apar proprietarilor pe programările din agenda ta.
       </p>
     </div>
 
@@ -65,9 +68,50 @@
       </div>
     </div>
 
-    <div class="shortcuts">
+    <div class="profile-card password-card">
+      <div class="profile-form">
+        <div class="identity">
+          <strong>🔒 Parola</strong>
+          <span class="username">Schimb-o dacă ai primit o parolă temporară</span>
+        </div>
+
+        <div class="form-group">
+          <label for="currentPassword">Parola curentă</label>
+          <input id="currentPassword" type="password" autocomplete="current-password"
+                 [(ngModel)]="currentPassword" />
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="newPassword">Parolă nouă</label>
+            <input id="newPassword" type="password" autocomplete="new-password"
+                   [(ngModel)]="newPassword" />
+          </div>
+          <div class="form-group">
+            <label for="confirmPassword">Confirmă parola nouă</label>
+            <input id="confirmPassword" type="password" autocomplete="new-password"
+                   [(ngModel)]="confirmPassword" />
+          </div>
+        </div>
+
+        <p class="error" *ngIf="passwordError">❌ {{ passwordError }}</p>
+        <p class="success" *ngIf="passwordSuccess">✅ {{ passwordSuccess }}</p>
+
+        <div class="form-actions">
+          <button class="save-btn" (click)="changePassword()" [disabled]="isChangingPassword">
+            {{ isChangingPassword ? 'Se schimbă...' : 'Schimbă parola' }}
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="shortcuts" *ngIf="!isVet">
       <a routerLink="/my-pets">🐾 Animalele mele</a>
       <a routerLink="/my-appointments">📅 Programările mele</a>
+    </div>
+
+    <div class="shortcuts" *ngIf="isVet">
+      <a routerLink="/vet-dashboard">🩺 Agenda mea</a>
     </div>
   </ng-container>
 

@@ -20,6 +20,13 @@ export class ProfileComponent implements OnInit {
   phone = '';
   photoUrl: string | null = null;
 
+  currentPassword = '';
+  newPassword = '';
+  confirmPassword = '';
+  isChangingPassword = false;
+  passwordError = '';
+  passwordSuccess = '';
+
   isCropping = false;
   cropSrc = '';
   cropZoom = 1;
@@ -55,6 +62,10 @@ export class ProfileComponent implements OnInit {
     });
   }
 
+  get isVet(): boolean {
+    return this.authService.isVet;
+  }
+
   get initials(): string {
     const source = [this.firstName, this.lastName].filter(n => !!n.trim());
     if (source.length === 0) return (this.profile?.username || '?').charAt(0).toUpperCase();
@@ -64,6 +75,39 @@ export class ProfileComponent implements OnInit {
   get displayName(): string {
     const fullName = [this.firstName, this.lastName].filter(n => !!n.trim()).join(' ');
     return fullName || this.profile?.username || '';
+  }
+
+  changePassword(): void {
+    this.passwordError = '';
+    this.passwordSuccess = '';
+
+    if (!this.currentPassword || !this.newPassword) {
+      this.passwordError = 'Completează parola curentă și pe cea nouă.';
+      return;
+    }
+    if (this.newPassword.length < 6) {
+      this.passwordError = 'Parola nouă trebuie să aibă cel puțin 6 caractere.';
+      return;
+    }
+    if (this.newPassword !== this.confirmPassword) {
+      this.passwordError = 'Parolele nu coincid.';
+      return;
+    }
+
+    this.isChangingPassword = true;
+    this.authService.changePassword(this.currentPassword, this.newPassword).subscribe({
+      next: () => {
+        this.passwordSuccess = 'Parola a fost schimbată.';
+        this.isChangingPassword = false;
+        this.currentPassword = '';
+        this.newPassword = '';
+        this.confirmPassword = '';
+      },
+      error: err => {
+        this.passwordError = err?.error?.message || 'Parola nu a putut fi schimbată.';
+        this.isChangingPassword = false;
+      }
+    });
   }
 
   save(): void {

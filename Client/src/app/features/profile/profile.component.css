@@ -34,6 +34,10 @@
   align-items: flex-start;
 }
 
+.password-card {
+  margin-top: 1.5rem;
+}
+
 .avatar-wrap {
   display: flex;
   flex-direction: column;

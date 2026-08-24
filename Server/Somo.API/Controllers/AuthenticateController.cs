@@ -220,6 +220,26 @@ namespace Somo.API.Controllers
             return Ok(ToProfile(user));
         }
 
+        [HttpPost("change-password")]
+        [Authorize]
+        public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordDto dto)
+        {
+            var user = await GetCurrentUserAsync();
+            if (user is null) return Unauthorized(new { Status = "Error", Message = "Token invalid." });
+
+            if (string.IsNullOrWhiteSpace(dto.CurrentPassword) || string.IsNullOrWhiteSpace(dto.NewPassword))
+                return BadRequest(new { Status = "Error", Message = "Completează parola curentă și pe cea nouă." });
+
+            var result = await _userManager.ChangePasswordAsync(user, dto.CurrentPassword, dto.NewPassword);
+            if (!result.Succeeded)
+            {
+                var errors = string.Join(", ", result.Errors.Select(e => e.Description));
+                return BadRequest(new { Status = "Error", Message = "Parola nu a putut fi schimbată: " + errors });
+            }
+
+            return Ok(new { Status = "Success", Message = "Parola a fost schimbată." });
+        }
+
         private async Task<ApplicationUser?> GetCurrentUserAsync()
         {
             var userId = User.FindFirst("id")?.Value;
