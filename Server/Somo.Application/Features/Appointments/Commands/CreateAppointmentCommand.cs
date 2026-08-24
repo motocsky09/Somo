@@ -1,4 +1,5 @@
 using Somo.Application.DTOs;
+using Somo.Application.Interfaces;
 using Somo.Domain.Entities;
 using Somo.Domain.Interfaces;
 
@@ -9,35 +10,38 @@ public class CreateAppointmentCommand
     private readonly IAppointmentRepository _appointmentRepo;
     private readonly IPetRepository _petRepo;
     private readonly IVetRepository _vetRepo;
+    private readonly INotificationService _notifications;
 
     public CreateAppointmentCommand(
         IAppointmentRepository appointmentRepo,
         IPetRepository petRepo,
-        IVetRepository vetRepo)
+        IVetRepository vetRepo,
+        INotificationService notifications)
     {
         _appointmentRepo = appointmentRepo;
         _petRepo = petRepo;
         _vetRepo = vetRepo;
+        _notifications = notifications;
     }
 
     public async Task<(bool Success, string Error)> ExecuteAsync(
         CreateAppointmentDto dto, string ownerId)
     {
-        
+
         if (dto.DateTime <= DateTime.UtcNow)
             return (false, "Data programării trebuie să fie în viitor.");
 
-        
+
         var pet = await _petRepo.GetByIdAsync(dto.PetId);
         if (pet is null || pet.OwnerId != ownerId)
             return (false, "Animalul nu a fost găsit sau nu vă aparține.");
 
-        
+
         var vet = await _vetRepo.GetByIdAsync(dto.VetId);
         if (vet is null)
             return (false, "Medicul nu a fost găsit.");
 
-        
+
         var existingAppointments = await _appointmentRepo.GetAllByVetIdAsync(dto.VetId);
         var conflict = existingAppointments.Any(a =>
     a.DateTime.ToUniversalTime() == dto.DateTime.ToUniversalTime() &&
@@ -46,7 +50,7 @@ public class CreateAppointmentCommand
         if (conflict)
             return (false, "Medicul are deja o programare la ora respectivă.");
 
-        
+
         var appointment = new Appointment
         {
             PetId = dto.PetId,
@@ -59,6 +63,8 @@ public class CreateAppointmentCommand
         };
 
         await _appointmentRepo.CreateAsync(appointment);
+        await _notifications.AppointmentCreatedAsync(appointment);
+
         return (true, string.Empty);
     }
 }
