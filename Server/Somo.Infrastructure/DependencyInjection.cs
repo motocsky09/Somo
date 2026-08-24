@@ -29,9 +29,17 @@ public static class DependencyInjection
         services.AddScoped<IPetRepository, PetRepository>();
         services.AddScoped<IAppointmentRepository, AppointmentRepository>();
         services.AddScoped<IMedicalRecordRepository, MedicalRecordRepository>();
+        services.AddScoped<IVaccinationRepository, VaccinationRepository>();
         services.AddSingleton<IPlacesCacheService, FilePlacesCacheService>();
         services.AddScoped<IClinicRegistrationService, ClinicRegistrationService>();
         services.AddHttpClient<IGooglePlacesService, GooglePlacesService>();
+
+        services.Configure<EmailOptions>(configuration.GetSection(EmailOptions.SectionName));
+        services.AddScoped<IEmailSender, SmtpEmailSender>();
+
+        services.Configure<VaccinationReminderOptions>(
+            configuration.GetSection(VaccinationReminderOptions.SectionName));
+        services.AddHostedService<VaccinationReminderService>();
 
         return services;
     }
