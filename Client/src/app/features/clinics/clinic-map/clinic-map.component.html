@@ -18,8 +18,8 @@
       </div>
 
       <google-map *ngIf="!isLoading" [center]="center" [zoom]="zoom" [options]="mapOptions" width="100%" height="100%">
-        <map-marker *ngFor="let clinic of dbClinics" [position]="getDbMarkerPosition(clinic)" [title]="clinic.name" [options]="dbMarkerOptions" (mapClick)="onDbMarkerClick(clinic)"></map-marker>
-        <map-marker *ngFor="let clinic of googleClinics" [position]="getGoogleMarkerPosition(clinic)" [title]="clinic.name" [options]="googleMarkerOptions" (mapClick)="onGoogleMarkerClick(clinic)"></map-marker>
+        <map-marker *ngFor="let clinic of dbClinics; trackBy: trackByClinic" [position]="getDbMarkerPosition(clinic)" [title]="clinic.name" [options]="dbMarkerOptions" (mapClick)="onDbMarkerClick(clinic)"></map-marker>
+        <map-marker *ngFor="let clinic of googleClinics; trackBy: trackByGoogleClinic" [position]="getGoogleMarkerPosition(clinic)" [title]="clinic.name" [options]="googleMarkerOptions" (mapClick)="onGoogleMarkerClick(clinic)"></map-marker>
       </google-map>
 
       <div class="clinic-panel db-panel" *ngIf="selectedClinic">

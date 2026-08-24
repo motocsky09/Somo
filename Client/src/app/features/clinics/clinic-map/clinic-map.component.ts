@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { GoogleMap } from '@angular/google-maps';
 import { ClinicService, Clinic, GoogleClinic } from '../../../core/services/clinic.service';
 
 export interface ClinicResult {
@@ -16,6 +17,8 @@ export interface ClinicResult {
   styleUrls: ['./clinic-map.component.css']
 })
 export class ClinicMapComponent implements OnInit {
+  @ViewChild(GoogleMap) map?: GoogleMap;
+
   center: google.maps.LatLngLiteral = { lat: 47.0722, lng: 21.9215 };
   zoom = 13;
   dbClinics: Clinic[] = [];
@@ -43,15 +46,19 @@ export class ClinicMapComponent implements OnInit {
     minZoom: 5
   };
 
+  /*
+   * Pictogramele se cer pe https: pe un site servit securizat, varianta http e
+   * blocată ca mixed content și pinul dispare de tot de pe hartă.
+   */
   dbMarkerOptions: google.maps.MarkerOptions = {
     icon: {
-      url: 'http://maps.google.com/mapfiles/ms/icons/red-dot.png'
+      url: 'https://maps.google.com/mapfiles/ms/icons/red-dot.png'
     }
   };
 
   googleMarkerOptions: google.maps.MarkerOptions = {
     icon: {
-      url: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'
+      url: 'https://maps.google.com/mapfiles/ms/icons/blue-dot.png'
     }
   };
 
@@ -87,6 +94,7 @@ export class ClinicMapComponent implements OnInit {
           this.googleClinics = response.googleClinics.filter(g => !g.isInDatabase);
           this.results = this.buildResults();
           this.isLoading = false;
+          this.frameResults();
         },
         error: () => this.isLoading = false
       });
@@ -125,6 +133,7 @@ export class ClinicMapComponent implements OnInit {
         this.expiresAt = new Date(response.expiresAtUtc);
         this.isSearching = false;
         this.isLoading = false;
+        this.frameResults();
       },
       error: err => {
         this.searchError = err.error?.message ?? 'Căutarea nu a reușit. Încearcă din nou.';
@@ -190,6 +199,42 @@ export class ClinicMapComponent implements OnInit {
 
   getGoogleMarkerPosition(clinic: GoogleClinic): google.maps.LatLngLiteral {
     return { lat: clinic.latitude, lng: clinic.longitude };
+  }
+
+  /** Markerele se recreează doar când chiar se schimbă cabinetul din rând. */
+  trackByClinic(_index: number, clinic: Clinic): string {
+    return clinic.id;
+  }
+
+  trackByGoogleClinic(_index: number, clinic: GoogleClinic): string {
+    return clinic.placeId;
+  }
+
+  /**
+   * Încadrează harta pe toate cabinetele găsite. Fără asta, o căutare într-un
+   * oraș unde cabinetele sunt împrăștiate lasă pinurile în afara ecranului și
+   * pare că nu există niciunul.
+   */
+  private frameResults(): void {
+    // Harta se randează abia după ce isLoading devine false, deci așteptăm un tick.
+    setTimeout(() => {
+      const map = this.map?.googleMap;
+      if (!map || this.results.length === 0) return;
+
+      const bounds = new google.maps.LatLngBounds();
+      bounds.extend(this.center);
+      this.results.forEach(result => bounds.extend(result.position));
+
+      map.fitBounds(bounds, 48);
+
+      // Un singur cabinet dă un dreptunghi minuscul; fără plafon s-ar intra în stradă.
+      google.maps.event.addListenerOnce(map, 'idle', () => {
+        const zoom = map.getZoom();
+        if (zoom !== undefined && zoom > 15) {
+          map.setZoom(15);
+        }
+      });
+    });
   }
 
   private buildResults(): ClinicResult[] {
